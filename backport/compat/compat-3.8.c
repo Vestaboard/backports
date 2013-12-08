@@ -16,6 +16,7 @@
 #include <linux/module.h>
 #include "hid-ids.h"
 #include <linux/netdevice.h>
+#include <linux/of.h>
 
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(3,7,8))
 void netdev_set_default_ethtool_ops(struct net_device *dev,
