@@ -808,7 +808,6 @@ def process(kerneldir, outdir, copy_list_file, git_revision=None,
                     line_ok = True
                     break
             if not line_ok:
-                print dfbase, line
                 copy_defconfig = False
                 break
         if copy_defconfig:
