@@ -64,14 +64,10 @@ fresh identifier group_bus_init = "init_" ## attribute_group_mod.group ## "_attr
 @@
 
 (
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,12,0)
 +       group_bus_init();
-+#endif
         return bus_register(&group_bus);
 |
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,12,0)
 +       group_bus_init();
-+#endif
         ret = bus_register(&group_bus);
 )
 

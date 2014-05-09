@@ -66,13 +66,9 @@ fresh identifier group_class_init = "init_" ## attribute_group_mod.group ## "_at
 @@
 
 (
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,11,0)
 +	group_class_init();
-+#endif
 	return class_register(&group_class);
 |
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,11,0)
 +	group_class_init();
-+#endif
 	ret = class_register(&group_class);
 )
