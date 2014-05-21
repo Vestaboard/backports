@@ -93,8 +93,12 @@ def handle_commit(args, msg, branch, treename, kernelobjdir, tmpdir, wgitdir, ba
                 files = []
                 for d in git.status(tree=wdir):
                     files.extend(d[1:])
-                msg += git.shortlog(append_shortlog[0], append_shortlog[1],
-                                    tree=kernelobjdir, files=files)
+                if files:
+                    msg += '\n' + append_shortlog[2] + '\n\n'
+                    msg += git.shortlog(append_shortlog[0], append_shortlog[1],
+                                        tree=kernelobjdir, files=files)
+                else:
+                    msg += "\nNo commits changed the generated code.\n\n"
 
             msg += '''%(newline)s
 %(PREFIX)sbackport: %(bprev)s
@@ -242,16 +246,16 @@ if __name__ == '__main__':
                             try:
                                 # add information about commits that went into this
                                 git.rev_parse('%s^2' % commit, tree=kernelobjdir)
-                                msg += "\nCommits in this merge:\n\n"
-                                append_shortlog = (prev, '%s^2' % commit)
+                                append_shortlog = (prev, '%s^2' % commit,
+                                                   "Commits in this merge:")
                             except git.ExecutionError as e:
                                 # will fail if it wasn't a merge commit
                                 pass
                         else:
                             # multiple commits
                             env = backport_author_env
-                            msg = "update multiple kernel commits\n\nCommits taken:\n\n"
-                            append_shortlog = (prev, commit)
+                            msg = "update multiple kernel commits\n"
+                            append_shortlog = (prev, commit, "Commits taken:")
                         failure = handle_commit(args, msg, branch, tree, kernelobjdir, branch_tmpdir,
                                                 wgitdir, backport_rev, commit, env=env,
                                                 prev_kernel_rev=prev, defconfig=defconfig,
