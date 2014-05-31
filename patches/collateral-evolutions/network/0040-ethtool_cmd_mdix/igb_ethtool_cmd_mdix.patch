@@ -2,7 +2,7 @@ diff --git a/drivers/net/ethernet/intel/igb/igb_ethtool.c b/drivers/net/ethernet
 index f561b7b..b611f5b 100644
 --- a/drivers/net/ethernet/intel/igb/igb_ethtool.c
 +++ b/drivers/net/ethernet/intel/igb/igb_ethtool.c
-@@ -245,10 +245,12 @@ static int igb_get_settings(struct net_device *netdev, struct ethtool_cmd *ecmd)
+@@ -245,10 +245,12 @@ static int igb_get_settings(struct net_d
  	else
  		ecmd->eth_tp_mdix = ETH_TP_MDI_INVALID;
  
@@ -15,7 +15,7 @@ index f561b7b..b611f5b 100644
  
  	return 0;
  }
-@@ -267,6 +269,7 @@ static int igb_set_settings(struct net_device *netdev, struct ethtool_cmd *ecmd)
+@@ -267,6 +269,7 @@ static int igb_set_settings(struct net_d
  		return -EINVAL;
  	}
  
@@ -23,7 +23,7 @@ index f561b7b..b611f5b 100644
  	/* MDI setting is only allowed when autoneg enabled because
  	 * some hardware doesn't allow MDI setting when speed or
  	 * duplex is forced.
-@@ -281,6 +284,7 @@ static int igb_set_settings(struct net_device *netdev, struct ethtool_cmd *ecmd)
+@@ -281,6 +284,7 @@ static int igb_set_settings(struct net_d
  			return -EINVAL;
  		}
  	}
@@ -31,7 +31,7 @@ index f561b7b..b611f5b 100644
  
  	while (test_and_set_bit(__IGB_RESETTING, &adapter->state))
  		usleep_range(1000, 2000);
-@@ -324,6 +328,7 @@ static int igb_set_settings(struct net_device *netdev, struct ethtool_cmd *ecmd)
+@@ -324,6 +328,7 @@ static int igb_set_settings(struct net_d
  		}
  	}
  
@@ -39,7 +39,7 @@ index f561b7b..b611f5b 100644
  	/* MDI-X => 2; MDI => 1; Auto => 3 */
  	if (ecmd->eth_tp_mdix_ctrl) {
  		/* fix up the value for auto (3 => 0) as zero is mapped
-@@ -334,6 +339,7 @@ static int igb_set_settings(struct net_device *netdev, struct ethtool_cmd *ecmd)
+@@ -334,6 +339,7 @@ static int igb_set_settings(struct net_d
  		else
  			hw->phy.mdix = ecmd->eth_tp_mdix_ctrl;
  	}

@@ -2,7 +2,7 @@ diff --git a/drivers/net/ethernet/intel/igb/igb_main.c b/drivers/net/ethernet/in
 index 132cef8..0e616a7 100644
 --- a/drivers/net/ethernet/intel/igb/igb_main.c
 +++ b/drivers/net/ethernet/intel/igb/igb_main.c
-@@ -234,7 +234,11 @@ static pci_ers_result_t igb_io_error_detected(struct pci_dev *,
+@@ -234,7 +234,11 @@ static pci_ers_result_t igb_io_error_det
  static pci_ers_result_t igb_io_slot_reset(struct pci_dev *);
  static void igb_io_resume(struct pci_dev *);
  

@@ -2,7 +2,7 @@ diff --git a/drivers/net/ethernet/intel/igb/igb_ethtool.c b/drivers/net/ethernet
 index 03fe81a..f561b7b 100644
 --- a/drivers/net/ethernet/intel/igb/igb_ethtool.c
 +++ b/drivers/net/ethernet/intel/igb/igb_ethtool.c
-@@ -2450,8 +2450,13 @@ static int igb_get_rss_hash_opts(struct igb_adapter *adapter,
+@@ -2450,8 +2450,13 @@ static int igb_get_rss_hash_opts(struct
  	return 0;
  }
  

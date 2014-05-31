@@ -2,7 +2,7 @@ diff --git a/drivers/net/ethernet/intel/igb/igb_ethtool.c b/drivers/net/ethernet
 index 333a2b0..7c8b9bf 100644
 --- a/drivers/net/ethernet/intel/igb/igb_ethtool.c
 +++ b/drivers/net/ethernet/intel/igb/igb_ethtool.c
-@@ -2589,6 +2589,7 @@ static int igb_set_rxnfc(struct net_device *dev, struct ethtool_rxnfc *cmd)
+@@ -2591,6 +2591,7 @@ static int igb_set_rxnfc(struct net_devi
  	return ret;
  }
  
@@ -10,7 +10,7 @@ index 333a2b0..7c8b9bf 100644
  static int igb_get_eee(struct net_device *netdev, struct ethtool_eee *edata)
  {
  	struct igb_adapter *adapter = netdev_priv(netdev);
-@@ -2730,6 +2731,7 @@ static int igb_set_eee(struct net_device *netdev,
+@@ -2732,6 +2733,7 @@ static int igb_set_eee(struct net_device
  
  	return 0;
  }
@@ -18,8 +18,8 @@ index 333a2b0..7c8b9bf 100644
  
  static int igb_get_module_info(struct net_device *netdev,
  			       struct ethtool_modinfo *modinfo)
-@@ -3020,8 +3022,10 @@ static const struct ethtool_ops igb_ethtool_ops = {
- 	.get_ts_info		= igb_get_ts_info,
+@@ -3024,8 +3026,10 @@ static const struct ethtool_ops igb_etht
+ #endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,5,0) */
  	.get_rxnfc		= igb_get_rxnfc,
  	.set_rxnfc		= igb_set_rxnfc,
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0)

@@ -2,7 +2,7 @@ diff --git a/drivers/net/ethernet/intel/igb/igb_ethtool.c b/drivers/net/ethernet
 index 75606be..6662b3b 100644
 --- a/drivers/net/ethernet/intel/igb/igb_ethtool.c
 +++ b/drivers/net/ethernet/intel/igb/igb_ethtool.c
-@@ -2735,6 +2735,7 @@ static int igb_set_eee(struct net_device *netdev,
+@@ -2735,6 +2735,7 @@ static int igb_set_eee(struct net_device
  }
  #endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0) */
  
@@ -10,7 +10,7 @@ index 75606be..6662b3b 100644
  static int igb_get_module_info(struct net_device *netdev,
  			       struct ethtool_modinfo *modinfo)
  {
-@@ -2815,6 +2816,7 @@ static int igb_get_module_eeprom(struct net_device *netdev,
+@@ -2815,6 +2816,7 @@ static int igb_get_module_eeprom(struct
  
  	return 0;
  }
@@ -18,7 +18,7 @@ index 75606be..6662b3b 100644
  
  static int igb_ethtool_begin(struct net_device *netdev)
  {
-@@ -3030,8 +3032,10 @@ static const struct ethtool_ops igb_ethtool_ops = {
+@@ -3030,8 +3032,10 @@ static const struct ethtool_ops igb_etht
  	.get_eee		= igb_get_eee,
  	.set_eee		= igb_set_eee,
  #endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0) */

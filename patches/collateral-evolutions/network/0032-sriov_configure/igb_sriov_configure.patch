@@ -2,7 +2,7 @@ diff --git a/drivers/net/ethernet/intel/igb/igb_main.c b/drivers/net/ethernet/in
 index 0270da9..09564d0 100644
 --- a/drivers/net/ethernet/intel/igb/igb_main.c
 +++ b/drivers/net/ethernet/intel/igb/igb_main.c
-@@ -198,7 +198,9 @@ static const struct dev_pm_ops igb_pm_ops = {
+@@ -198,7 +198,9 @@ static const struct dev_pm_ops igb_pm_op
  };
  #endif
  static void igb_shutdown(struct pci_dev *);
@@ -22,7 +22,7 @@ index 0270da9..09564d0 100644
  	.err_handler = &igb_err_handler
  };
  
-@@ -7591,6 +7595,7 @@ static int igb_sriov_reinit(struct pci_dev *dev)
+@@ -7591,6 +7595,7 @@ static int igb_sriov_reinit(struct pci_d
  	return 0;
  }
  
@@ -30,7 +30,7 @@ index 0270da9..09564d0 100644
  static int igb_pci_disable_sriov(struct pci_dev *dev)
  {
  	int err = igb_disable_sriov(dev);
-@@ -7600,6 +7605,7 @@ static int igb_pci_disable_sriov(struct pci_dev *dev)
+@@ -7600,6 +7605,7 @@ static int igb_pci_disable_sriov(struct
  
  	return err;
  }
@@ -46,7 +46,7 @@ index 0270da9..09564d0 100644
  static int igb_pci_sriov_configure(struct pci_dev *dev, int num_vfs)
  {
  #ifdef CONFIG_PCI_IOV
-@@ -7627,6 +7634,7 @@ static int igb_pci_sriov_configure(struct pci_dev *dev, int num_vfs)
+@@ -7627,6 +7634,7 @@ static int igb_pci_sriov_configure(struc
  #endif
  	return 0;
  }
