@@ -97,6 +97,7 @@ static inline void dma_sync_single_range_for_device(struct device *dev,
  * as the DMA API guarantees that the coherent DMA mask can be set to
  * the same or smaller than the streaming DMA mask.
  */
+#define dma_set_mask_and_coherent LINUX_BACKPORT(dma_set_mask_and_coherent)
 static inline int dma_set_mask_and_coherent(struct device *dev, u64 mask)
 {
 	int rc = dma_set_mask(dev, mask);
