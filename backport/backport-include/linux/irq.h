@@ -3,6 +3,7 @@
 #include_next <linux/irq.h>
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0)
+#define irq_get_trigger_type LINUX_BACKPORT(irq_get_trigger_type)
 static inline u32 irq_get_trigger_type(unsigned int irq)
 {
 	struct irq_data *d = irq_get_irq_data(irq);
