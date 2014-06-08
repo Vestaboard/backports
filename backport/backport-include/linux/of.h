@@ -94,4 +94,16 @@ static inline int of_property_count_u32_elems(const struct device_node *np,
 }
 #endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,15,0) */
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,3,0)
+#ifndef CONFIG_OF
+#define of_node_get LINUX_BACKPORT(of_node_get)
+/* Dummy ref counting routines - to be implemented later */
+static inline struct device_node *of_node_get(struct device_node *node)
+{
+	return node;
+}
+static inline void of_node_put(struct device_node *node) { }
+#endif /* CONFIG_OF */
+#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,3,0) */
+
 #endif	/* _COMPAT_LINUX_OF_H */
