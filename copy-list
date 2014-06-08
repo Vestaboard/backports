@@ -128,6 +128,7 @@ include/uapi/linux/nfc.h
 # NFC drivers
 drivers/nfc/
 include/linux/platform_data/pn544.h
+include/linux/platform_data/st21nfca.h
 
 # Regulator
 # we don't include the whole directory as we need
