@@ -16,7 +16,7 @@
  
  static int igb_ethtool_begin(struct net_device *netdev)
  {
-@@ -3030,8 +3032,10 @@ static const struct ethtool_ops igb_etht
+@@ -3031,8 +3033,10 @@ static const struct ethtool_ops igb_etht
  	.get_eee		= igb_get_eee,
  	.set_eee		= igb_set_eee,
  #endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0) */
@@ -25,5 +25,5 @@
  	.get_module_eeprom	= igb_get_module_eeprom,
 +#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,5,0) */
  	.get_rxfh_indir_size	= igb_get_rxfh_indir_size,
- 	.get_rxfh_indir		= igb_get_rxfh_indir,
- 	.set_rxfh_indir		= igb_set_rxfh_indir,
+ 	.get_rxfh		= igb_get_rxfh,
+ 	.set_rxfh		= igb_set_rxfh,

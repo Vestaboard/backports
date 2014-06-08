@@ -1,6 +1,6 @@
 --- a/drivers/net/ethernet/intel/igb/igb_ethtool.c
 +++ b/drivers/net/ethernet/intel/igb/igb_ethtool.c
-@@ -2831,6 +2831,7 @@ static void igb_ethtool_complete(struct
+@@ -2831,12 +2831,17 @@ static void igb_ethtool_complete(struct
  	pm_runtime_put(&adapter->pdev->dev);
  }
  
@@ -8,7 +8,17 @@
  static u32 igb_get_rxfh_indir_size(struct net_device *netdev)
  {
  	return IGB_RETA_SIZE;
-@@ -2846,6 +2847,7 @@ static int igb_get_rxfh_indir(struct net
+ }
+ 
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,16,0)
+ static int igb_get_rxfh(struct net_device *netdev, u32 *indir, u8 *key)
++#else
++static int igb_get_rxfh(struct net_device *netdev, u32 *indir)
++#endif
+ {
+ 	struct igb_adapter *adapter = netdev_priv(netdev);
+ 	int i;
+@@ -2846,6 +2851,7 @@ static int igb_get_rxfh(struct net_devic
  
  	return 0;
  }
@@ -16,15 +26,21 @@
  
  void igb_write_rss_indir_tbl(struct igb_adapter *adapter)
  {
-@@ -2882,6 +2884,7 @@ void igb_write_rss_indir_tbl(struct igb_
+@@ -2882,8 +2888,13 @@ void igb_write_rss_indir_tbl(struct igb_
  	}
  }
  
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,3,0)
- static int igb_set_rxfh_indir(struct net_device *netdev, const u32 *indir)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,16,0)
+ static int igb_set_rxfh(struct net_device *netdev, const u32 *indir,
+ 			const u8 *key)
++#else
++static int igb_set_rxfh(struct net_device *netdev, const u32 *indir)
++#endif
  {
  	struct igb_adapter *adapter = netdev_priv(netdev);
-@@ -2914,6 +2917,7 @@ static int igb_set_rxfh_indir(struct net
+ 	struct e1000_hw *hw = &adapter->hw;
+@@ -2915,6 +2926,7 @@ static int igb_set_rxfh(struct net_devic
  
  	return 0;
  }
@@ -32,14 +48,18 @@
  
  static unsigned int igb_max_channels(struct igb_adapter *adapter)
  {
-@@ -3036,9 +3040,11 @@ static const struct ethtool_ops igb_etht
+@@ -3037,9 +3049,15 @@ static const struct ethtool_ops igb_etht
  	.get_module_info	= igb_get_module_info,
  	.get_module_eeprom	= igb_get_module_eeprom,
  #endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,5,0) */
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,3,0)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,16,0)
  	.get_rxfh_indir_size	= igb_get_rxfh_indir_size,
- 	.get_rxfh_indir		= igb_get_rxfh_indir,
- 	.set_rxfh_indir		= igb_set_rxfh_indir,
+ 	.get_rxfh		= igb_get_rxfh,
+ 	.set_rxfh		= igb_set_rxfh,
++#elif LINUX_VERSION_CODE >= KERNEL_VERSION(3,3,0)
++	.get_rxfh_indir_size	= igb_get_rxfh_indir_size,
++	.get_rxfh_indir		= igb_get_rxfh,
++	.set_rxfh_indir		= igb_set_rxfh,
 +#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,3,0) */
  	.get_channels		= igb_get_channels,
  	.set_channels		= igb_set_channels,
