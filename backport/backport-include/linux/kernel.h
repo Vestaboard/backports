@@ -67,12 +67,6 @@
 #define lower_32_bits(n) ((u32)(n))
 #endif
 
-#ifndef USHORT_MAX
-#define USHORT_MAX      ((u16)(~0U))
-#define SHORT_MAX       ((s16)(USHORT_MAX>>1))
-#define SHORT_MIN       (-SHORT_MAX - 1)
-#endif
-
 #ifndef clamp
 #define clamp(val, min, max) ({			\
 	typeof(val) __val = (val);		\
