@@ -13,6 +13,7 @@
 COPYING
 MAINTAINERS
 include/linux/unaligned/
+include/linux/hashtable.h
 
 # 802.11
 drivers/net/wireless/Kconfig
