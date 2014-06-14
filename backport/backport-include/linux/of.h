@@ -106,4 +106,12 @@ static inline void of_node_put(struct device_node *node) { }
 #endif /* CONFIG_OF */
 #endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,3,0) */
 
+#ifndef of_match_ptr
+#ifdef CONFIG_OF
+#define of_match_ptr(_ptr)	(_ptr)
+#else
+#define of_match_ptr(_ptr)	NULL
+#endif /* CONFIG_OF */
+#endif /* of_match_ptr */
+
 #endif	/* _COMPAT_LINUX_OF_H */
