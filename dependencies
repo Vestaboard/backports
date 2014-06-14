@@ -122,10 +122,7 @@ REGULATOR_AB3100 3.9
 # only introduced in kernel 3.1
 NFC 3.1
 
-# requires devm_gpio_request_one() added but since
-# gpio infrastructure has been strongly shuffled around
-# we require drivers to use the in-kernel gptio infrastructure
-NFC_TRF7970A 3.5
+NFC_TRF7970A 3.4
 
 INTEL_IPS 3.2
 
