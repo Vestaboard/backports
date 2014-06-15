@@ -31,7 +31,7 @@
  {
 @@ -7973,6 +7978,7 @@ static int igb_ndo_set_vf_spoofchk(struc
  	adapter->vf_data[vf].spoofchk_enabled = setting;
- 	return E1000_SUCCESS;
+ 	return 0;
  }
 +#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,2,0) */
  

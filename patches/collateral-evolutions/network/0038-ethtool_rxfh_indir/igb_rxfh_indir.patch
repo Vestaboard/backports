@@ -1,6 +1,6 @@
 --- a/drivers/net/ethernet/intel/igb/igb_ethtool.c
 +++ b/drivers/net/ethernet/intel/igb/igb_ethtool.c
-@@ -2831,12 +2831,17 @@ static void igb_ethtool_complete(struct
+@@ -2833,12 +2833,17 @@ static void igb_ethtool_complete(struct
  	pm_runtime_put(&adapter->pdev->dev);
  }
  
@@ -18,7 +18,7 @@
  {
  	struct igb_adapter *adapter = netdev_priv(netdev);
  	int i;
-@@ -2846,6 +2851,7 @@ static int igb_get_rxfh(struct net_devic
+@@ -2848,6 +2853,7 @@ static int igb_get_rxfh(struct net_devic
  
  	return 0;
  }
@@ -26,7 +26,7 @@
  
  void igb_write_rss_indir_tbl(struct igb_adapter *adapter)
  {
-@@ -2882,8 +2888,13 @@ void igb_write_rss_indir_tbl(struct igb_
+@@ -2884,8 +2890,13 @@ void igb_write_rss_indir_tbl(struct igb_
  	}
  }
  
@@ -40,7 +40,7 @@
  {
  	struct igb_adapter *adapter = netdev_priv(netdev);
  	struct e1000_hw *hw = &adapter->hw;
-@@ -2915,6 +2926,7 @@ static int igb_set_rxfh(struct net_devic
+@@ -2917,6 +2928,7 @@ static int igb_set_rxfh(struct net_devic
  
  	return 0;
  }
@@ -48,7 +48,7 @@
  
  static unsigned int igb_max_channels(struct igb_adapter *adapter)
  {
-@@ -3037,9 +3049,15 @@ static const struct ethtool_ops igb_etht
+@@ -3039,9 +3051,15 @@ static const struct ethtool_ops igb_etht
  	.get_module_info	= igb_get_module_info,
  	.get_module_eeprom	= igb_get_module_eeprom,
  #endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,5,0) */

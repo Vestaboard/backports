@@ -1,6 +1,6 @@
 --- a/drivers/net/ethernet/intel/igb/igb_ethtool.c
 +++ b/drivers/net/ethernet/intel/igb/igb_ethtool.c
-@@ -2735,6 +2735,7 @@ static int igb_set_eee(struct net_device
+@@ -2737,6 +2737,7 @@ static int igb_set_eee(struct net_device
  }
  #endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0) */
  
@@ -8,7 +8,7 @@
  static int igb_get_module_info(struct net_device *netdev,
  			       struct ethtool_modinfo *modinfo)
  {
-@@ -2815,6 +2816,7 @@ static int igb_get_module_eeprom(struct
+@@ -2817,6 +2818,7 @@ static int igb_get_module_eeprom(struct
  
  	return 0;
  }
@@ -16,7 +16,7 @@
  
  static int igb_ethtool_begin(struct net_device *netdev)
  {
-@@ -3031,8 +3033,10 @@ static const struct ethtool_ops igb_etht
+@@ -3033,8 +3035,10 @@ static const struct ethtool_ops igb_etht
  	.get_eee		= igb_get_eee,
  	.set_eee		= igb_set_eee,
  #endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0) */

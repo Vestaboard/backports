@@ -1,6 +1,6 @@
 --- a/drivers/net/ethernet/intel/igb/igb_ethtool.c
 +++ b/drivers/net/ethernet/intel/igb/igb_ethtool.c
-@@ -2350,6 +2350,7 @@ static void igb_get_strings(struct net_d
+@@ -2352,6 +2352,7 @@ static void igb_get_strings(struct net_d
  	}
  }
  
@@ -8,7 +8,7 @@
  static int igb_get_ts_info(struct net_device *dev,
  			   struct ethtool_ts_info *info)
  {
-@@ -2405,6 +2406,7 @@ static int igb_get_ts_info(struct net_de
+@@ -2407,6 +2408,7 @@ static int igb_get_ts_info(struct net_de
  		return -EOPNOTSUPP;
  	}
  }
@@ -16,7 +16,7 @@
  
  static int igb_get_rss_hash_opts(struct igb_adapter *adapter,
  				 struct ethtool_rxnfc *cmd)
-@@ -3018,7 +3020,9 @@ static const struct ethtool_ops igb_etht
+@@ -3020,7 +3022,9 @@ static const struct ethtool_ops igb_etht
  	.get_ethtool_stats	= igb_get_ethtool_stats,
  	.get_coalesce		= igb_get_coalesce,
  	.set_coalesce		= igb_set_coalesce,

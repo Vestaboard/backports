@@ -1,6 +1,6 @@
 --- a/drivers/net/ethernet/intel/igb/igb_ethtool.c
 +++ b/drivers/net/ethernet/intel/igb/igb_ethtool.c
-@@ -2591,6 +2591,7 @@ static int igb_set_rxnfc(struct net_devi
+@@ -2593,6 +2593,7 @@ static int igb_set_rxnfc(struct net_devi
  	return ret;
  }
  
@@ -8,7 +8,7 @@
  static int igb_get_eee(struct net_device *netdev, struct ethtool_eee *edata)
  {
  	struct igb_adapter *adapter = netdev_priv(netdev);
-@@ -2732,6 +2733,7 @@ static int igb_set_eee(struct net_device
+@@ -2734,6 +2735,7 @@ static int igb_set_eee(struct net_device
  
  	return 0;
  }
@@ -16,7 +16,7 @@
  
  static int igb_get_module_info(struct net_device *netdev,
  			       struct ethtool_modinfo *modinfo)
-@@ -3025,8 +3027,10 @@ static const struct ethtool_ops igb_etht
+@@ -3027,8 +3029,10 @@ static const struct ethtool_ops igb_etht
  #endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,5,0) */
  	.get_rxnfc		= igb_get_rxnfc,
  	.set_rxnfc		= igb_set_rxnfc,
