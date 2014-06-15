@@ -1,5 +1,3 @@
-diff --git a/drivers/net/ethernet/intel/igb/igb_ethtool.c b/drivers/net/ethernet/intel/igb/igb_ethtool.c
-index 6662b3b..03fe81a 100644
 --- a/drivers/net/ethernet/intel/igb/igb_ethtool.c
 +++ b/drivers/net/ethernet/intel/igb/igb_ethtool.c
 @@ -2831,6 +2831,7 @@ static void igb_ethtool_complete(struct

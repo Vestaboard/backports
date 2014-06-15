@@ -1,5 +1,3 @@
-diff --git a/drivers/net/ethernet/intel/igb/igb_main.c b/drivers/net/ethernet/intel/igb/igb_main.c
-index ccd8f36..132cef8 100644
 --- a/drivers/net/ethernet/intel/igb/igb_main.c
 +++ b/drivers/net/ethernet/intel/igb/igb_main.c
 @@ -4768,9 +4768,10 @@ static u32 igb_tx_cmd_type(struct sk_buf

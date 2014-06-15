@@ -1,5 +1,3 @@
-diff --git a/drivers/net/ethernet/intel/igb/igb_ethtool.c b/drivers/net/ethernet/intel/igb/igb_ethtool.c
-index f561b7b..b611f5b 100644
 --- a/drivers/net/ethernet/intel/igb/igb_ethtool.c
 +++ b/drivers/net/ethernet/intel/igb/igb_ethtool.c
 @@ -245,10 +245,12 @@ static int igb_get_settings(struct net_d

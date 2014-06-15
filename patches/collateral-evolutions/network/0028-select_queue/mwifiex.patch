@@ -1,5 +1,3 @@
-diff --git a/drivers/net/wireless/mwifiex/main.c b/drivers/net/wireless/mwifiex/main.c
-index 9d3d275..f8b16f4 100644
 --- a/drivers/net/wireless/mwifiex/main.c
 +++ b/drivers/net/wireless/mwifiex/main.c
 @@ -745,9 +745,18 @@ static struct net_device_stats *mwifiex_
