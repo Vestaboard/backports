@@ -84,71 +84,22 @@ REGULATOR_WM8994 3.8
 
 # Media
 MEDIA_SUPPORT 3.2
-# There's something wrong with backporting this/dma-buf to 3.2,
-# so disable it for now until Luis figures it out
-MEDIA_SUPPORT 3.3
-# Some media drivers however depend on module deferral mechanism
-# Lets not enable those unless that's available.
-VIDEO_S3C_CAMIF 3.4
-VIDEO_SAMSUNG_S5P_FIMC 3.4
-IR_GPIO_CIR 3.4
+USB_GSPCA_OV534 3.5
 # Some media drivers depend on the CONFIG_REGULATOR which
 # we only support on >= 3.4 give that reguatory itself depends
 # on -EPROBE_DEFER.
 SOC_CAMERA 3.4
-SOC_CAMERA_IMX074 3.4
-SOC_CAMERA_MT9M001 3.4
-SOC_CAMERA_MT9M111 3.4
-SOC_CAMERA_MT9T031 3.4
-SOC_CAMERA_MT9T112 3.4
-SOC_CAMERA_MT9V022 3.4
-SOC_CAMERA_OV2640 3.4
-SOC_CAMERA_OV5642 3.4
-SOC_CAMERA_OV6650 3.4
-SOC_CAMERA_OV772X 3.4
-SOC_CAMERA_OV9640 3.4
-SOC_CAMERA_OV9740 3.4
-SOC_CAMERA_RJ54N1 3.4
-SOC_CAMERA_TW9910 3.4
-# There are some odd comile errors here I don't want
-# to bother with right now
-VIDEO_MEM2MEM_DEINTERLACE DISABLE
 # 49920bc6 and 1003cab8 and while it seems there is a
 # one to one map DMA_FROM_DEVICE to DMA_DEV_TO_MEM
 # I can't verify this fully yet.
 VIDEO_TIMBERDALE 3.4
-# Can't figure this out yet either
-DVB_DDBRIDGE DISABLE
-# These require I2C_CLIENT_SCCB which can't be backported
-# since the core I2C code has to know about it
-VIDEO_OV7640 3.6
-VIDEO_EM28XX 3.6
 # someone has to backport "firewire: introduce fw_driver.probe and .remove methods"
 DVB_FIREDTV 3.11
-# I give up on these guys for now
-RADIO_MAXIRADIO DISABLE
-RADIO_SHARK DISABLE
-VIDEO_IVTV DISABLE
-VIDEO_MEYE DISABLE
-DVB_NGENE DISABLE
-DVB_USB_PCTV452E DISABLE
-USB_GSPCA DISABLE
-VIDEO_MXB DISABLE
-VIDEO_RENESAS_VSP1 3.6
-
-# Drivers that depend on I2C bus segments behind multiplexers to
-# have a clas, see eee543e8. This requires quite a bit of collateral,
-# folks involved in this and who want it can backport if it they wish.
-# This was added as of 3.7. Although we should be able to only enable
-# this for 3.7 DVB_USB_RTL28XXU ends up selecting DVB_RTL2832 and
-# that seems to currently require pegging both.
-#
-# DVB_USB_RTL28XXU has a nasty ccflag usage thoug that includes staging
-# headers introduced via commit bcf43393:
-# ccflags-y += -I$(srctree)/drivers/staging/media/rtl2832u_sdr
-# Let's not support this nastiness.
-DVB_RTL2832 DISABLE
-DVB_USB_RTL28XXU DISABLE
+VIDEO_RENESAS_VSP1 3.4
+VIDEO_MEM2MEM_DEINTERLACE 3.3
+MEDIA_TUNER_E4000 3.4
+DVB_USB_RTL28XXU 3.4
+VIDEO_ADV7604 3.3
 
 BCMA_DRIVER_MIPS 3.3
 SSB_DRIVER_MIPS 3.3
