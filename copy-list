@@ -107,10 +107,6 @@ drivers/net/ethernet/intel/Kconfig
 drivers/net/ethernet/intel/Makefile
 drivers/net/ethernet/intel/igb/
 
-# gpio
-include/linux/gpio/
-include/linux/gpio/consumer.h
-
 # wwan drivers
 include/uapi/linux/usb/cdc.h
 include/uapi/linux/usb/cdc-wdm.h
