@@ -157,4 +157,9 @@ static inline void netdev_reset_queue(struct net_device *dev_queue)
 #define IFF_UNICAST_FLT	0x20000		/* Supports unicast filtering	*/
 #endif
 
+#ifndef QUEUE_STATE_ANY_XOFF
+#define __QUEUE_STATE_DRV_XOFF __QUEUE_STATE_XOFF
+#define __QUEUE_STATE_STACK_XOFF __QUEUE_STATE_XOFF
+#endif
+
 #endif /* __BACKPORT_NETDEVICE_H */
