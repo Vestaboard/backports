@@ -103,6 +103,21 @@ MEDIA_TUNER_E4000 3.4
 DVB_USB_RTL28XXU 3.4
 # missing linux/gpio/consumer.h
 VIDEO_ADV7604 3.13
+# missing function clk_prepare_enable(), clk_disable_unprepare() and devm_regulator_bulk_get()
+VIDEO_MT9P031 3.3
+VIDEO_MT9T001 3.3
+VIDEO_MT9V032 3.3
+VIDEO_NOON010PC30 3.3
+VIDEO_S5K6A3 3.3
+VIDEO_S5K6AA 3.3
+VIDEO_S5K5BAF 3.3
+VIDEO_S5K4ECGX 3.3
+VIDEO_M5MOLS 3.3
+VIDEO_S5C73M3 3.3
+
+# missing function devm_regmap_init_i2c()
+VIDEO_LM3646 3.3
+VIDEO_LM3560 3.3
 
 BCMA_DRIVER_MIPS 3.3
 SSB_DRIVER_MIPS 3.3
