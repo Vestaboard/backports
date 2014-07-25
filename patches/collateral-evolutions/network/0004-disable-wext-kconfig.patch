@@ -25,7 +25,7 @@ so remove the Kconfig options for them.
  config CFG80211
  	tristate "cfg80211 - wireless configuration API"
  	depends on RFKILL || !RFKILL
-@@ -171,7 +153,7 @@ config CFG80211_INTERNAL_REGDB
+@@ -177,7 +159,7 @@ config CFG80211_INTERNAL_REGDB
  config CFG80211_WEXT
  	bool "cfg80211 wireless extensions compatibility"
  	depends on CFG80211

@@ -20,7 +20,7 @@
  	.err_handler = &igb_err_handler
  };
  
-@@ -7598,6 +7602,7 @@ static int igb_sriov_reinit(struct pci_d
+@@ -7614,6 +7618,7 @@ static int igb_sriov_reinit(struct pci_d
  	return 0;
  }
  
@@ -28,7 +28,7 @@
  static int igb_pci_disable_sriov(struct pci_dev *dev)
  {
  	int err = igb_disable_sriov(dev);
-@@ -7607,6 +7612,7 @@ static int igb_pci_disable_sriov(struct
+@@ -7623,6 +7628,7 @@ static int igb_pci_disable_sriov(struct
  
  	return err;
  }
@@ -36,7 +36,7 @@
  
  static int igb_pci_enable_sriov(struct pci_dev *dev, int num_vfs)
  {
-@@ -7624,6 +7630,7 @@ out:
+@@ -7640,6 +7646,7 @@ out:
  }
  
  #endif
@@ -44,7 +44,7 @@
  static int igb_pci_sriov_configure(struct pci_dev *dev, int num_vfs)
  {
  #ifdef CONFIG_PCI_IOV
-@@ -7634,6 +7641,7 @@ static int igb_pci_sriov_configure(struc
+@@ -7650,6 +7657,7 @@ static int igb_pci_sriov_configure(struc
  #endif
  	return 0;
  }
