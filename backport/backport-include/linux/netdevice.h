@@ -162,4 +162,18 @@ static inline void netdev_reset_queue(struct net_device *dev_queue)
 #define __QUEUE_STATE_STACK_XOFF __QUEUE_STATE_XOFF
 #endif
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,17,0)
+#define alloc_netdev_mqs(sizeof_priv, name, name_assign_type, setup, txqs, rxqs) \
+	alloc_netdev_mqs(sizeof_priv, name, setup, txqs, rxqs)
+
+#undef alloc_netdev
+#define alloc_netdev(sizeof_priv, name, name_assign_type, setup) \
+	alloc_netdev_mqs(sizeof_priv, name, name_assign_type, setup, 1, 1)
+
+#undef alloc_netdev_mq
+#define alloc_netdev_mq(sizeof_priv, name, name_assign_type, setup, count) \
+	alloc_netdev_mqs(sizeof_priv, name, name_assign_type, setup, count, \
+			 count)
+#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,17,0) */
+
 #endif /* __BACKPORT_NETDEVICE_H */
