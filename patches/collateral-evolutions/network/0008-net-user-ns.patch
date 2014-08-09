@@ -3,7 +3,7 @@ via commit 038e7332b8.
 
 --- a/net/ieee802154/reassembly.c
 +++ b/net/ieee802154/reassembly.c
-@@ -479,9 +479,11 @@ static int __net_init lowpan_frags_ns_sy
+@@ -491,9 +491,11 @@ static int __net_init lowpan_frags_ns_sy
  		table[2].data = &ieee802154_lowpan->frags.timeout;
  		table[3].data = &ieee802154_lowpan->max_dsize;
  

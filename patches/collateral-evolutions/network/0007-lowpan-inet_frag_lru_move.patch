@@ -4,7 +4,7 @@ and then domain specific inet_frag_lru_move() define.
 
 --- a/net/ieee802154/reassembly.c
 +++ b/net/ieee802154/reassembly.c
-@@ -91,6 +91,9 @@ static void lowpan_frag_init(struct inet
+@@ -89,6 +89,9 @@ static void lowpan_frag_init(struct inet
  	fq->d_size = arg->d_size;
  	fq->saddr = *arg->src;
  	fq->daddr = *arg->dst;

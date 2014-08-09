@@ -4,7 +4,7 @@ idea yet.
 
 --- a/net/ieee802154/reassembly.c
 +++ b/net/ieee802154/reassembly.c
-@@ -99,7 +99,11 @@ static void lowpan_frag_expire(unsigned
+@@ -97,7 +97,11 @@ static void lowpan_frag_expire(unsigned
  	struct net *net;
  
  	fq = container_of((struct inet_frag_queue *)data, struct frag_queue, q);
@@ -16,7 +16,7 @@ idea yet.
  
  	spin_lock(&fq->q.lock);
  
-@@ -397,28 +401,44 @@ EXPORT_SYMBOL(lowpan_frag_rcv);
+@@ -393,31 +397,55 @@ static int zero;
  static struct ctl_table lowpan_frags_ns_ctl_table[] = {
  	{
  		.procname	= "6lowpanfrag_high_thresh",
@@ -27,7 +27,12 @@ idea yet.
 +#endif
  		.maxlen		= sizeof(int),
  		.mode		= 0644,
- 		.proc_handler	= proc_dointvec
+ 		.proc_handler	= proc_dointvec_minmax,
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,15,0))
+ 		.extra1		= &init_net.ieee802154_lowpan.frags.low_thresh
++#else
++		.extra1		= &ieee802154_lowpan.frags.low_thresh
++#endif
  	},
  	{
  		.procname	= "6lowpanfrag_low_thresh",
@@ -38,7 +43,13 @@ idea yet.
 +#endif
  		.maxlen		= sizeof(int),
  		.mode		= 0644,
- 		.proc_handler	= proc_dointvec
+ 		.proc_handler	= proc_dointvec_minmax,
+ 		.extra1		= &zero,
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,15,0))
+ 		.extra2		= &init_net.ieee802154_lowpan.frags.high_thresh
++#else
++		.extra2		= &ieee802154_lowpan.frags.high_thresh
++#endif
  	},
  	{
  		.procname	= "6lowpanfrag_time",
