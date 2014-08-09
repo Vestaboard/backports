@@ -10,6 +10,7 @@
 #include <linux/wait.h>
 #include <linux/sched.h>
 #include <linux/export.h>
+#include <linux/ktime.h>
 
 int bit_wait(void *word)
 {
@@ -25,3 +26,14 @@ int bit_wait_io(void *word)
 }
 EXPORT_SYMBOL_GPL(bit_wait_io);
 
+/**
+ * ktime_get_raw - Returns the raw monotonic time in ktime_t format
+ */
+ktime_t ktime_get_raw(void)
+{
+	struct timespec ts;
+
+	getrawmonotonic(&ts);
+	return timespec_to_ktime(ts);
+}
+EXPORT_SYMBOL_GPL(ktime_get_raw);
