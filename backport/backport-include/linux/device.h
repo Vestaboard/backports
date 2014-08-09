@@ -160,4 +160,15 @@ __ATTRIBUTE_GROUPS(_name)
 extern char *devm_kstrdup(struct device *dev, const char *s, gfp_t gfp);
 #endif
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,13,0)
+#define devm_kmalloc_array LINUX_BACKPORT(devm_kmalloc_array)
+static inline void *devm_kmalloc_array(struct device *dev,
+				       size_t n, size_t size, gfp_t flags)
+{
+	if (size != 0 && n > SIZE_MAX / size)
+		return NULL;
+	return devm_kmalloc(dev, n * size, flags);
+}
+#endif
+
 #endif /* __BACKPORT_DEVICE_H */
