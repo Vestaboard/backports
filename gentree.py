@@ -725,7 +725,7 @@ def process(kerneldir, outdir, copy_list_file, git_revision=None,
         extra_spatch_args = []
         if args.profile_cocci:
             cmd.append('--profile-cocci')
-        cmd.append(args.outdir)
+        cmd.append(os.path.abspath(args.outdir))
         print_name = cocci_file[prefix_len:]
         if args.verbose:
             logwrite("Applying SmPL patch %s" % print_name)
