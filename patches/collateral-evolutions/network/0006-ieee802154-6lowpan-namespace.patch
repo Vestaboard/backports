@@ -16,7 +16,7 @@ idea yet.
  
  	spin_lock(&fq->q.lock);
  
-@@ -393,31 +397,55 @@ static int zero;
+@@ -393,24 +397,44 @@ static int zero;
  static struct ctl_table lowpan_frags_ns_ctl_table[] = {
  	{
  		.procname	= "6lowpanfrag_high_thresh",
@@ -61,14 +61,3 @@ idea yet.
  		.maxlen		= sizeof(int),
  		.mode		= 0644,
  		.proc_handler	= proc_dointvec_jiffies,
- 	},
- 	{
- 		.procname	= "6lowpanfrag_max_datagram_size",
-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,15,0))
- 		.data		= &init_net.ieee802154_lowpan.max_dsize,
-+#else
-+		.data		= &ieee802154_lowpan.max_dsize,
-+#endif
- 		.maxlen		= sizeof(int),
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec
