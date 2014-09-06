@@ -1,9 +1,0 @@
-Without this patch backports will generate a section mismatch on kernel
-<= 3.3. This results in this error message:
-
-WARNING: drivers/net/wireless/ath/ath5k/ath5k.o(.text+0x157e8): Section mismatch in reference from the function ath5k_init_leds() to the variable .devinit.rodata:ath5k_led_devices
-The function ath5k_init_leds() references
-the variable __devinitconst ath5k_led_devices.
-This is often because ath5k_init_leds lacks a __devinitconst 
-annotation or the annotation of ath5k_led_devices is wrong.
-
