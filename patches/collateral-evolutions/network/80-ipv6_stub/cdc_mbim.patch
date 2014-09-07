@@ -1,6 +1,6 @@
 --- a/drivers/net/usb/cdc_mbim.c
 +++ b/drivers/net/usb/cdc_mbim.c
-@@ -184,6 +184,7 @@ error:
+@@ -201,6 +201,7 @@ error:
  	return NULL;
  }
  
@@ -8,7 +8,7 @@
  /* Some devices are known to send Neigbor Solicitation messages and
   * require Neigbor Advertisement replies.  The IPv6 core will not
   * respond since IFF_NOARP is set, so we must handle them ourselves.
-@@ -236,6 +237,7 @@ static bool is_neigh_solicit(u8 *buf, si
+@@ -261,6 +262,7 @@ static bool is_neigh_solicit(u8 *buf, si
  		msg->icmph.icmp6_code == 0 &&
  		msg->icmph.icmp6_type == NDISC_NEIGHBOUR_SOLICITATION);
  }
@@ -16,7 +16,7 @@
  
  
  static struct sk_buff *cdc_mbim_process_dgram(struct usbnet *dev, u8 *buf, size_t len, u16 tci)
-@@ -252,8 +254,10 @@ static struct sk_buff *cdc_mbim_process_
+@@ -277,8 +279,10 @@ static struct sk_buff *cdc_mbim_process_
  			proto = htons(ETH_P_IP);
  			break;
  		case 0x60:

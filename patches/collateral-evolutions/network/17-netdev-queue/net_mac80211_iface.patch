@@ -8,7 +8,7 @@
  void ieee80211_remove_interfaces(struct ieee80211_local *local)
  {
  	struct ieee80211_sub_if_data *sdata, *tmp;
-@@ -1771,6 +1772,22 @@ void ieee80211_remove_interfaces(struct
+@@ -1770,6 +1771,22 @@ void ieee80211_remove_interfaces(struct
  		kfree(sdata);
  	}
  }
