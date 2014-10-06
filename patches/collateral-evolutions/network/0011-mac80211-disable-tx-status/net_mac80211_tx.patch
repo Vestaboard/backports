@@ -7,9 +7,9 @@
 +#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,3,0))
  	if (unlikely(!multicast && skb->sk &&
  		     skb_shinfo(skb)->tx_flags & SKBTX_WIFI_STATUS)) {
- 		struct sk_buff *orig_skb = skb;
-@@ -2098,6 +2099,7 @@ netdev_tx_t ieee80211_subif_start_xmit(s
- 			skb = orig_skb;
+ 		struct sk_buff *ack_skb = skb_clone_sk(skb);
+@@ -2091,6 +2092,7 @@ netdev_tx_t ieee80211_subif_start_xmit(s
+ 			}
  		}
  	}
 +#endif

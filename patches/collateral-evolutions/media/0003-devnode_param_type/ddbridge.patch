@@ -1,6 +1,6 @@
 --- a/drivers/media/pci/ddbridge/ddbridge-core.c
 +++ b/drivers/media/pci/ddbridge/ddbridge-core.c
-@@ -1479,7 +1479,11 @@ static const struct file_operations ddb_
+@@ -1477,7 +1477,11 @@ static const struct file_operations ddb_
  	.open           = ddb_open,
  };
  

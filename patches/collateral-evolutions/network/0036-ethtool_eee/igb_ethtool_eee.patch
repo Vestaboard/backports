@@ -8,7 +8,7 @@
  static int igb_get_eee(struct net_device *netdev, struct ethtool_eee *edata)
  {
  	struct igb_adapter *adapter = netdev_priv(netdev);
-@@ -2734,6 +2735,7 @@ static int igb_set_eee(struct net_device
+@@ -2744,6 +2745,7 @@ static int igb_set_eee(struct net_device
  
  	return 0;
  }
@@ -16,7 +16,7 @@
  
  static int igb_get_module_info(struct net_device *netdev,
  			       struct ethtool_modinfo *modinfo)
-@@ -3027,8 +3029,10 @@ static const struct ethtool_ops igb_etht
+@@ -3037,8 +3039,10 @@ static const struct ethtool_ops igb_etht
  #endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,5,0) */
  	.get_rxnfc		= igb_get_rxnfc,
  	.set_rxnfc		= igb_set_rxnfc,
