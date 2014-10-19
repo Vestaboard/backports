@@ -44,6 +44,11 @@ VIDEO_S5C73M3 3.3
 VIDEO_LM3646 3.3
 VIDEO_LM3560 3.3
 
+# missing regmap_bulk_write
+MEDIA_TUNER_E4000 3.4
+MEDIA_TUNER_M88TS2022 3.4
+VIDEO_EM28XX_DVB 3.4
+
 # missing spi_finalize_current_message() and struct spi_master.transfer_one_message
 USB_MSI2500 3.4
 
