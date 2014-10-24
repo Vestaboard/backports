@@ -93,6 +93,10 @@ IEEE802154_CC2520 3.5
 
 IR_IMG 3.5
 
+# missing include/linux/mfd/syscon.h file
+IR_HIX5HD2 3.7
+IR_HIX5HD2 kconfig: CONFIG_MFD_SYSCON
+
 # tracing results in compile errors
 ATH10K_TRACING 3.4
 ATH_TRACEPOINTS 3.1
