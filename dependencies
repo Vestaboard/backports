@@ -55,6 +55,9 @@ MEDIA_TUNER_IT913X 3.4
 VIDEO_CX23885 3.4
 VIDEO_EM28XX_DVB 3.4
 
+# missing kthread_freezable_should_stop()
+DVB_PT3 3.3
+
 # missing spi_finalize_current_message() and struct spi_master.transfer_one_message
 USB_MSI2500 3.4
 
