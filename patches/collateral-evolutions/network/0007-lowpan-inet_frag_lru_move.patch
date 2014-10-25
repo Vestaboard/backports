@@ -23,7 +23,7 @@ and then domain specific inet_frag_lru_move() define.
 +#include <linux/spinlock.h>
  
  struct lowpan_create_arg {
- 	u16 tag;
+ 	__be16 tag;
 @@ -19,8 +20,32 @@ struct lowpan_frag_queue {
  	u16			d_size;
  	struct ieee802154_addr	saddr;
