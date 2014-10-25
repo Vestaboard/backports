@@ -3,9 +3,9 @@ via commit 038e7332b8.
 
 --- a/net/ieee802154/reassembly.c
 +++ b/net/ieee802154/reassembly.c
-@@ -491,9 +491,11 @@ static int __net_init lowpan_frags_ns_sy
+@@ -479,9 +479,11 @@ static int __net_init lowpan_frags_ns_sy
+ 		table[1].extra2 = &ieee802154_lowpan->frags.high_thresh;
  		table[2].data = &ieee802154_lowpan->frags.timeout;
- 		table[3].data = &ieee802154_lowpan->max_dsize;
  
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,8,0)
  		/* Don't export sysctls to unprivileged users */
