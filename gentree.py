@@ -32,7 +32,8 @@ class Bp_Identity(object):
     """
     def __init__(self, integrate=False, kconfig_prefix='CPTCFG_',
                  project_prefix='', project_dir='',
-                 target_dir='', target_dir_name=''):
+                 target_dir='', target_dir_name='',
+                 kconfig_source_var=None):
         self.integrate = integrate
         self.kconfig_prefix = kconfig_prefix
         self.kconfig_prefix_resafe = re.escape(kconfig_prefix)
@@ -43,6 +44,11 @@ class Bp_Identity(object):
         self.project_dir = project_dir
         self.target_dir = target_dir
         self.target_dir_name = target_dir_name
+        self.kconfig_source_var = kconfig_source_var
+        if self.kconfig_source_var:
+            self.kconfig_source_var_resafe = re.escape(self.kconfig_source_var)
+        else:
+            self.kconfig_source_var_resafe = None
 
 def read_copy_list(copyfile):
     """
@@ -681,6 +687,7 @@ def _main():
                            project_dir = args.outdir,
                            target_dir = os.path.join(args.outdir, 'backports/'),
                            target_dir_name = 'backports/',
+                           kconfig_source_var = '$BACKPORT_DIR',
                            )
     else:
         bpid = Bp_Identity(integrate = integrate,
@@ -689,6 +696,7 @@ def _main():
                            project_dir = args.outdir,
                            target_dir = args.outdir,
                            target_dir_name = '',
+                           kconfig_source_var = '$BACKPORT_DIR',
                            )
 
     def logwrite(msg):
@@ -820,6 +828,7 @@ def process(kerneldir, copy_list_file, git_revision=None,
 
     disable_list = add_automatic_backports(args)
     if disable_list:
+        # No need to verify_sources() as compat's Kconfig has no 'source' call
         bpcfg = kconfig.ConfigTree(os.path.join(bpid.target_dir, 'compat', 'Kconfig'), bpid)
         bpcfg.disable_symbols(disable_list)
     git_debug_snapshot(args, 'Add automatic backports')
@@ -828,10 +837,15 @@ def process(kerneldir, copy_list_file, git_revision=None,
 
     # some post-processing is required
     configtree = kconfig.ConfigTree(os.path.join(bpid.target_dir, 'Kconfig'), bpid)
+    ignore=['Kconfig.kernel', 'Kconfig.versions']
+
+    configtree.verify_sources(ignore=ignore)
+    git_debug_snapshot(args, "verify sources on top level backports Kconfig")
+
     orig_symbols = configtree.symbols()
 
     logwrite('Modify Kconfig tree ...')
-    configtree.prune_sources(ignore=['Kconfig.kernel', 'Kconfig.versions'])
+    configtree.prune_sources(ignore=ignore)
     git_debug_snapshot(args, "prune Kconfig tree")
 
     if not bpid.integrate:

@@ -12,10 +12,41 @@ sel_line = re.compile(r'^(?P<spc>\s+)select\s+(?P<sym>[^\s]*)\s*$')
 backport_line = re.compile(r'^\s+#(?P<key>[ch]-file|module-name)\s*(?P<name>.*)')
 
 class ConfigTree(object):
+    """
+    If you suppport kernel integration you should use bpid.kconfig_source_var
+    and set that to the the variable name you have used on your Kconfig file
+    for use as a directory prefix. When packaging you only need to set this on
+    the Kconfig sources part of backports. For integration this variable will
+    be used to prefix all Kconfig sources taken from the kernel. This variable
+    is used by Kconfig to expand to bpid.target_dir_name. All kernel Kconfig
+    source entries use a full path based on bpid.project_dir, when using
+    integration a prefix is needed on backported Kconfig entries to
+    help ensure that the base directory used for backported code is
+    bpid.target_dir and not bpid.project_dir. To help with we provide a
+    verification / modifier, verify_sources(), of the Kconfig entries, you
+    run this before working on the ConfigTree with any other helper.
+
+    Verification is only needed when integrating and if the top level Kconfig
+    entries that have a source entry.
+    """
     def __init__(self, rootfile, bpid):
         self.bpid = bpid
         self.rootfile = os.path.basename(rootfile)
-        self.src_line = re.compile(r'^\s*source\s+"(?P<src>[^\s"]*)"?\s*$')
+        if self.bpid.kconfig_source_var:
+            self.src_line = re.compile(r'^\s*source\s+"(?P<kconfig_var>' + self.bpid.kconfig_source_var_resafe + ')?/?(?P<src>[^\s"]*)"?\s*$')
+            self.kconfig_var_line = re.compile(r'.*(?P<kconfig_var>' + self.bpid.kconfig_source_var_resafe + ')+/+')
+        else:
+            self.src_line = re.compile(r'^\s*source\s+"(?P<src>[^\s"]*)"?\s*$')
+            self.kconfig_var_line = None
+        self.verified = False
+        self.need_verification = False
+        if self.bpid.integrate:
+            for l in open(os.path.join(self.bpid.target_dir, rootfile), 'r'):
+                m = self.src_line.match(l)
+                mrel = src_line_rel.match(l)
+                if m or mrel:
+                    self.need_verification = True
+                    break
 
     def _check_relative_source(self, f, l):
     #
@@ -28,12 +59,17 @@ class ConfigTree(object):
         if m:
             raise Exception('File: %s uses relative kconfig source entries (line: \'%s\'), use full path  with quotes' %
                             (os.path.join(self.bpid.target_dir, f), l))
-    def _walk(self, f):
+    def _walk(self, f, first_pass=False):
+        if self.bpid.integrate:
+            if not self.bpid.kconfig_source_var and self.need_verification:
+                raise Exception("You enabled integration but haven't set bpid.kconfig_source_var, this seems incorrect")
+            if not first_pass and not self.verified and self.need_verification:
+                raise Exception("You must run verify_sources() first, we don't do that for you as you may want to ignore some source files")
         yield f
         for l in open(os.path.join(self.bpid.target_dir, f), 'r'):
             m = self.src_line.match(l)
             if m and os.path.exists(os.path.join(self.bpid.target_dir, m.group('src'))):
-                for i in self._walk(m.group('src')):
+                for i in self._walk(m.group('src'), first_pass=first_pass):
                     yield i
             else:
                 self._check_relative_source(f, l)
@@ -49,12 +85,42 @@ class ConfigTree(object):
                     continue
                 src = m.group('src')
                 if src in ignore or os.path.exists(os.path.join(self.bpid.target_dir, src)):
-                    out += l
+                        out += l
                 else:
-                    out += '#' + l
+                        out += '#' + l
             outf = open(os.path.join(self.bpid.target_dir, nf), 'w')
             outf.write(out)
             outf.close()
+
+    def verify_sources(self, ignore=[]):
+        if not self.need_verification:
+            return
+        for nf in self._walk(self.rootfile, first_pass=True):
+            out = ''
+            for l in open(os.path.join(self.bpid.target_dir, nf), 'r'):
+                m = self.src_line.match(l)
+                if not m:
+                    self._check_relative_source(nf, l)
+                    out += l
+                    continue
+                src = m.group('src')
+                k = self.kconfig_var_line.match(l)
+                if src in ignore or os.path.exists(os.path.join(self.bpid.target_dir, src)):
+                    if k:
+                        out += l
+                    else:
+                        out += 'source "%s/%s"\n' % (self.bpid.kconfig_source_var,  m.group('src'))
+                else:
+                    if k:
+                        out += '# source "' + self.bpid.kconfig_source_var + '/' + src + '"\n'
+                    else:
+                        out += '#' + l
+            outf = open(os.path.join(self.bpid.target_dir, nf), 'w')
+            outf.write(out)
+            outf.close()
+        # Now the kconfig_var is always required from now on
+        self.src_line = re.compile(r'^\s*source\s+"(?P<kconfig_var>' + self.bpid.kconfig_source_var_resafe + ')+/+(?P<src>[^\s"]*)"?\s*$')
+        self.verified = True
 
     def prune_sources(self, ignore=[]):
         self._prune_sources(self.rootfile, ignore)
