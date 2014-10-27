@@ -63,7 +63,7 @@ being compiled against is older than X.
 
 All together, this allows the correct options to be selected by the user.
 
-There's one more caveat: At backport configuration time, the CONFIG_
+When using Linux backports as a packaged solution the the CONFIG_
 environment variable is set to CPTCFG_ ("compat config", but also chosen
 because it has the same length as CONFIG_). This shows up in the .config
 file and other places, and in fact in all makefiles and in the code. The
@@ -72,8 +72,6 @@ and backport options (even though we sort of port over kernel options).
 This allows code to, for example, have "#ifdef CONFIG_PM" which can only
 be set or cleared in the kernel, not in the backport configuration. Since
 this is needed, a transformation step is done at backport creation time.
-
-
 
  Backport creation for Kconfig
 -------------------------------
