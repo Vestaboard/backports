@@ -73,6 +73,11 @@ This allows code to, for example, have "#ifdef CONFIG_PM" which can only
 be set or cleared in the kernel, not in the backport configuration. Since
 this is needed, a transformation step is done at backport creation time.
 
+When using Linux backports to integrate into an existing Linux tree
+the CONFIG_BACKPORT_ prefix is used, this allows a CONFIG_BACKPORT_
+symbol to depend on the non-backported respective symbol to be selected
+allowing these to be mutually exclusive.
+
  Backport creation for Kconfig
 -------------------------------
 

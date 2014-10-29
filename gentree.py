@@ -16,6 +16,7 @@ from lib import bpgpg as gpg
 from lib import bpkup as kup
 from lib.tempdir import tempdir
 from lib import bpreqs as reqs
+from lib import bpversion as gen_version
 
 class Bp_Identity(object):
     """
@@ -233,6 +234,9 @@ def add_automatic_backports(args):
     export = re.compile(r'^EXPORT_SYMBOL(_GPL)?\((?P<sym>[^\)]*)\)')
     bpi = kconfig.get_backport_info(os.path.join(args.bpid.target_dir, 'compat', 'Kconfig'))
     configtree = kconfig.ConfigTree(os.path.join(args.bpid.target_dir, 'Kconfig'), args.bpid)
+    ignore=['Kconfig.kernel', 'Kconfig.versions']
+    configtree.verify_sources(ignore=ignore)
+    git_debug_snapshot(args, "verify sources for automatic backports")
     all_selects = configtree.all_selects()
     for sym, vals in bpi.items():
         if sym.startswith('BPAUTO_BUILD_'):
@@ -640,6 +644,9 @@ def _main():
                              'and we use git ls-tree to get the files.')
     parser.add_argument('--clean', const=True, default=False, action="store_const",
                         help='Clean output directory instead of erroring if it isn\'t empty')
+    parser.add_argument('--integrate', const=True, default=False, action="store_const",
+                        help='Integrate a future backported kernel solution into ' +
+                             'an older kernel tree source directory.')
     parser.add_argument('--refresh', const=True, default=False, action="store_const",
                         help='Refresh patches as they are applied, the source dir will be modified!')
     parser.add_argument('--base-name', metavar='<name>', type=str, default='Linux',
@@ -679,9 +686,8 @@ def _main():
     # same prefix for packaging as with kernel integration but
     # there are already some users of the CPTCFG prefix.
     bpid = None
-    integrate = False
-    if integrate:
-        bpid = Bp_Identity(integrate = integrate,
+    if args.integrate:
+        bpid = Bp_Identity(integrate = args.integrate,
                            kconfig_prefix = 'CONFIG_',
                            project_prefix = 'BACKPORT_',
                            project_dir = args.outdir,
@@ -690,7 +696,7 @@ def _main():
                            kconfig_source_var = '$BACKPORT_DIR',
                            )
     else:
-        bpid = Bp_Identity(integrate = integrate,
+        bpid = Bp_Identity(integrate = args.integrate,
                            kconfig_prefix = 'CPTCFG_',
                            project_prefix = '',
                            project_dir = args.outdir,
@@ -764,6 +770,11 @@ def process(kerneldir, copy_list_file, git_revision=None,
                 test_cocci, profile_cocci)
     rel_prep = None
 
+    if bpid.integrate:
+        if args.kup_test or args.test_cocci or args.profile_cocci or args.refresh:
+            logwrite('Cannot use integration with:\n\tkup_test\n\ttest_cocci\n\tprofile_cocci\n\trefresh\n');
+            sys.exit(1)
+
     # start processing ...
     if (args.kup or args.kup_test):
         git_paranoia(source_dir, logwrite)
@@ -798,6 +809,10 @@ def process(kerneldir, copy_list_file, git_revision=None,
     check_output_dir(bpid.target_dir, args.clean)
 
     # do the copy
+    backport_integrate_files = [
+            ('Makefile.kernel', 'Makefile'),
+            ('Kconfig.integrate', 'Kconfig'),
+            ]
     backport_package_files = [(x, x) for x in [
         'Makefile',
         'kconf/',
@@ -819,6 +834,8 @@ def process(kerneldir, copy_list_file, git_revision=None,
 
     if not bpid.integrate:
         backport_files += backport_package_files
+    else:
+        backport_files += backport_integrate_files
 
     if not args.git_revision:
         logwrite('Copy original source files ...')
@@ -888,6 +905,21 @@ def process(kerneldir, copy_list_file, git_revision=None,
 
     apply_patches(args, "backport", source_dir, 'patches', bpid.target_dir, logwrite)
 
+    # Kernel integration requires Kconfig.versions already generated for you,
+    # we cannot do this for a package as we have no idea what kernel folks
+    # will be using.
+    if bpid.integrate:
+        kver = gen_version.kernelversion(bpid.project_dir)
+        rel_specs = gen_version.get_rel_spec_stable(kver)
+        if not rel_specs:
+            logwrite('Cannot parse source kernel version, update parser')
+            sys.exit(1)
+        data = gen_version.genkconfig_versions(rel_specs)
+        fo = open(os.path.join(bpid.target_dir, 'Kconfig.versions'), 'w')
+        fo.write(data)
+        fo.close()
+        git_debug_snapshot(args, "generate kernel version requirement Kconfig file")
+
     # some post-processing is required
     configtree = kconfig.ConfigTree(os.path.join(bpid.target_dir, 'Kconfig'), bpid)
     ignore=['Kconfig.kernel', 'Kconfig.versions']
@@ -904,6 +936,15 @@ def process(kerneldir, copy_list_file, git_revision=None,
     if not bpid.integrate:
         configtree.force_tristate_modular()
         git_debug_snapshot(args, "force tristate options modular")
+
+    ignore = [os.path.join(bpid.target_dir, x) for x in [
+                'Kconfig.package.hacks',
+                'Kconfig.versions',
+                'Kconfig',
+                ]
+            ]
+    configtree.adjust_backported_configs(ignore=ignore, orig_symbols=orig_symbols)
+    git_debug_snapshot(args, "adjust backports config symbols we port")
 
     configtree.modify_selects()
     git_debug_snapshot(args, "convert select to depends on")
@@ -944,8 +985,15 @@ def process(kerneldir, copy_list_file, git_revision=None,
 
     # rewrite Makefile and source symbols
 
+    # symbols we know only we can provide under the backport project prefix
+    # for which we need an exception.
+    skip_orig_syms = [ bpid.project_prefix + x for x in [
+            'INTEGRATE',
+            ]
+    ]
+    parse_orig_syms = [x for x in orig_symbols if x not in skip_orig_syms ]
     regexes = []
-    for some_symbols in [orig_symbols[i:i + 50] for i in range(0, len(orig_symbols), 50)]:
+    for some_symbols in [parse_orig_syms[i:i + 50] for i in range(0, len(parse_orig_syms), 50)]:
         r = 'CONFIG_((' + '|'.join([s + '(_MODULE)?' for s in some_symbols]) + ')([^A-Za-z0-9_]|$))'
         regexes.append(re.compile(r, re.MULTILINE))
     for root, dirs, files in os.walk(bpid.target_dir):
@@ -967,7 +1015,10 @@ def process(kerneldir, copy_list_file, git_revision=None,
     git_debug_snapshot(args, "rename config symbol / srctree usage")
 
     # disable unbuildable Kconfig symbols and stuff Makefiles that doesn't exist
-    maketree = make.MakeTree(os.path.join(bpid.target_dir, 'Makefile.kernel'))
+    if bpid.integrate:
+        maketree = make.MakeTree(os.path.join(bpid.target_dir, 'Makefile'))
+    else:
+        maketree = make.MakeTree(os.path.join(bpid.target_dir, 'Makefile.kernel'))
     disable_kconfig = []
     disable_makefile = []
     for sym in maketree.get_impossible_symbols():
@@ -1016,6 +1067,15 @@ def process(kerneldir, copy_list_file, git_revision=None,
         fo.write(data)
         fo.close()
     git_debug_snapshot(args, "disable unsatisfied Makefile parts")
+
+    if bpid.integrate:
+        f = open(os.path.join(bpid.project_dir, 'Kconfig'), 'a')
+        f.write('source "backports/Kconfig"\n')
+        f.close()
+        git_debug_snapshot(args, "hooked backport to top level Kconfig")
+
+        apply_patches(args, "integration", source_dir, 'integration-patches/',
+                      bpid.project_dir, logwrite)
 
     if (args.kup or args.kup_test):
         req = reqs.Req()

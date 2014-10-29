@@ -137,6 +137,73 @@ class ConfigTree(object):
             outf.write(out)
             outf.close()
 
+    def _mod_kconfig_line(self, l, orig_symbols):
+        if self.bpid.project_prefix != '':
+            for sym in orig_symbols:
+                if sym in l:
+                    return re.sub(r' (' + sym + ')', r' ' + self.bpid.project_prefix + '\\1', l)
+        return l
+
+    def adjust_backported_configs(self, ignore=[], orig_symbols=[]):
+        m = None
+        old_l = None
+        for nf in self._walk(self.rootfile):
+            if os.path.join(self.bpid.target_dir, nf) in ignore:
+                continue
+            out = ''
+            for l in open(os.path.join(self.bpid.target_dir, nf), 'r'):
+                n = cfg_line.match(l)
+                if n:
+                    m = n
+                    old_l = l
+                    continue
+                # We're now on the second line for the config symbol
+                if m:
+                    built_in_sym = m.group('sym')
+                    if self.bpid.project_prefix != '':
+                        built_in_sym = re.sub(r'' + self.bpid.project_prefix + '(.*)', r'\1', m.group('sym'))
+                    # These are things that we carry as part of our backports
+                    # module or things we automatically copy over into our
+                    # backports module. What we want to do is ensure that we
+                    # always negate a backported symbol we provide with the one
+                    # provided by the old kernel.
+                    #
+                    # Note that this means that since project_prefix is empty
+                    # it likely means the kconfig getenv() trick was used to
+                    # backport and when that's used the same symbol is used,
+                    # that means you can't easily negate an internal symbol
+                    # as kconfig will always apply the kconfig_prefix.
+                    #
+                    # XXX: only do this for symbols that have C files
+                    # depending on it
+                    if self.bpid.project_prefix != '' and self.bpid.project_prefix in m.group('sym'):
+                        out += old_l
+                        out += l
+                        out += "\tdepends on !%s\n" % (built_in_sym)
+                    else:
+                        # First rewrite the upstream symbol with our prefix if
+                        # needed
+                        if self.bpid.project_prefix != '':
+                            out += m.group('opt') + ' ' + self.bpid.project_prefix + m.group('sym') + '\n'
+                            out += l
+                            # Packaging uses the checks.h but that's a reactive
+                            # measure, this is proactive.
+                            if not self.bpid.integrate:
+                                # This doesn't happen right now as packaging
+                                # always uses an empty project prefix.
+                                out += "\tdepends on %s!=y\n" % (built_in_sym)
+                            else:
+                                out += "\tdepends on !%s\n" % (built_in_sym)
+                        else:
+                            out += m.group('opt') + ' ' + m.group('sym') + '\n'
+                            out += l
+                    m = None
+                else:
+                    out += self._mod_kconfig_line(l, orig_symbols)
+            outf = open(os.path.join(self.bpid.target_dir, nf), 'w')
+            outf.write(out)
+            outf.close()
+
     def symbols(self):
         syms = []
         for nf in self._walk(self.rootfile):
