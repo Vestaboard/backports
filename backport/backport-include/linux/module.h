@@ -25,6 +25,7 @@ extern void backport_dependency_symbol(void);
 		       " using backports " BACKPORTS_VERSION);
 #endif
 
+#ifdef MODULE
 #undef module_init
 #define module_init(initfn)						\
 	static int __init __init_backport(void)				\
@@ -58,6 +59,7 @@ extern void backport_dependency_symbol(void);
 		rcu_barrier();						\
 	}								\
 	void cleanup_module(void) __attribute__((alias("__exit_compat")));
+#endif
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(3,3,0)
 #undef param_check_bool
