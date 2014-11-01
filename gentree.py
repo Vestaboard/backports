@@ -798,12 +798,28 @@ def process(kerneldir, copy_list_file, git_revision=None,
     check_output_dir(bpid.target_dir, args.clean)
 
     # do the copy
+    backport_package_files = [(x, x) for x in [
+        'Makefile',
+        'kconf/',
+        'Makefile.real',
+        'Makefile.kernel',
+        'Kconfig.package.hacks',
+        'scripts/',
+        '.blacklist.map',
+        '.gitignore',
+        'Makefile.build'] ]
+    backport_package_files += [
+            ('Kconfig.package', 'Kconfig'),
+            ]
     backport_files = [(x, x) for x in [
-        'Kconfig', 'Kconfig.package.hacks',
-        'Makefile', 'Makefile.build', 'Makefile.kernel', '.gitignore',
-        'Makefile.real', 'compat/', 'backport-include/', 'kconf/',
-        'scripts/', '.blacklist.map',
+        'Kconfig.sources',
+        'compat/',
+        'backport-include/',
     ]]
+
+    if not bpid.integrate:
+        backport_files += backport_package_files
+
     if not args.git_revision:
         logwrite('Copy original source files ...')
     else:
@@ -827,6 +843,7 @@ def process(kerneldir, copy_list_file, git_revision=None,
     git_debug_snapshot(args, 'Add driver sources')
 
     disable_list = add_automatic_backports(args)
+
     if disable_list:
         # No need to verify_sources() as compat's Kconfig has no 'source' call
         bpcfg = kconfig.ConfigTree(os.path.join(bpid.target_dir, 'compat', 'Kconfig'), bpid)
@@ -877,7 +894,7 @@ def process(kerneldir, copy_list_file, git_revision=None,
 
     # write local symbol list -- needed during packaging build
     if not bpid.integrate:
-        f = open(os.path.join(bpid.project_dir, '.local-symbols'), 'w')
+        f = open(os.path.join(bpid.target_dir, '.local-symbols'), 'w')
         for sym in symbols:
             f.write('%s=\n' % sym)
         f.close()
