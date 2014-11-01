@@ -20,9 +20,9 @@ extern void backport_dependency_symbol(void);
 #define BACKPORT_MOD_VERSIONS MODULE_VERSION(BACKPORTS_GIT_TRACKED);
 #else
 #define BACKPORT_MOD_VERSIONS						\
-	MODULE_VERSION("backported from " BACKPORTED_KERNEL_NAME	\
-		       " (" BACKPORTED_KERNEL_VERSION ")"		\
-		       " using backports " BACKPORTS_VERSION);
+	MODULE_VERSION("backported from " CPTCFG_KERNEL_NAME	\
+		       " (" CPTCFG_KERNEL_VERSION ")"		\
+		       " using backports " CPTCFG_VERSION);
 #endif
 
 #ifdef MODULE

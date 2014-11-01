@@ -10,9 +10,9 @@ NOSTDINC_FLAGS := \
 	-I$(M)/include/uapi \
 	-include $(M)/backport-include/backport/backport.h \
 	$(call backport-cc-disable-warning, unused-but-set-variable) \
-	-DBACKPORTS_VERSION=\"$(BACKPORTS_VERSION)\" \
-	-DBACKPORTED_KERNEL_VERSION=\"$(BACKPORTED_KERNEL_VERSION)\" \
-	-DBACKPORTED_KERNEL_NAME=\"$(BACKPORTED_KERNEL_NAME)\" \
+	-DCPTCFG_VERSION=\"$(BACKPORTS_VERSION)\" \
+	-DCPTCFG_KERNEL_VERSION=\"$(BACKPORTED_KERNEL_VERSION)\" \
+	-DCPTCFG_KERNEL_NAME=\"$(BACKPORTED_KERNEL_NAME)\" \
 	$(BACKPORTS_GIT_TRACKER_DEF) \
 	$(CFLAGS)
 
