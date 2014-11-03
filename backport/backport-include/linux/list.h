@@ -17,7 +17,9 @@
 
 #undef hlist_entry_safe
 #define hlist_entry_safe(ptr, type, member) \
-	(ptr) ? hlist_entry(ptr, type, member) : NULL
+	({ typeof(ptr) ____ptr = (ptr); \
+	   ____ptr ? hlist_entry(____ptr, type, member) : NULL; \
+	})
 
 #define hlist_for_each_entry4(tpos, pos, head, member)			\
 	for (pos = (head)->first;					\
