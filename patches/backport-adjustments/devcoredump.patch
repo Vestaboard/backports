@@ -107,7 +107,7 @@ index c0a360e99f64..da20e61f6c06 100644
  #include <linux/vmalloc.h>
  
 -#ifdef CONFIG_DEV_COREDUMP
-+#ifdef CPTCFG_BACKPORT_BUILD_WANT_DEV_COREDUMP
++#ifdef CPTCFG_BPAUTO_WANT_DEV_COREDUMP
  void dev_coredumpv(struct device *dev, const void *data, size_t datalen,
  		   gfp_t gfp);
  
@@ -116,6 +116,6 @@ index c0a360e99f64..da20e61f6c06 100644
  	free(data);
  }
 -#endif /* CONFIG_DEV_COREDUMP */
-+#endif /* CPTCFG_BACKPORT_BUILD_WANT_DEV_COREDUMP */
++#endif /* CPTCFG_BPAUTO_WANT_DEV_COREDUMP */
  
  #endif /* __DEVCOREDUMP_H */

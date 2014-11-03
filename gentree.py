@@ -235,7 +235,7 @@ def add_automatic_backports(args):
     configtree = kconfig.ConfigTree(os.path.join(args.bpid.target_dir, 'Kconfig'), args.bpid)
     all_selects = configtree.all_selects()
     for sym, vals in bpi.items():
-        if sym.startswith('BACKPORT_BUILD_'):
+        if sym.startswith('BPAUTO_BUILD_'):
             if not sym[15:] in all_selects:
                 disable_list.append(sym)
                 continue
