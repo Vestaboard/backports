@@ -861,6 +861,24 @@ def process(kerneldir, copy_list_file, git_revision=None,
             f.write('BACKPORTS_GIT_TRACKED="backport tracker ID: $(shell git rev-parse HEAD 2>/dev/null || echo \'not built in git tree\')"\n')
         f.close()
         git_debug_snapshot(args, "add versions files")
+    else:
+        kconf_regexes = [
+                (re.compile(r'.*(?P<key>%%BACKPORT_DIR%%)'), '%%BACKPORT_DIR%%', 'backports/'),
+                (re.compile(r'.*(?P<key>%%BACKPORTS_VERSION%%).*'), '%%BACKPORTS_VERSION%%', backports_version),
+                (re.compile(r'.*(?P<key>%%BACKPORTED_KERNEL_VERSION%%).*'), '%%BACKPORTED_KERNEL_VERSION%%', kernel_version),
+                (re.compile(r'.*(?P<key>%%BACKPORTED_KERNEL_NAME%%).*'), '%%BACKPORTED_KERNEL_NAME%%', args.base_name),
+        ]
+        out = ''
+        for l in open(os.path.join(bpid.target_dir, 'Kconfig'), 'r'):
+            for r in kconf_regexes:
+                m = r[0].match(l)
+                if m:
+                    l = re.sub(r'(' + r[1] + ')', r'' + r[2] + '', l)
+            out += l
+        outf = open(os.path.join(bpid.target_dir, 'Kconfig'), 'w')
+        outf.write(out)
+        outf.close()
+        git_debug_snapshot(args, "modify top level backports/Kconfig with backports identity")
 
     if disable_list:
         # No need to verify_sources() as compat's Kconfig has no 'source' call
