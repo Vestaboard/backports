@@ -93,7 +93,7 @@ mrproper:
 		print=0									;\
 		for v in $$kvers ; do							\
 			if [ "$$print" = "1" ] ; then					\
-				echo config BACKPORT_KERNEL_$$(echo $$v | tr . _)	;\
+				echo config KERNEL_$$(echo $$v | tr . _)	;\
 				echo "    def_bool y"					;\
 			fi								;\
 			if [ "$$v" = "$$kver" ] ; then print=1 ; fi			;\

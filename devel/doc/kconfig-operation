@@ -53,12 +53,12 @@ The second file (Kconfig.versions) is generated from just the version of
 the kernel and also contains invisible and unselectable boolean options
 like
 
-config BACKPORT_KERNEL_X
+config KERNEL_X
     def_bool y
 
 to indicate that APIs introduced in kernel version X (e.g. 3_3 for 3.3
 or 2_6_24 for 2.6.24) must be backported. Essentially, the presence of
-a symbol BACKPORT_KERNEL_X indicates that the kernel that the code is
+a symbol KERNEL_X indicates that the kernel that the code is
 being compiled against is older than X.
 
 All together, this allows the correct options to be selected by the user.
@@ -121,7 +121,7 @@ These are the problems and their solutions:
     requires at least 2.6.29 due to the shash crypto code. This cannot be
     determined easily automatically, so the 'dependencies' file is read
     and options that are listed there are rewritten to include
-        depends on !BACKPORT_KERNEL_X_Y
+        depends on !KERNEL_X_Y
     (where X_Y is the listed kernel version), which makes them available
     only on kernels >= X.Y.
 

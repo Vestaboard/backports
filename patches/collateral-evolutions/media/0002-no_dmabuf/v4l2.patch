@@ -5,7 +5,7 @@
  # Used by drivers that need Videobuf2 modules
  config VIDEOBUF2_CORE
 -	select DMA_SHARED_BUFFER
-+	select DMA_SHARED_BUFFER if !BACKPORT_KERNEL_3_5
++	select DMA_SHARED_BUFFER if !KERNEL_3_5
  	tristate
  
  config VIDEOBUF2_MEMOPS
@@ -14,14 +14,14 @@
  	select VIDEOBUF2_CORE
  	select VIDEOBUF2_MEMOPS
 -	select DMA_SHARED_BUFFER
-+	select DMA_SHARED_BUFFER if !BACKPORT_KERNEL_3_5
++	select DMA_SHARED_BUFFER if !KERNEL_3_5
  
  config VIDEOBUF2_VMALLOC
  	tristate
  	select VIDEOBUF2_CORE
  	select VIDEOBUF2_MEMOPS
 -	select DMA_SHARED_BUFFER
-+	select DMA_SHARED_BUFFER if !BACKPORT_KERNEL_3_5
++	select DMA_SHARED_BUFFER if !KERNEL_3_5
  
  config VIDEOBUF2_DMA_SG
  	tristate

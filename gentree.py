@@ -988,7 +988,7 @@ def process(kerneldir, copy_list_file, git_revision=None,
             elif (dep == "DISABLE"):
                     new.append('BACKPORT_DISABLED_KCONFIG_OPTION')
             else:
-                    new.append('!BACKPORT_KERNEL_%s' % dep.replace('.', '_'))
+                    new.append('!KERNEL_%s' % dep.replace('.', '_'))
         if bpid.integrate:
             deplist[sym] = ["BACKPORT_" + x for x in new]
         else:
