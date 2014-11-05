@@ -921,7 +921,10 @@ def process(kerneldir, outdir, copy_list_file, git_revision=None,
                     new.append('BACKPORT_DISABLED_KCONFIG_OPTION')
             else:
                     new.append('!BACKPORT_KERNEL_%s' % dep.replace('.', '_'))
-        deplist[sym] = new
+        if bpid.integrate:
+            deplist[sym] = ["BACKPORT_" + x for x in new]
+        else:
+            deplist[sym] = new
     configtree.add_dependencies(deplist)
     git_debug_snapshot(args, "add kernel version dependencies")
 
