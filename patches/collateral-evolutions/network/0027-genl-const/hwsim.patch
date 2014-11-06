@@ -1,6 +1,15 @@
 --- a/drivers/net/wireless/mac80211_hwsim.c
 +++ b/drivers/net/wireless/mac80211_hwsim.c
-@@ -2483,7 +2483,7 @@ static int hwsim_destroy_radio_nl(struct
+@@ -490,7 +490,7 @@ enum hwsim_multicast_groups {
+ 	HWSIM_MCGRP_CONFIG,
+ };
+ 
+-static const struct genl_multicast_group hwsim_mcgrps[] = {
++static __genl_const struct genl_multicast_group hwsim_mcgrps[] = {
+ 	[HWSIM_MCGRP_CONFIG] = { .name = "config", },
+ };
+ 
+@@ -2759,7 +2759,7 @@ static int hwsim_del_radio_nl(struct sk_
  }
  
  /* Generic Netlink operations array */
