@@ -731,7 +731,8 @@ def process(kerneldir, outdir, copy_list_file, git_revision=None,
 
     # do the copy
     backport_files = [(x, x) for x in [
-        'Kconfig', 'Makefile', 'Makefile.build', 'Makefile.kernel', '.gitignore',
+        'Kconfig', 'Kconfig.package.hacks',
+        'Makefile', 'Makefile.build', 'Makefile.kernel', '.gitignore',
         'Makefile.real', 'compat/', 'backport-include/', 'kconf/',
         'scripts/', '.blacklist.map',
     ]]
