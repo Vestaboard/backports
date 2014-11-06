@@ -843,6 +843,24 @@ def process(kerneldir, copy_list_file, git_revision=None,
     git_debug_snapshot(args, 'Add driver sources')
 
     disable_list = add_automatic_backports(args)
+    if git_tracked_version:
+        backports_version = "(see git)"
+        kernel_version = "(see git)"
+    else:
+        backports_version = git.describe(tree=source_dir, extra_args=['--long'])
+        kernel_version = git.describe(rev=args.git_revision or 'HEAD',
+                                      tree=args.kerneldir,
+                                      extra_args=['--long'])
+
+    if not bpid.integrate:
+        f = open(os.path.join(bpid.target_dir, 'versions'), 'w')
+        f.write('BACKPORTS_VERSION="%s"\n' % backports_version)
+        f.write('BACKPORTED_KERNEL_VERSION="%s"\n' % kernel_version)
+        f.write('BACKPORTED_KERNEL_NAME="%s"\n' % args.base_name)
+        if git_tracked_version:
+            f.write('BACKPORTS_GIT_TRACKED="backport tracker ID: $(shell git rev-parse HEAD 2>/dev/null || echo \'not built in git tree\')"\n')
+        f.close()
+        git_debug_snapshot(args, "add versions files")
 
     if disable_list:
         # No need to verify_sources() as compat's Kconfig has no 'source' call
@@ -871,24 +889,6 @@ def process(kerneldir, copy_list_file, git_revision=None,
 
     configtree.modify_selects()
     git_debug_snapshot(args, "convert select to depends on")
-
-    # write the versioning file
-    if git_tracked_version:
-        backports_version = "(see git)"
-        kernel_version = "(see git)"
-    else:
-        backports_version = git.describe(tree=source_dir, extra_args=['--long'])
-        kernel_version = git.describe(rev=args.git_revision or 'HEAD',
-                                      tree=args.kerneldir,
-                                      extra_args=['--long'])
-    f = open(os.path.join(bpid.target_dir, 'versions'), 'w')
-    f.write('BACKPORTS_VERSION="%s"\n' % backports_version)
-    f.write('BACKPORTED_KERNEL_VERSION="%s"\n' % kernel_version)
-    f.write('BACKPORTED_KERNEL_NAME="%s"\n' % args.base_name)
-    if git_tracked_version:
-        f.write('BACKPORTS_GIT_TRACKED="backport tracker ID: $(shell git rev-parse HEAD 2>/dev/null || echo \'not built in git tree\')"\n')
-    f.close()
-    git_debug_snapshot(args, "add versions files")
 
     symbols = configtree.symbols()
 
