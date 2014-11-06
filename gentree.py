@@ -288,7 +288,10 @@ def git_debug_init(args):
     """
     if not args.gitdebug:
         return
-    git.init(tree=args.bpid.project_dir)
+    # Git supports re-initialization, although not well documented it can
+    # reset config stuff, lets avoid that if the tree already exists.
+    if not os.path.exists(os.path.join(args.bpid.project_dir, '.git')):
+        git.init(tree=args.bpid.project_dir)
     git.commit_all("Copied backport", tree=args.bpid.project_dir)
 
 
