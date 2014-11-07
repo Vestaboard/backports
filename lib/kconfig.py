@@ -4,7 +4,8 @@
 
 import os, re
 
-src_line = re.compile(r'^\s*source\s+"?(?P<src>[^\s"]*)"?\s*$')
+src_line = re.compile(r'^\s*source\s+"(?P<src>[^\s"]*)"?\s*$')
+src_line_rel = re.compile(r'^\s*source\s+(?P<src>[^\s"]*)"?\s*$')
 tri_line = re.compile(r'^(?P<spc>\s+)tristate')
 bool_line = re.compile(r'^(?P<spc>\s+)bool')
 cfg_line = re.compile(r'^(?P<opt>config|menuconfig)\s+(?P<sym>[^\s]*)')
@@ -12,32 +13,46 @@ sel_line = re.compile(r'^(?P<spc>\s+)select\s+(?P<sym>[^\s]*)\s*$')
 backport_line = re.compile(r'^\s+#(?P<key>[ch]-file|module-name)\s*(?P<name>.*)')
 
 class ConfigTree(object):
-    def __init__(self, rootfile):
-        self.basedir = os.path.dirname(rootfile)
+    def __init__(self, rootfile, bpid):
+        self.bpid = bpid
         self.rootfile = os.path.basename(rootfile)
 
+    def _check_relative_source(self, f, l):
+    #
+    # Although we can support relative kconfig source lines its a lot safer,
+    # clearer to use full paths; it also makes it easier to support / parse and
+    # modify kconfig entries. The kernel also uses full paths anyway but if
+    # a relative path is found we should consider changing that upstream to
+    # streamline usage of full path.
+        m = src_line_rel.match(l)
+        if m:
+            raise Exception('File: %s uses relative kconfig source entries (line: \'%s\'), use full path  with quotes' %
+                            (os.path.join(self.bpid.target_dir, f), l))
     def _walk(self, f):
         yield f
-        for l in open(os.path.join(self.basedir, f), 'r'):
+        for l in open(os.path.join(self.bpid.target_dir, f), 'r'):
             m = src_line.match(l)
-            if m and os.path.exists(os.path.join(self.basedir, m.group('src'))):
+            if m and os.path.exists(os.path.join(self.bpid.target_dir, m.group('src'))):
                 for i in self._walk(m.group('src')):
                     yield i
+            else:
+                self._check_relative_source(f, l)
 
     def _prune_sources(self, f, ignore):
         for nf in self._walk(f):
             out = ''
-            for l in open(os.path.join(self.basedir, nf), 'r'):
+            for l in open(os.path.join(self.bpid.target_dir, nf), 'r'):
                 m = src_line.match(l)
                 if not m:
+                    self._check_relative_source(nf, l)
                     out += l
                     continue
                 src = m.group('src')
-                if src in ignore or os.path.exists(os.path.join(self.basedir, src)):
+                if src in ignore or os.path.exists(os.path.join(self.bpid.target_dir, src)):
                     out += l
                 else:
                     out += '#' + l
-            outf = open(os.path.join(self.basedir, nf), 'w')
+            outf = open(os.path.join(self.bpid.target_dir, nf), 'w')
             outf.write(out)
             outf.close()
 
@@ -47,19 +62,19 @@ class ConfigTree(object):
     def force_tristate_modular(self):
         for nf in self._walk(self.rootfile):
             out = ''
-            for l in open(os.path.join(self.basedir, nf), 'r'):
+            for l in open(os.path.join(self.bpid.target_dir, nf), 'r'):
                 m = tri_line.match(l)
                 out += l
                 if m:
                     out += m.group('spc') + "depends on m\n"
-            outf = open(os.path.join(self.basedir, nf), 'w')
+            outf = open(os.path.join(self.bpid.target_dir, nf), 'w')
             outf.write(out)
             outf.close()
 
     def symbols(self):
         syms = []
         for nf in self._walk(self.rootfile):
-            for l in open(os.path.join(self.basedir, nf), 'r'):
+            for l in open(os.path.join(self.bpid.target_dir, nf), 'r'):
                 m = cfg_line.match(l)
                 if m:
                     syms.append(m.group('sym'))
@@ -68,7 +83,7 @@ class ConfigTree(object):
     def all_selects(self):
         result = []
         for nf in self._walk(self.rootfile):
-            for l in open(os.path.join(self.basedir, nf), 'r'):
+            for l in open(os.path.join(self.bpid.target_dir, nf), 'r'):
                 m = sel_line.match(l)
                 if m:
                     result.append(m.group('sym'))
@@ -78,7 +93,7 @@ class ConfigTree(object):
         syms = self.symbols()
         for nf in self._walk(self.rootfile):
             out = ''
-            for l in open(os.path.join(self.basedir, nf), 'r'):
+            for l in open(os.path.join(self.bpid.target_dir, nf), 'r'):
                 m = sel_line.match(l)
                 if m and not m.group('sym') in syms:
                     if 'BACKPORT_' + m.group('sym') in syms:
@@ -87,32 +102,32 @@ class ConfigTree(object):
                         out += m.group('spc') + "depends on " + m.group('sym') + '\n'
                 else:
                     out += l
-            outf = open(os.path.join(self.basedir, nf), 'w')
+            outf = open(os.path.join(self.bpid.target_dir, nf), 'w')
             outf.write(out)
             outf.close()
 
     def disable_symbols(self, syms):
         for nf in self._walk(self.rootfile):
             out = ''
-            for l in open(os.path.join(self.basedir, nf), 'r'):
+            for l in open(os.path.join(self.bpid.target_dir, nf), 'r'):
                 m = cfg_line.match(l)
                 out += l
                 if m and m.group('sym') in syms:
                     out += "\tdepends on n\n"
-            outf = open(os.path.join(self.basedir, nf), 'w')
+            outf = open(os.path.join(self.bpid.target_dir, nf), 'w')
             outf.write(out)
             outf.close()
 
     def add_dependencies(self, deps):
         for nf in self._walk(self.rootfile):
             out = ''
-            for l in open(os.path.join(self.basedir, nf), 'r'):
+            for l in open(os.path.join(self.bpid.target_dir, nf), 'r'):
                 m = cfg_line.match(l)
                 out += l
                 if m:
                     for dep in deps.get(m.group('sym'), []):
                         out += "\tdepends on %s\n" % dep
-            outf = open(os.path.join(self.basedir, nf), 'w')
+            outf = open(os.path.join(self.bpid.target_dir, nf), 'w')
             outf.write(out)
             outf.close()
 

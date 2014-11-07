@@ -226,7 +226,7 @@ def add_automatic_backports(args):
     disable_list = []
     export = re.compile(r'^EXPORT_SYMBOL(_GPL)?\((?P<sym>[^\)]*)\)')
     bpi = kconfig.get_backport_info(os.path.join(args.bpid.target_dir, 'compat', 'Kconfig'))
-    configtree = kconfig.ConfigTree(os.path.join(args.bpid.target_dir, 'Kconfig'))
+    configtree = kconfig.ConfigTree(os.path.join(args.bpid.target_dir, 'Kconfig'), args.bpid)
     all_selects = configtree.all_selects()
     for sym, vals in bpi.items():
         if sym.startswith('BACKPORT_BUILD_'):
@@ -820,14 +820,14 @@ def process(kerneldir, copy_list_file, git_revision=None,
 
     disable_list = add_automatic_backports(args)
     if disable_list:
-        bpcfg = kconfig.ConfigTree(os.path.join(bpid.target_dir, 'compat', 'Kconfig'))
+        bpcfg = kconfig.ConfigTree(os.path.join(bpid.target_dir, 'compat', 'Kconfig'), bpid)
         bpcfg.disable_symbols(disable_list)
     git_debug_snapshot(args, 'Add automatic backports')
 
     apply_patches(args, "backport", source_dir, 'patches', bpid.target_dir, logwrite)
 
     # some post-processing is required
-    configtree = kconfig.ConfigTree(os.path.join(bpid.target_dir, 'Kconfig'))
+    configtree = kconfig.ConfigTree(os.path.join(bpid.target_dir, 'Kconfig'), bpid)
     orig_symbols = configtree.symbols()
 
     logwrite('Modify Kconfig tree ...')
