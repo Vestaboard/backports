@@ -4,7 +4,6 @@
 
 import os, re
 
-src_line = re.compile(r'^\s*source\s+"(?P<src>[^\s"]*)"?\s*$')
 src_line_rel = re.compile(r'^\s*source\s+(?P<src>[^\s"]*)"?\s*$')
 tri_line = re.compile(r'^(?P<spc>\s+)tristate')
 bool_line = re.compile(r'^(?P<spc>\s+)bool')
@@ -16,6 +15,7 @@ class ConfigTree(object):
     def __init__(self, rootfile, bpid):
         self.bpid = bpid
         self.rootfile = os.path.basename(rootfile)
+        self.src_line = re.compile(r'^\s*source\s+"(?P<src>[^\s"]*)"?\s*$')
 
     def _check_relative_source(self, f, l):
     #
@@ -31,7 +31,7 @@ class ConfigTree(object):
     def _walk(self, f):
         yield f
         for l in open(os.path.join(self.bpid.target_dir, f), 'r'):
-            m = src_line.match(l)
+            m = self.src_line.match(l)
             if m and os.path.exists(os.path.join(self.bpid.target_dir, m.group('src'))):
                 for i in self._walk(m.group('src')):
                     yield i
@@ -42,7 +42,7 @@ class ConfigTree(object):
         for nf in self._walk(f):
             out = ''
             for l in open(os.path.join(self.bpid.target_dir, nf), 'r'):
-                m = src_line.match(l)
+                m = self.src_line.match(l)
                 if not m:
                     self._check_relative_source(nf, l)
                     out += l
