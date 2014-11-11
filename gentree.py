@@ -768,6 +768,7 @@ def process(kerneldir, outdir, copy_list_file, git_revision=None,
 
     # some post-processing is required
     configtree = kconfig.ConfigTree(os.path.join(args.outdir, 'Kconfig'))
+    orig_symbols = configtree.symbols()
     logwrite('Modify Kconfig tree ...')
     configtree.prune_sources(ignore=['Kconfig.kernel', 'Kconfig.versions'])
     git_debug_snapshot(args, "prune Kconfig tree")
@@ -829,7 +830,7 @@ def process(kerneldir, outdir, copy_list_file, git_revision=None,
 
     # rewrite Makefile and source symbols
     regexes = []
-    for some_symbols in [symbols[i:i + 50] for i in range(0, len(symbols), 50)]:
+    for some_symbols in [orig_symbols[i:i + 50] for i in range(0, len(orig_symbols), 50)]:
         r = 'CONFIG_((' + '|'.join([s + '(_MODULE)?' for s in some_symbols]) + ')([^A-Za-z0-9_]|$))'
         regexes.append(re.compile(r, re.MULTILINE))
     for root, dirs, files in os.walk(args.outdir):
