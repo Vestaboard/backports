@@ -1,6 +1,6 @@
 --- a/net/ieee802154/dgram.c
 +++ b/net/ieee802154/dgram.c
-@@ -485,8 +485,13 @@ static int dgram_setsockopt(struct sock
+@@ -481,8 +481,13 @@ static int dgram_setsockopt(struct sock
  		ro->want_ack = !!val;
  		break;
  	case WPAN_SECURITY:
@@ -14,7 +14,7 @@
  			err = -EPERM;
  			break;
  		}
-@@ -509,8 +514,13 @@ static int dgram_setsockopt(struct sock
+@@ -505,8 +510,13 @@ static int dgram_setsockopt(struct sock
  		}
  		break;
  	case WPAN_SECURITY_LEVEL:
