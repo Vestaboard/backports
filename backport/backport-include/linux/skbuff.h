@@ -256,4 +256,13 @@ static inline struct page *dev_alloc_page(void)
 }
 #endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,19,0) */
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,19,0)
+#define skb_copy_datagram_msg LINUX_BACKPORT(skb_copy_datagram_msg)
+static inline int skb_copy_datagram_msg(const struct sk_buff *from, int offset,
+					struct msghdr *msg, int size)
+{
+	return skb_copy_datagram_iovec(from, offset, msg->msg_iov, size);
+}
+#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,19,0) */
+
 #endif /* __BACKPORT_SKBUFF_H */
