@@ -100,8 +100,10 @@ INTEL_IPS 3.2
 
 NFC_MEI_PHY 3.10
 
+# can not backport ieee802154_ptr in struct net_device wich was added in
+# 98a18b6ffc7 "netdevice: add ieee802154_ptr to net_device"
+IEEE802154 3.19
 IEEE802154_MRF24J40 3.5
-IEEE802154 3.1
 IEEE802154_6LOWPAN 3.5
 # needs devm_regmap_init_spi()
 IEEE802154_AT86RF230 3.4
