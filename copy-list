@@ -159,10 +159,11 @@ include/linux/platform_data/camera-rcar.h
 include/linux/of_graph.h
 
 include/net/6lowpan.h
+include/net/cfg802154.h
 include/net/netns/ieee802154_6lowpan.h
 include/net/nl802154.h
 include/net/mac802154.h
-include/net/ieee802154.h
+include/linux/ieee802154.h
 include/net/af_ieee802154.h
 include/linux/nl802154.h
 include/net/ieee802154_netdev.h
