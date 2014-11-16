@@ -194,7 +194,8 @@ static inline void backport_unregister_netdevice_many(struct list_head *head)
 {
 	unregister_netdevice_many(head);
 
-	list_del(head);
+	if (!(head->next == LIST_POISON1 && head->prev == LIST_POISON2))
+		list_del(head);
 }
 #define unregister_netdevice_many LINUX_BACKPORT(unregister_netdevice_many)
 #endif
