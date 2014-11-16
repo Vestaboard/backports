@@ -170,6 +170,7 @@ include/net/ieee802154_netdev.h
 include/net/wpan-phy.h
 include/linux/spi/at86rf230.h
 include/linux/spi/cc2520.h
+net/6lowpan/
 net/ieee802154/
 net/mac802154/
 drivers/net/ieee802154/
