@@ -229,8 +229,8 @@ class ConfigTree(object):
             for l in open(os.path.join(self.bpid.target_dir, nf), 'r'):
                 m = sel_line.match(l)
                 if m and not m.group('sym') in syms:
-                    if 'BACKPORT_' + m.group('sym') in syms:
-                        out += m.group('spc') + "select BACKPORT_" + m.group('sym') + '\n'
+                    if 'BPAUTO_' + m.group('sym') in syms:
+                        out += m.group('spc') + "select BPAUTO_" + m.group('sym') + '\n'
                     else:
                         out += m.group('spc') + "depends on " + m.group('sym') + '\n'
                 else:

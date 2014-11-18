@@ -59,8 +59,15 @@ def handle_commit(args, msg, branch, treename, kernelobjdir, tmpdir, wgitdir, ba
         'GIT_COMMITTER_EMAIL': SCRIPT_GIT_EMAIL,
     })
     try:
-        failure = gentree.process(kernelobjdir, wdir, open(args.copy_list, 'r'),
-                                  git_revision=kernel_rev,
+        bpid = gentree.Bp_Identity(integrate = False,
+                                   kconfig_prefix = 'CPTCFG_',
+                                   project_prefix = '',
+                                   project_dir = wdir,
+                                   target_dir = wdir,
+                                   target_dir_name = '',
+                                   kconfig_source_var = '$BACKPORT_DIR')
+        failure = gentree.process(kernelobjdir, open(args.copy_list, 'r'),
+                                  bpid=bpid, git_revision=kernel_rev,
                                   base_name=tree, logwrite=logwrite,
                                   git_tracked_version=True)
 

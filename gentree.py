@@ -240,7 +240,7 @@ def add_automatic_backports(args):
     all_selects = configtree.all_selects()
     for sym, vals in bpi.items():
         if sym.startswith('BPAUTO_BUILD_'):
-            if not sym[15:] in all_selects:
+            if not sym[13:] in all_selects:
                 disable_list.append(sym)
                 continue
         symtype, module_name, c_files, h_files = vals
