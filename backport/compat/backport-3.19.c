@@ -11,7 +11,8 @@
 #include <linux/sched.h>
 #include <linux/kthread.h>
 #include <linux/export.h>
-
+#include <linux/net.h>
+#include <linux/netdevice.h>
 
 static inline bool is_kthread_should_stop(void)
 {
@@ -77,3 +78,15 @@ int woken_wake_function(wait_queue_t *wait, unsigned mode, int sync, void *key)
 	return default_wake_function(wait, mode, sync, key);
 }
 EXPORT_SYMBOL(woken_wake_function);
+
+#ifdef __BACKPORT_NETDEV_RSS_KEY_FILL
+u8 netdev_rss_key[NETDEV_RSS_KEY_LEN];
+
+void netdev_rss_key_fill(void *buffer, size_t len)
+{
+	BUG_ON(len > sizeof(netdev_rss_key));
+	net_get_random_once(netdev_rss_key, sizeof(netdev_rss_key));
+	memcpy(buffer, netdev_rss_key, len);
+}
+EXPORT_SYMBOL_GPL(netdev_rss_key_fill);
+#endif /* __BACKPORT_NETDEV_RSS_KEY_FILL */
