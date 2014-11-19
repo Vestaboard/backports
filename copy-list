@@ -145,6 +145,7 @@ include/uapi/linux/v4l2-common.h
 include/uapi/linux/v4l2-controls.h
 include/uapi/linux/v4l2-dv-timings.h
 include/uapi/linux/v4l2-mediabus.h
+include/uapi/linux/media-bus-format.h
 include/uapi/linux/v4l2-subdev.h
 include/uapi/linux/videodev2.h
 include/uapi/linux/vsp1.h
