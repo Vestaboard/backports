@@ -28,8 +28,19 @@ VIDEO_RENESAS_VSP1 3.4
 VIDEO_MEM2MEM_DEINTERLACE 3.3
 MEDIA_TUNER_E4000 3.4
 DVB_USB_RTL28XXU 3.4
+
 # missing linux/gpio/consumer.h
+# consumer.h cannot be backported currently, as functions rely
+# on in-kernel functionality (GPIO_DEVRES), we can now backport
+# in-kernel functionality but we'd need to make that depend on
+# integration only and figure out a way to easily split that.
+# This does not seem like a good test desirable test case to
+# start that work with.
 VIDEO_ADV7604 3.13
+I2C_SI4713 3.13
+USB_SI4713 3.13
+PLATFORM_SI4713 3.13
+
 # missing function clk_prepare_enable(), clk_disable_unprepare() and devm_regulator_bulk_get()
 VIDEO_MT9V032 3.3
 VIDEO_S5K6AA 3.3
