@@ -9,7 +9,7 @@
  	[HWSIM_MCGRP_CONFIG] = { .name = "config", },
  };
  
-@@ -2940,7 +2940,7 @@ done:
+@@ -2941,7 +2941,7 @@ done:
  }
  
  /* Generic Netlink operations array */

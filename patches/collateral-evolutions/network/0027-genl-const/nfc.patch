@@ -9,8 +9,8 @@
  	{ .name = NFC_GENL_MCAST_EVENT_NAME, },
  };
  
-@@ -1370,7 +1370,7 @@ static int nfc_genl_se_io(struct sk_buff
- 	return dev->ops->se_io(dev, se_idx, apdu, apdu_len, se_io_cb, ctx);
+@@ -1440,7 +1440,7 @@ static int nfc_genl_se_io(struct sk_buff
+ 	return nfc_se_io(dev, se_idx, apdu, apdu_len, se_io_cb, ctx);
  }
  
 -static const struct genl_ops nfc_genl_ops[] = {

@@ -1,6 +1,6 @@
 --- a/drivers/net/ethernet/intel/igb/igb_main.c
 +++ b/drivers/net/ethernet/intel/igb/igb_main.c
-@@ -198,7 +198,9 @@ static const struct dev_pm_ops igb_pm_op
+@@ -196,7 +196,9 @@ static const struct dev_pm_ops igb_pm_op
  };
  #endif
  static void igb_shutdown(struct pci_dev *);
@@ -10,7 +10,7 @@
  #ifdef CONFIG_IGB_DCA
  static int igb_notify_dca(struct notifier_block *, unsigned long, void *);
  static struct notifier_block dca_notifier = {
-@@ -239,7 +241,9 @@ static struct pci_driver igb_driver = {
+@@ -237,7 +239,9 @@ static struct pci_driver igb_driver = {
  	.driver.pm = &igb_pm_ops,
  #endif
  	.shutdown = igb_shutdown,
@@ -20,7 +20,7 @@
  	.err_handler = &igb_err_handler
  };
  
-@@ -7530,6 +7534,7 @@ static int igb_sriov_reinit(struct pci_d
+@@ -7516,6 +7520,7 @@ static int igb_sriov_reinit(struct pci_d
  	return 0;
  }
  
@@ -28,7 +28,7 @@
  static int igb_pci_disable_sriov(struct pci_dev *dev)
  {
  	int err = igb_disable_sriov(dev);
-@@ -7539,6 +7544,7 @@ static int igb_pci_disable_sriov(struct
+@@ -7525,6 +7530,7 @@ static int igb_pci_disable_sriov(struct
  
  	return err;
  }
@@ -36,7 +36,7 @@
  
  static int igb_pci_enable_sriov(struct pci_dev *dev, int num_vfs)
  {
-@@ -7556,6 +7562,7 @@ out:
+@@ -7542,6 +7548,7 @@ out:
  }
  
  #endif
@@ -44,7 +44,7 @@
  static int igb_pci_sriov_configure(struct pci_dev *dev, int num_vfs)
  {
  #ifdef CONFIG_PCI_IOV
-@@ -7566,6 +7573,7 @@ static int igb_pci_sriov_configure(struc
+@@ -7552,6 +7559,7 @@ static int igb_pci_sriov_configure(struc
  #endif
  	return 0;
  }

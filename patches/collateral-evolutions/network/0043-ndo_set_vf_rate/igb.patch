@@ -12,7 +12,7 @@
  #if LINUX_VERSION_CODE >= KERNEL_VERSION(3,2,0)
  static int igb_ndo_set_vf_spoofchk(struct net_device *netdev, int vf,
  				   bool setting);
-@@ -2107,7 +2111,11 @@ static const struct net_device_ops igb_n
+@@ -2105,7 +2109,11 @@ static const struct net_device_ops igb_n
  	.ndo_vlan_rx_kill_vid	= igb_vlan_rx_kill_vid,
  	.ndo_set_vf_mac		= igb_ndo_set_vf_mac,
  	.ndo_set_vf_vlan	= igb_ndo_set_vf_vlan,
@@ -24,7 +24,7 @@
  #if LINUX_VERSION_CODE >= KERNEL_VERSION(3,2,0)
  	.ndo_set_vf_spoofchk	= igb_ndo_set_vf_spoofchk,
  #endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,2,0) */
-@@ -7863,8 +7871,12 @@ static void igb_check_vf_rate_limit(stru
+@@ -7849,8 +7857,12 @@ static void igb_check_vf_rate_limit(stru
  	}
  }
  
@@ -37,7 +37,7 @@
  {
  	struct igb_adapter *adapter = netdev_priv(netdev);
  	struct e1000_hw *hw = &adapter->hw;
-@@ -7873,6 +7885,7 @@ static int igb_ndo_set_vf_bw(struct net_
+@@ -7859,6 +7871,7 @@ static int igb_ndo_set_vf_bw(struct net_
  	if (hw->mac.type != e1000_82576)
  		return -EOPNOTSUPP;
  
@@ -45,7 +45,7 @@
  	if (min_tx_rate)
  		return -EINVAL;
  
-@@ -7886,7 +7899,17 @@ static int igb_ndo_set_vf_bw(struct net_
+@@ -7872,7 +7885,17 @@ static int igb_ndo_set_vf_bw(struct net_
  	adapter->vf_rate_link_speed = actual_link_speed;
  	adapter->vf_data[vf].tx_rate = (u16)max_tx_rate;
  	igb_set_vf_rate_limit(hw, vf, max_tx_rate, actual_link_speed);
@@ -63,7 +63,7 @@
  	return 0;
  }
  
-@@ -7927,8 +7950,12 @@ static int igb_ndo_get_vf_config(struct
+@@ -7913,8 +7936,12 @@ static int igb_ndo_get_vf_config(struct
  		return -EINVAL;
  	ivi->vf = vf;
  	memcpy(&ivi->mac, adapter->vf_data[vf].vf_mac_addresses, ETH_ALEN);

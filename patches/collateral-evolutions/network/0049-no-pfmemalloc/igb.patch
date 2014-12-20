@@ -2,7 +2,7 @@ diff --git a/drivers/net/ethernet/intel/igb/igb_main.c b/drivers/net/ethernet/in
 index a2d72a8..85d7005 100644
 --- a/drivers/net/ethernet/intel/igb/igb_main.c
 +++ b/drivers/net/ethernet/intel/igb/igb_main.c
-@@ -6573,8 +6573,10 @@ static bool igb_can_reuse_rx_page(struct
+@@ -6567,8 +6567,10 @@ static bool igb_can_reuse_rx_page(struct
  	if (unlikely(page_to_nid(page) != numa_node_id()))
  		return false;
  
@@ -13,7 +13,7 @@ index a2d72a8..85d7005 100644
  
  #if (PAGE_SIZE < 8192)
  	/* if we are only owner of page we can reuse it */
-@@ -6642,8 +6644,12 @@ static bool igb_add_rx_frag(struct igb_r
+@@ -6636,8 +6638,12 @@ static bool igb_add_rx_frag(struct igb_r
  		memcpy(__skb_put(skb, size), va, ALIGN(size, sizeof(long)));
  
  		/* we can reuse buffer as-is, just make sure it is local */
