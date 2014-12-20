@@ -114,4 +114,10 @@ static inline void of_node_put(struct device_node *node) { }
 #endif /* CONFIG_OF */
 #endif /* of_match_ptr */
 
+#ifndef for_each_compatible_node
+#define for_each_compatible_node(dn, type, compatible) \
+	for (dn = of_find_compatible_node(NULL, type, compatible); dn; \
+	     dn = of_find_compatible_node(dn, type, compatible))
+#endif /* for_each_compatible_node */
+
 #endif	/* _COMPAT_LINUX_OF_H */
