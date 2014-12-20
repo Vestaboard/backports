@@ -225,4 +225,13 @@ extern u8 netdev_rss_key[NETDEV_RSS_KEY_LEN];
 void netdev_rss_key_fill(void *buffer, size_t len);
 #endif /* __BACKPORT_NETDEV_RSS_KEY_FILL */
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,19,0)
+#define napi_alloc_skb LINUX_BACKPORT(napi_alloc_skb)
+static inline struct sk_buff *napi_alloc_skb(struct napi_struct *napi,
+					     unsigned int length)
+{
+	return netdev_alloc_skb_ip_align(napi->dev, length);
+}
+#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,19,0) */
+
 #endif /* __BACKPORT_NETDEVICE_H */
