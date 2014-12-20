@@ -1,14 +1,14 @@
 --- a/net/mac80211/tx.c
 +++ b/net/mac80211/tx.c
-@@ -2085,6 +2085,7 @@ netdev_tx_t ieee80211_subif_start_xmit(s
- 		goto fail_rcu;
+@@ -2093,6 +2093,7 @@ static struct sk_buff *ieee80211_build_h
+ 		goto free;
  	}
  
 +#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,3,0))
  	if (unlikely(!multicast && skb->sk &&
  		     skb_shinfo(skb)->tx_flags & SKBTX_WIFI_STATUS)) {
  		struct sk_buff *ack_skb = skb_clone_sk(skb);
-@@ -2106,6 +2107,7 @@ netdev_tx_t ieee80211_subif_start_xmit(s
+@@ -2114,6 +2115,7 @@ static struct sk_buff *ieee80211_build_h
  			}
  		}
  	}

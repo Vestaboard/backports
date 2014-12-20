@@ -55,7 +55,7 @@
  {
  	int err;
  
-@@ -867,17 +898,9 @@ out_undo_base:
+@@ -867,18 +898,9 @@ out_undo_base:
  	goto out;
  }
  
@@ -72,5 +72,6 @@
 -
 -MODULE_LICENSE("GPL");
 -MODULE_DESCRIPTION("Counter with CBC MAC");
--MODULE_ALIAS("ccm_base");
--MODULE_ALIAS("rfc4309");
+-MODULE_ALIAS_CRYPTO("ccm_base");
+-MODULE_ALIAS_CRYPTO("rfc4309");
+-MODULE_ALIAS_CRYPTO("ccm");
