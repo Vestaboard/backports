@@ -18,9 +18,9 @@
  
 -static const struct genl_multicast_group nl80211_mcgrps[] = {
 +static __genl_const struct genl_multicast_group nl80211_mcgrps[] = {
- 	[NL80211_MCGRP_CONFIG] = { .name = "config", },
- 	[NL80211_MCGRP_SCAN] = { .name = "scan", },
- 	[NL80211_MCGRP_REGULATORY] = { .name = "regulatory", },
+ 	[NL80211_MCGRP_CONFIG] = { .name = NL80211_MULTICAST_GROUP_CONFIG },
+ 	[NL80211_MCGRP_SCAN] = { .name = NL80211_MULTICAST_GROUP_SCAN },
+ 	[NL80211_MCGRP_REGULATORY] = { .name = NL80211_MULTICAST_GROUP_REG },
 @@ -9938,7 +9938,7 @@ static int nl80211_tdls_cancel_channel_s
  					 NL80211_FLAG_CHECK_NETDEV_UP)
  #define NL80211_FLAG_CLEAR_SKB		0x20
