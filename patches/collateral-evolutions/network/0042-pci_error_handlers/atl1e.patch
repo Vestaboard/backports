@@ -1,6 +1,6 @@
 --- a/drivers/net/ethernet/atheros/atl1e/atl1e_main.c
 +++ b/drivers/net/ethernet/atheros/atl1e/atl1e_main.c
-@@ -2556,7 +2556,11 @@ static void atl1e_io_resume(struct pci_d
+@@ -2555,7 +2555,11 @@ static void atl1e_io_resume(struct pci_d
  	netif_device_attach(netdev);
  }
  

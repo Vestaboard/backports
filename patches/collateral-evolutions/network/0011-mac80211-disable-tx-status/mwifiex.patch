@@ -1,6 +1,6 @@
 --- a/drivers/net/wireless/mwifiex/main.c
 +++ b/drivers/net/wireless/mwifiex/main.c
-@@ -659,7 +659,9 @@ mwifiex_hard_start_xmit(struct sk_buff *
+@@ -660,7 +660,9 @@ mwifiex_hard_start_xmit(struct sk_buff *
  	struct mwifiex_private *priv = mwifiex_netdev_get_priv(dev);
  	struct sk_buff *new_skb;
  	struct mwifiex_txinfo *tx_info;
@@ -10,7 +10,7 @@
  
  	dev_dbg(priv->adapter->dev, "data: %lu BSS(%d-%d): Data <= kernel\n",
  		jiffies, priv->bss_type, priv->bss_num);
-@@ -700,6 +702,7 @@ mwifiex_hard_start_xmit(struct sk_buff *
+@@ -701,6 +703,7 @@ mwifiex_hard_start_xmit(struct sk_buff *
  	tx_info->bss_type = priv->bss_type;
  	tx_info->pkt_len = skb->len;
  
@@ -18,7 +18,7 @@
  	multicast = is_multicast_ether_addr(skb->data);
  
  	if (unlikely(!multicast && skb->sk &&
-@@ -708,6 +711,7 @@ mwifiex_hard_start_xmit(struct sk_buff *
+@@ -709,6 +712,7 @@ mwifiex_hard_start_xmit(struct sk_buff *
  		skb = mwifiex_clone_skb_for_tx_status(priv,
  						      skb,
  					MWIFIEX_BUF_FLAG_EAPOL_TX_STATUS, NULL);
