@@ -154,6 +154,8 @@ drivers/staging/media/cxd2099/cxd2099.h
 include/uapi/linux/ivtv.h
 include/uapi/linux/meye.h
 
+include/linux/hdmi.h
+
 drivers/media/
 include/linux/platform_data/vsp1.h
 include/linux/platform_data/camera-rcar.h
