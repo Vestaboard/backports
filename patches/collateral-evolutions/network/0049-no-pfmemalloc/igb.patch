@@ -1,28 +1,14 @@
-diff --git a/drivers/net/ethernet/intel/igb/igb_main.c b/drivers/net/ethernet/intel/igb/igb_main.c
-index a2d72a8..85d7005 100644
 --- a/drivers/net/ethernet/intel/igb/igb_main.c
 +++ b/drivers/net/ethernet/intel/igb/igb_main.c
-@@ -6567,8 +6567,10 @@ static bool igb_can_reuse_rx_page(struct
- 	if (unlikely(page_to_nid(page) != numa_node_id()))
- 		return false;
+@@ -6615,7 +6615,11 @@ static void igb_reuse_rx_page(struct igb
  
+ static inline bool igb_page_is_reserved(struct page *page)
+ {
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0)
- 	if (unlikely(page->pfmemalloc))
- 		return false;
-+#endif
- 
- #if (PAGE_SIZE < 8192)
- 	/* if we are only owner of page we can reuse it */
-@@ -6636,8 +6638,12 @@ static bool igb_add_rx_frag(struct igb_r
- 		memcpy(__skb_put(skb, size), va, ALIGN(size, sizeof(long)));
- 
- 		/* we can reuse buffer as-is, just make sure it is local */
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0)
- 		if (likely((page_to_nid(page) == numa_node_id()) &&
- 			   !page->pfmemalloc))
+ 	return (page_to_nid(page) != numa_mem_id()) || page->pfmemalloc;
 +#else
-+		if (likely(page_to_nid(page) == numa_node_id()))
++	return (page_to_nid(page) != numa_mem_id());
 +#endif
- 			return true;
+ }
  
- 		/* this page cannot be reused so discard it */
+ static bool igb_can_reuse_rx_page(struct igb_rx_buffer *rx_buffer,

@@ -45,7 +45,7 @@
  int l2cap_init_sockets(void);
 --- a/net/bluetooth/6lowpan.c
 +++ b/net/bluetooth/6lowpan.c
-@@ -537,11 +537,18 @@ static int send_pkt(struct l2cap_chan *c
+@@ -533,11 +533,18 @@ static int send_pkt(struct l2cap_chan *c
  	 */
  	chan->data = skb;
  
@@ -64,7 +64,7 @@
  
  	err = l2cap_chan_send(chan, &msg, skb->len);
  	if (err > 0) {
-@@ -1052,6 +1059,7 @@ static const struct l2cap_ops bt_6lowpan
+@@ -1048,6 +1055,7 @@ static const struct l2cap_ops bt_6lowpan
  	.suspend		= chan_suspend_cb,
  	.get_sndtimeo		= chan_get_sndtimeo_cb,
  	.alloc_skb		= chan_alloc_skb_cb,
@@ -97,7 +97,7 @@
  static struct l2cap_chan *a2mp_chan_open(struct l2cap_conn *conn, bool locked)
 --- a/net/bluetooth/l2cap_core.c
 +++ b/net/bluetooth/l2cap_core.c
-@@ -2103,7 +2103,12 @@ static inline int l2cap_skbuff_fromiovec
+@@ -2113,7 +2113,12 @@ static inline int l2cap_skbuff_fromiovec
  	struct sk_buff **frag;
  	int sent = 0;
  
@@ -110,7 +110,7 @@
  		return -EFAULT;
  
  	sent += count;
-@@ -2123,8 +2128,13 @@ static inline int l2cap_skbuff_fromiovec
+@@ -2133,8 +2138,13 @@ static inline int l2cap_skbuff_fromiovec
  
  		*frag = tmp;
  
@@ -126,7 +126,7 @@
  		sent += count;
 --- a/net/bluetooth/l2cap_sock.c
 +++ b/net/bluetooth/l2cap_sock.c
-@@ -1336,6 +1336,13 @@ static struct sk_buff *l2cap_sock_alloc_
+@@ -1335,6 +1335,13 @@ static struct sk_buff *l2cap_sock_alloc_
  	return skb;
  }
  
@@ -140,7 +140,7 @@
  static void l2cap_sock_ready_cb(struct l2cap_chan *chan)
  {
  	struct sock *sk = chan->data;
-@@ -1420,6 +1427,7 @@ static const struct l2cap_ops l2cap_chan
+@@ -1419,6 +1426,7 @@ static const struct l2cap_ops l2cap_chan
  	.set_shutdown		= l2cap_sock_set_shutdown_cb,
  	.get_sndtimeo		= l2cap_sock_get_sndtimeo_cb,
  	.alloc_skb		= l2cap_sock_alloc_skb_cb,
@@ -163,7 +163,7 @@
  
  	l2cap_chan_send(chan, &msg, 1 + len);
  
-@@ -2867,6 +2872,7 @@ static const struct l2cap_ops smp_chan_o
+@@ -2871,6 +2876,7 @@ static const struct l2cap_ops smp_chan_o
  	.suspend		= l2cap_chan_no_suspend,
  	.set_shutdown		= l2cap_chan_no_set_shutdown,
  	.get_sndtimeo		= l2cap_chan_no_get_sndtimeo,
@@ -171,7 +171,7 @@
  };
  
  static inline struct l2cap_chan *smp_new_conn_cb(struct l2cap_chan *pchan)
-@@ -2915,6 +2921,7 @@ static const struct l2cap_ops smp_root_c
+@@ -2919,6 +2925,7 @@ static const struct l2cap_ops smp_root_c
  	.resume			= l2cap_chan_no_resume,
  	.set_shutdown		= l2cap_chan_no_set_shutdown,
  	.get_sndtimeo		= l2cap_chan_no_get_sndtimeo,

@@ -1,6 +1,6 @@
 --- a/drivers/net/wireless/ath/ath10k/spectral.c
 +++ b/drivers/net/wireless/ath/ath10k/spectral.c
-@@ -468,7 +468,11 @@ static const struct file_operations fops
+@@ -469,7 +469,11 @@ static const struct file_operations fops
  
  static struct dentry *create_buf_file_handler(const char *filename,
  					      struct dentry *parent,

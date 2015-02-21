@@ -1,6 +1,6 @@
 --- a/drivers/net/wireless/mwifiex/sdio.c
 +++ b/drivers/net/wireless/mwifiex/sdio.c
-@@ -1960,7 +1960,9 @@ static void mwifiex_sdio_card_reset_work
+@@ -1967,7 +1967,9 @@ static void mwifiex_sdio_card_reset_work
  	mmc_remove_host(target);
  	/* 200ms delay is based on experiment with sdhci controller */
  	mdelay(200);

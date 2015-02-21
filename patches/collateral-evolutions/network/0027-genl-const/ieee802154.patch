@@ -1,7 +1,7 @@
 --- a/net/ieee802154/netlink.c
 +++ b/net/ieee802154/netlink.c
-@@ -105,7 +105,7 @@ out:
- 	return -ENOBUFS;
+@@ -97,7 +97,7 @@ int ieee802154_nl_reply(struct sk_buff *
+ 	return genlmsg_reply(msg, info);
  }
  
 -static const struct genl_ops ieee8021154_ops[] = {
@@ -9,7 +9,7 @@
  	/* see nl-phy.c */
  	IEEE802154_DUMP(IEEE802154_LIST_PHY, ieee802154_list_phy,
  			ieee802154_dump_phy),
-@@ -142,7 +142,7 @@ static const struct genl_ops ieee8021154
+@@ -134,7 +134,7 @@ static const struct genl_ops ieee8021154
  		      ieee802154_llsec_del_seclevel),
  };
  
