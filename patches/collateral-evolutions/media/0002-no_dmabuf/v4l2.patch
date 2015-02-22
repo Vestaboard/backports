@@ -225,7 +225,7 @@
  /*********************************************/
  /*         DMABUF ops for exporters          */
  /*********************************************/
-@@ -465,6 +468,7 @@ static struct dma_buf *vb2_dc_get_dmabuf
+@@ -471,6 +474,7 @@ static struct dma_buf *vb2_dc_get_dmabuf
  
  	return dbuf;
  }
@@ -233,7 +233,7 @@
  
  /*********************************************/
  /*       callbacks for USERPTR buffers       */
-@@ -767,6 +771,7 @@ fail_buf:
+@@ -773,6 +777,7 @@ fail_buf:
  	return ERR_PTR(ret);
  }
  
@@ -241,7 +241,7 @@
  /*********************************************/
  /*       callbacks for DMABUF buffers        */
  /*********************************************/
-@@ -877,6 +882,7 @@ static void *vb2_dc_attach_dmabuf(void *
+@@ -883,6 +888,7 @@ static void *vb2_dc_attach_dmabuf(void *
  
  	return buf;
  }
@@ -249,7 +249,7 @@
  
  /*********************************************/
  /*       DMA CONTIG exported functions       */
-@@ -885,7 +891,9 @@ static void *vb2_dc_attach_dmabuf(void *
+@@ -891,7 +897,9 @@ static void *vb2_dc_attach_dmabuf(void *
  const struct vb2_mem_ops vb2_dma_contig_memops = {
  	.alloc		= vb2_dc_alloc,
  	.put		= vb2_dc_put,
@@ -259,7 +259,7 @@
  	.cookie		= vb2_dc_cookie,
  	.vaddr		= vb2_dc_vaddr,
  	.mmap		= vb2_dc_mmap,
-@@ -893,10 +901,12 @@ const struct vb2_mem_ops vb2_dma_contig_
+@@ -899,10 +907,12 @@ const struct vb2_mem_ops vb2_dma_contig_
  	.put_userptr	= vb2_dc_put_userptr,
  	.prepare	= vb2_dc_prepare,
  	.finish		= vb2_dc_finish,
@@ -284,15 +284,15 @@
  };
  
  static void vb2_vmalloc_put(void *buf_priv);
-@@ -215,6 +217,7 @@ static int vb2_vmalloc_mmap(void *buf_pr
- /*         DMABUF ops for exporters          */
- /*********************************************/
+@@ -211,6 +213,7 @@ static int vb2_vmalloc_mmap(void *buf_pr
+ 	return 0;
+ }
  
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,5,0)
- struct vb2_vmalloc_attachment {
- 	struct sg_table sgt;
- 	enum dma_data_direction dma_dir;
-@@ -430,6 +433,7 @@ static void *vb2_vmalloc_attach_dmabuf(v
+ #ifdef CONFIG_HAS_DMA
+ /*********************************************/
+ /*         DMABUF ops for exporters          */
+@@ -439,6 +442,7 @@ static void *vb2_vmalloc_attach_dmabuf(v
  
  	return buf;
  }
@@ -300,13 +300,15 @@
  
  
  const struct vb2_mem_ops vb2_vmalloc_memops = {
-@@ -437,11 +441,13 @@ const struct vb2_mem_ops vb2_vmalloc_mem
+@@ -446,6 +450,7 @@ const struct vb2_mem_ops vb2_vmalloc_mem
  	.put		= vb2_vmalloc_put,
  	.get_userptr	= vb2_vmalloc_get_userptr,
  	.put_userptr	= vb2_vmalloc_put_userptr,
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,5,0)
+ #ifdef CONFIG_HAS_DMA
  	.get_dmabuf	= vb2_vmalloc_get_dmabuf,
- 	.map_dmabuf	= vb2_vmalloc_map_dmabuf,
+ #endif
+@@ -453,6 +458,7 @@ const struct vb2_mem_ops vb2_vmalloc_mem
  	.unmap_dmabuf	= vb2_vmalloc_unmap_dmabuf,
  	.attach_dmabuf	= vb2_vmalloc_attach_dmabuf,
  	.detach_dmabuf	= vb2_vmalloc_detach_dmabuf,
@@ -400,7 +402,7 @@
  
 --- a/drivers/media/platform/coda/coda-common.c
 +++ b/drivers/media/platform/coda/coda-common.c
-@@ -831,7 +831,9 @@ static const struct v4l2_ioctl_ops coda_
+@@ -845,7 +845,9 @@ static const struct v4l2_ioctl_ops coda_
  	.vidioc_querybuf	= v4l2_m2m_ioctl_querybuf,
  
  	.vidioc_qbuf		= coda_qbuf,
@@ -528,7 +530,7 @@
  /*********************************************/
  /*         DMABUF ops for exporters          */
  /*********************************************/
-@@ -695,6 +698,7 @@ static void *vb2_dma_sg_attach_dmabuf(vo
+@@ -701,6 +704,7 @@ static void *vb2_dma_sg_attach_dmabuf(vo
  
  	return buf;
  }
@@ -536,7 +538,7 @@
  
  static void *vb2_dma_sg_cookie(void *buf_priv)
  {
-@@ -713,11 +717,13 @@ const struct vb2_mem_ops vb2_dma_sg_memo
+@@ -719,11 +723,13 @@ const struct vb2_mem_ops vb2_dma_sg_memo
  	.vaddr		= vb2_dma_sg_vaddr,
  	.mmap		= vb2_dma_sg_mmap,
  	.num_users	= vb2_dma_sg_num_users,

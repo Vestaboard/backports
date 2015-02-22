@@ -21,7 +21,7 @@
  	[NL80211_MCGRP_CONFIG] = { .name = NL80211_MULTICAST_GROUP_CONFIG },
  	[NL80211_MCGRP_SCAN] = { .name = NL80211_MULTICAST_GROUP_SCAN },
  	[NL80211_MCGRP_REGULATORY] = { .name = NL80211_MULTICAST_GROUP_REG },
-@@ -10157,7 +10157,7 @@ static int nl80211_tdls_cancel_channel_s
+@@ -10168,7 +10168,7 @@ static int nl80211_tdls_cancel_channel_s
  					 NL80211_FLAG_CHECK_NETDEV_UP)
  #define NL80211_FLAG_CLEAR_SKB		0x20
  
@@ -30,7 +30,7 @@
  			    struct genl_info *info)
  {
  	struct cfg80211_registered_device *rdev;
-@@ -10226,7 +10226,7 @@ static int nl80211_pre_doit(const struct
+@@ -10237,7 +10237,7 @@ static int nl80211_pre_doit(const struct
  	return 0;
  }
  
@@ -39,7 +39,7 @@
  			      struct genl_info *info)
  {
  	if (info->user_ptr[1]) {
-@@ -10255,7 +10255,7 @@ static void nl80211_post_doit(const stru
+@@ -10266,7 +10266,7 @@ static void nl80211_post_doit(const stru
  	}
  }
  

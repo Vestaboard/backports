@@ -9,7 +9,7 @@
  	{ .name = NFC_GENL_MCAST_EVENT_NAME, },
  };
  
-@@ -1442,7 +1442,7 @@ static int nfc_genl_se_io(struct sk_buff
+@@ -1489,7 +1489,7 @@ static int nfc_genl_se_io(struct sk_buff
  	return nfc_se_io(dev, se_idx, apdu, apdu_len, se_io_cb, ctx);
  }
  
