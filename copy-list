@@ -157,7 +157,6 @@ include/uapi/linux/meye.h
 include/linux/hdmi.h
 
 drivers/media/
-include/linux/platform_data/vsp1.h
 include/linux/platform_data/camera-rcar.h
 include/linux/of_graph.h
 
