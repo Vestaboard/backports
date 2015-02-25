@@ -75,9 +75,9 @@
  static unsigned int igb_max_channels(struct igb_adapter *adapter)
  {
 @@ -3061,9 +3082,15 @@ static const struct ethtool_ops igb_etht
+ 	.set_eee		= igb_set_eee,
  	.get_module_info	= igb_get_module_info,
  	.get_module_eeprom	= igb_get_module_eeprom,
- #endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,5,0) */
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,16,0)
  	.get_rxfh_indir_size	= igb_get_rxfh_indir_size,
  	.get_rxfh		= igb_get_rxfh,
