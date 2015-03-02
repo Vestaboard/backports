@@ -69,7 +69,7 @@ def handle_commit(args, msg, branch, treename, kernelobjdir, tmpdir, wgitdir, ba
         failure = gentree.process(kernelobjdir, open(args.copy_list, 'r'),
                                   bpid=bpid, git_revision=kernel_rev,
                                   base_name=tree, logwrite=logwrite,
-                                  git_tracked_version=True)
+                                  verbose=True, git_tracked_version=True)
 
         newline = '\n'
         if failure:
