@@ -31,6 +31,6 @@ so remove the Kconfig options for them.
  	depends on CFG80211
 -	select WEXT_CORE
 +	depends on WEXT_CORE
+ 	default y if CFG80211_WEXT_EXPORT
  	help
  	  Enable this option if you need old userspace for wireless
- 	  extensions with cfg80211-based drivers.
