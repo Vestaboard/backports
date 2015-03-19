@@ -35,4 +35,8 @@ static inline struct net *get_net_ns_by_fd(int fd)
 }
 #endif
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4,1,0)
+#define possible_net_t struct net *
+#endif
+
 #endif	/* _COMPAT_NET_NET_NAMESPACE_H */
