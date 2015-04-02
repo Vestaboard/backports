@@ -29,6 +29,11 @@ VIDEO_MEM2MEM_DEINTERLACE 3.3
 MEDIA_TUNER_E4000 3.4
 DVB_USB_RTL28XXU 3.4
 
+# missing many members in struct regmap_config
+DVB_USB_RTL28XXU 3.8
+DVB_RTL2830 3.8
+DVB_RTL2832 3.8
+
 # missing linux/gpio/consumer.h
 # consumer.h cannot be backported currently, as functions rely
 # on in-kernel functionality (GPIO_DEVRES), we can now backport
