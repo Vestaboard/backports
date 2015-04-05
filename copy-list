@@ -57,6 +57,10 @@ include/linux/bcma/
 drivers/net/wireless/airo.c
 drivers/net/wireless/airo_cs.c
 drivers/net/wireless/airo.h
+drivers/net/wireless/atmel.c
+drivers/net/wireless/atmel_cs.c
+drivers/net/wireless/atmel.h
+drivers/net/wireless/atmel_pci.c
 drivers/net/wireless/b43/
 drivers/net/wireless/b43legacy/
 drivers/net/wireless/brcm80211/
