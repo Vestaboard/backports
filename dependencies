@@ -9,6 +9,10 @@ WL1251_SPI 3.5
 WL1251_SDIO 3.15
 WLCORE_SDIO 3.15
 
+# This driver uses the remove_proc_subtree() function.
+AIRO 3.9
+AIRO_CS 3.9
+
 # Media
 MEDIA_SUPPORT 3.2
 USB_GSPCA_OV534 3.5
