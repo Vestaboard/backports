@@ -1,6 +1,6 @@
 --- a/drivers/media/dvb-core/dvbdev.c
 +++ b/drivers/media/dvb-core/dvbdev.c
-@@ -442,7 +442,11 @@ static int dvb_uevent(struct device *dev
+@@ -584,7 +584,11 @@ static int dvb_uevent(struct device *dev
  	return 0;
  }
  

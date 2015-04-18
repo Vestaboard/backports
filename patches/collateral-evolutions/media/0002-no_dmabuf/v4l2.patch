@@ -498,7 +498,7 @@
  	.vidioc_streamoff	= v4l2_m2m_ioctl_streamoff,
 --- a/drivers/media/usb/au0828/au0828-video.c
 +++ b/drivers/media/usb/au0828/au0828-video.c
-@@ -1678,7 +1678,9 @@ static const struct v4l2_ioctl_ops video
+@@ -1666,7 +1666,9 @@ static const struct v4l2_ioctl_ops video
  	.vidioc_querybuf            = vb2_ioctl_querybuf,
  	.vidioc_qbuf                = vb2_ioctl_qbuf,
  	.vidioc_dqbuf               = vb2_ioctl_dqbuf,

@@ -50,7 +50,7 @@
  	int err = 0;
 --- a/net/bluetooth/hci_sock.c
 +++ b/net/bluetooth/hci_sock.c
-@@ -853,8 +853,13 @@ static void hci_sock_cmsg(struct sock *s
+@@ -906,8 +906,13 @@ static void hci_sock_cmsg(struct sock *s
  	}
  }
  
@@ -64,8 +64,8 @@
  {
  	int noblock = flags & MSG_DONTWAIT;
  	struct sock *sk = sock->sk;
-@@ -901,8 +906,13 @@ static int hci_sock_recvmsg(struct socke
- 	return err ? : copied;
+@@ -1065,8 +1070,13 @@ done:
+ 	return err;
  }
  
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(4,1,0)

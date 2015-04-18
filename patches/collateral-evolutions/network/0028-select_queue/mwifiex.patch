@@ -1,6 +1,6 @@
 --- a/drivers/net/wireless/mwifiex/main.c
 +++ b/drivers/net/wireless/mwifiex/main.c
-@@ -922,9 +922,19 @@ static struct net_device_stats *mwifiex_
+@@ -973,9 +973,19 @@ static struct net_device_stats *mwifiex_
  	return &priv->stats;
  }
  

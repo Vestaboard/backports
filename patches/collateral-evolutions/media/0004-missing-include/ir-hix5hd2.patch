@@ -6,5 +6,5 @@
  #include <media/rc-core.h>
 +#include <linux/of.h>
  
- /* Allow the driver to compile on all architectures */
- #ifndef writel_relaxed
+ #define IR_ENABLE		0x00
+ #define IR_CONFIG		0x04

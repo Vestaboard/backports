@@ -1,6 +1,6 @@
 --- a/drivers/net/ethernet/intel/igb/igb_main.c
 +++ b/drivers/net/ethernet/intel/igb/igb_main.c
-@@ -7572,6 +7572,7 @@ static int igb_sriov_reinit(struct pci_dev *dev)
+@@ -7566,6 +7566,7 @@ static int igb_sriov_reinit(struct pci_d
  	return 0;
  }
  
@@ -8,7 +8,7 @@
  static int igb_pci_disable_sriov(struct pci_dev *dev)
  {
  	int err = igb_disable_sriov(dev);
-@@ -7581,6 +7582,7 @@ static int igb_pci_disable_sriov(struct pci_dev *dev)
+@@ -7575,6 +7576,7 @@ static int igb_pci_disable_sriov(struct
  
  	return err;
  }

@@ -18,17 +18,17 @@
  
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,15,0)
  /* SYSTIM read access for I210/I211 */
- static void igb_ptp_read_i210(struct igb_adapter *adapter, struct timespec *ts)
- {
-@@ -132,6 +133,7 @@ static void igb_ptp_read_i210(struct igb
+ static void igb_ptp_read_i210(struct igb_adapter *adapter,
+ 			      struct timespec64 *ts)
+@@ -133,6 +134,7 @@ static void igb_ptp_read_i210(struct igb
  	ts->tv_sec = sec;
  	ts->tv_nsec = nsec;
  }
 +#endif
  
  static void igb_ptp_write_i210(struct igb_adapter *adapter,
- 			       const struct timespec *ts)
-@@ -264,6 +266,7 @@ static int igb_ptp_adjtime_82576(struct
+ 			       const struct timespec64 *ts)
+@@ -265,6 +267,7 @@ static int igb_ptp_adjtime_82576(struct
  	return 0;
  }
  
@@ -36,39 +36,39 @@
  static int igb_ptp_adjtime_i210(struct ptp_clock_info *ptp, s64 delta)
  {
  	struct igb_adapter *igb = container_of(ptp, struct igb_adapter,
-@@ -281,6 +284,7 @@ static int igb_ptp_adjtime_i210(struct p
+@@ -282,6 +285,7 @@ static int igb_ptp_adjtime_i210(struct p
  
  	return 0;
  }
 +#endif
  
  static int igb_ptp_gettime_82576(struct ptp_clock_info *ptp,
- 				 struct timespec *ts)
-@@ -303,6 +307,7 @@ static int igb_ptp_gettime_82576(struct
+ 				 struct timespec64 *ts)
+@@ -302,6 +306,7 @@ static int igb_ptp_gettime_82576(struct
  	return 0;
  }
  
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,15,0)
  static int igb_ptp_gettime_i210(struct ptp_clock_info *ptp,
- 				struct timespec *ts)
+ 				struct timespec64 *ts)
  {
-@@ -318,6 +323,7 @@ static int igb_ptp_gettime_i210(struct p
+@@ -317,6 +322,7 @@ static int igb_ptp_gettime_i210(struct p
  
  	return 0;
  }
 +#endif
  
  static int igb_ptp_settime_82576(struct ptp_clock_info *ptp,
- 				 const struct timespec *ts)
-@@ -339,6 +345,7 @@ static int igb_ptp_settime_82576(struct
+ 				 const struct timespec64 *ts)
+@@ -337,6 +343,7 @@ static int igb_ptp_settime_82576(struct
  	return 0;
  }
  
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,15,0)
  static int igb_ptp_settime_i210(struct ptp_clock_info *ptp,
- 				const struct timespec *ts)
+ 				const struct timespec64 *ts)
  {
-@@ -567,6 +574,7 @@ static int igb_ptp_feature_enable_i210(s
+@@ -565,6 +572,7 @@ static int igb_ptp_feature_enable_i210(s
  
  	return -EOPNOTSUPP;
  }
@@ -76,7 +76,7 @@
  
  static int igb_ptp_feature_enable(struct ptp_clock_info *ptp,
  				  struct ptp_clock_request *rq, int on)
-@@ -574,6 +582,7 @@ static int igb_ptp_feature_enable(struct
+@@ -572,6 +580,7 @@ static int igb_ptp_feature_enable(struct
  	return -EOPNOTSUPP;
  }
  
@@ -84,7 +84,7 @@
  static int igb_ptp_verify_pin(struct ptp_clock_info *ptp, unsigned int pin,
  			      enum ptp_pin_function func, unsigned int chan)
  {
-@@ -587,6 +596,7 @@ static int igb_ptp_verify_pin(struct ptp
+@@ -585,6 +594,7 @@ static int igb_ptp_verify_pin(struct ptp
  	}
  	return 0;
  }
@@ -92,7 +92,7 @@
  
  /**
   * igb_ptp_tx_work
-@@ -978,7 +988,9 @@ void igb_ptp_init(struct igb_adapter *ad
+@@ -977,7 +987,9 @@ void igb_ptp_init(struct igb_adapter *ad
  {
  	struct e1000_hw *hw = &adapter->hw;
  	struct net_device *netdev = adapter->netdev;
@@ -102,7 +102,7 @@
  
  	switch (hw->mac.type) {
  	case e1000_82576:
-@@ -1019,6 +1031,7 @@ void igb_ptp_init(struct igb_adapter *ad
+@@ -1018,6 +1030,7 @@ void igb_ptp_init(struct igb_adapter *ad
  		/* Enable the timer functions by clearing bit 31. */
  		wr32(E1000_TSAUXC, 0x0);
  		break;
@@ -110,7 +110,7 @@
  	case e1000_i210:
  	case e1000_i211:
  		for (i = 0; i < IGB_N_SDP; i++) {
-@@ -1045,6 +1058,7 @@ void igb_ptp_init(struct igb_adapter *ad
+@@ -1044,6 +1057,7 @@ void igb_ptp_init(struct igb_adapter *ad
  		/* Enable the timer functions by clearing bit 31. */
  		wr32(E1000_TSAUXC, 0x0);
  		break;
@@ -118,13 +118,13 @@
  	default:
  		adapter->ptp_clock = NULL;
  		return;
-@@ -1056,11 +1070,14 @@ void igb_ptp_init(struct igb_adapter *ad
+@@ -1055,11 +1069,14 @@ void igb_ptp_init(struct igb_adapter *ad
  	INIT_WORK(&adapter->ptp_tx_work, igb_ptp_tx_work);
  
  	/* Initialize the clock and overflow work for devices that need it. */
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,15,0)
  	if ((hw->mac.type == e1000_i210) || (hw->mac.type == e1000_i211)) {
- 		struct timespec ts = ktime_to_timespec(ktime_get_real());
+ 		struct timespec64 ts = ktime_to_timespec64(ktime_get_real());
  
  		igb_ptp_settime_i210(&adapter->ptp_caps, &ts);
 -	} else {
