@@ -68,10 +68,12 @@ drv_data_ready(struct sock *sk)
 	...
 }
 
++#if LINUX_VERSION_CODE < KERNEL_VERSION(3,15,0)
 +static void backport_drv_data_ready(struct sock *sk, int unused)
 +{
 +	drv_data_ready(sk);
 +}
++#endif
 
 @ sk_data_ready_assigned_mod_e depends on sk_data_ready_assigned @
 expression E;
