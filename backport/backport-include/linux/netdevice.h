@@ -254,4 +254,10 @@ static inline struct sk_buff *napi_alloc_skb(struct napi_struct *napi,
 #define IFF_TX_SKB_SHARING 0
 #endif
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4,1,0)
+netdev_features_t passthru_features_check(struct sk_buff *skb,
+					  struct net_device *dev,
+					  netdev_features_t features);
+#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(4,1,0) */
+
 #endif /* __BACKPORT_NETDEVICE_H */
