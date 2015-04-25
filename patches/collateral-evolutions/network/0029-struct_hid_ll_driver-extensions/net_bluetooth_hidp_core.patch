@@ -1,6 +1,6 @@
 --- a/net/bluetooth/hidp/core.c
 +++ b/net/bluetooth/hidp/core.c
-@@ -223,6 +223,7 @@ static void hidp_input_report(struct hid
+@@ -224,6 +224,7 @@ static void hidp_input_report(struct hid
  	input_sync(dev);
  }
  
@@ -8,7 +8,7 @@
  static int hidp_get_raw_report(struct hid_device *hid,
  		unsigned char report_number,
  		unsigned char *data, size_t count,
-@@ -395,6 +396,7 @@ static int hidp_raw_request(struct hid_d
+@@ -396,6 +397,7 @@ static int hidp_raw_request(struct hid_d
  		return -EIO;
  	}
  }
@@ -16,7 +16,7 @@
  
  static void hidp_idle_timeout(unsigned long arg)
  {
-@@ -724,8 +726,10 @@ static struct hid_ll_driver hidp_hid_dri
+@@ -725,8 +727,10 @@ static struct hid_ll_driver hidp_hid_dri
  	.stop = hidp_stop,
  	.open  = hidp_open,
  	.close = hidp_close,

@@ -117,7 +117,7 @@
  
  	/*
  	 * Place the busy tests at the end: -EBUSY can be ignored when
-@@ -1454,6 +1462,7 @@ err:
+@@ -1481,6 +1489,7 @@ err:
  	return ret;
  }
  
@@ -125,7 +125,7 @@
  /**
   * __qbuf_dmabuf() - handle qbuf of a DMABUF buffer
   */
-@@ -1572,6 +1581,7 @@ err:
+@@ -1599,6 +1608,7 @@ err:
  
  	return ret;
  }
@@ -133,7 +133,7 @@
  
  /**
   * __enqueue_in_driver() - enqueue a vb2_buffer in driver for processing
-@@ -1634,9 +1644,11 @@ static int __buf_prepare(struct vb2_buff
+@@ -1661,9 +1671,11 @@ static int __buf_prepare(struct vb2_buff
  		ret = __qbuf_userptr(vb, b);
  		up_read(&current->mm->mmap_sem);
  		break;
@@ -145,7 +145,7 @@
  	default:
  		WARN(1, "Invalid queue type\n");
  		ret = -EINVAL;
-@@ -2022,8 +2034,10 @@ EXPORT_SYMBOL_GPL(vb2_wait_for_all_buffe
+@@ -2049,8 +2061,10 @@ EXPORT_SYMBOL_GPL(vb2_wait_for_all_buffe
   */
  static void __vb2_dqbuf(struct vb2_buffer *vb)
  {
@@ -156,7 +156,7 @@
  
  	/* nothing to do if the buffer is already dequeued */
  	if (vb->state == VB2_BUF_STATE_DEQUEUED)
-@@ -2031,6 +2045,7 @@ static void __vb2_dqbuf(struct vb2_buffe
+@@ -2058,6 +2072,7 @@ static void __vb2_dqbuf(struct vb2_buffe
  
  	vb->state = VB2_BUF_STATE_DEQUEUED;
  
@@ -164,7 +164,7 @@
  	/* unmap DMABUF buffer */
  	if (q->memory == V4L2_MEMORY_DMABUF)
  		for (i = 0; i < vb->num_planes; ++i) {
-@@ -2039,6 +2054,7 @@ static void __vb2_dqbuf(struct vb2_buffe
+@@ -2066,6 +2081,7 @@ static void __vb2_dqbuf(struct vb2_buffe
  			call_void_memop(vb, unmap_dmabuf, vb->planes[i].mem_priv);
  			vb->planes[i].dbuf_mapped = 0;
  		}
@@ -172,7 +172,7 @@
  }
  
  static int vb2_internal_dqbuf(struct vb2_queue *q, struct v4l2_buffer *b, bool nonblocking)
-@@ -2345,6 +2361,7 @@ static int __find_plane_by_offset(struct
+@@ -2372,6 +2388,7 @@ static int __find_plane_by_offset(struct
  	return -EINVAL;
  }
  
@@ -180,7 +180,7 @@
  /**
   * vb2_expbuf() - Export a buffer as a file descriptor
   * @q:		videobuf2 queue
-@@ -2422,6 +2439,7 @@ int vb2_expbuf(struct vb2_queue *q, stru
+@@ -2449,6 +2466,7 @@ int vb2_expbuf(struct vb2_queue *q, stru
  	return 0;
  }
  EXPORT_SYMBOL_GPL(vb2_expbuf);
@@ -188,7 +188,7 @@
  
  /**
   * vb2_mmap() - map video buffers into application address space
-@@ -3364,6 +3382,7 @@ int vb2_ioctl_streamoff(struct file *fil
+@@ -3386,6 +3404,7 @@ int vb2_ioctl_streamoff(struct file *fil
  }
  EXPORT_SYMBOL_GPL(vb2_ioctl_streamoff);
  
@@ -196,7 +196,7 @@
  int vb2_ioctl_expbuf(struct file *file, void *priv, struct v4l2_exportbuffer *p)
  {
  	struct video_device *vdev = video_devdata(file);
-@@ -3373,6 +3392,7 @@ int vb2_ioctl_expbuf(struct file *file,
+@@ -3395,6 +3414,7 @@ int vb2_ioctl_expbuf(struct file *file,
  	return vb2_expbuf(vdev->queue, p);
  }
  EXPORT_SYMBOL_GPL(vb2_ioctl_expbuf);
@@ -233,7 +233,7 @@
  
  /*********************************************/
  /*       callbacks for USERPTR buffers       */
-@@ -773,6 +777,7 @@ fail_buf:
+@@ -772,6 +776,7 @@ fail_buf:
  	return ERR_PTR(ret);
  }
  
@@ -241,7 +241,7 @@
  /*********************************************/
  /*       callbacks for DMABUF buffers        */
  /*********************************************/
-@@ -883,6 +888,7 @@ static void *vb2_dc_attach_dmabuf(void *
+@@ -882,6 +887,7 @@ static void *vb2_dc_attach_dmabuf(void *
  
  	return buf;
  }
@@ -249,7 +249,7 @@
  
  /*********************************************/
  /*       DMA CONTIG exported functions       */
-@@ -891,7 +897,9 @@ static void *vb2_dc_attach_dmabuf(void *
+@@ -890,7 +896,9 @@ static void *vb2_dc_attach_dmabuf(void *
  const struct vb2_mem_ops vb2_dma_contig_memops = {
  	.alloc		= vb2_dc_alloc,
  	.put		= vb2_dc_put,
@@ -259,7 +259,7 @@
  	.cookie		= vb2_dc_cookie,
  	.vaddr		= vb2_dc_vaddr,
  	.mmap		= vb2_dc_mmap,
-@@ -899,10 +907,12 @@ const struct vb2_mem_ops vb2_dma_contig_
+@@ -898,10 +906,12 @@ const struct vb2_mem_ops vb2_dma_contig_
  	.put_userptr	= vb2_dc_put_userptr,
  	.prepare	= vb2_dc_prepare,
  	.finish		= vb2_dc_finish,
@@ -367,7 +367,7 @@
  
  	void		*(*vaddr)(void *buf_priv);
  	void		*(*cookie)(void *buf_priv);
-@@ -465,7 +469,9 @@ void vb2_queue_release(struct vb2_queue
+@@ -459,7 +463,9 @@ void vb2_queue_release(struct vb2_queue
  void vb2_queue_error(struct vb2_queue *q);
  
  int vb2_qbuf(struct vb2_queue *q, struct v4l2_buffer *b);
@@ -377,7 +377,7 @@
  int vb2_dqbuf(struct vb2_queue *q, struct v4l2_buffer *b, bool nonblocking);
  
  int vb2_streamon(struct vb2_queue *q, enum v4l2_buf_type type);
-@@ -630,8 +636,10 @@ int vb2_ioctl_qbuf(struct file *file, vo
+@@ -624,8 +630,10 @@ int vb2_ioctl_qbuf(struct file *file, vo
  int vb2_ioctl_dqbuf(struct file *file, void *priv, struct v4l2_buffer *p);
  int vb2_ioctl_streamon(struct file *file, void *priv, enum v4l2_buf_type i);
  int vb2_ioctl_streamoff(struct file *file, void *priv, enum v4l2_buf_type i);
@@ -390,7 +390,7 @@
  
 --- a/drivers/media/platform/am437x/am437x-vpfe.c
 +++ b/drivers/media/platform/am437x/am437x-vpfe.c
-@@ -2266,7 +2266,9 @@ static const struct v4l2_ioctl_ops vpfe_
+@@ -2272,7 +2272,9 @@ static const struct v4l2_ioctl_ops vpfe_
  	.vidioc_querybuf		= vb2_ioctl_querybuf,
  	.vidioc_qbuf			= vb2_ioctl_qbuf,
  	.vidioc_dqbuf			= vb2_ioctl_dqbuf,
@@ -402,7 +402,7 @@
  
 --- a/drivers/media/platform/coda/coda-common.c
 +++ b/drivers/media/platform/coda/coda-common.c
-@@ -845,7 +845,9 @@ static const struct v4l2_ioctl_ops coda_
+@@ -864,7 +864,9 @@ static const struct v4l2_ioctl_ops coda_
  	.vidioc_querybuf	= v4l2_m2m_ioctl_querybuf,
  
  	.vidioc_qbuf		= coda_qbuf,
@@ -474,7 +474,7 @@
  	.vidioc_g_crop			= fimc_m2m_g_crop,
 --- a/drivers/media/platform/vivid/vivid-core.c
 +++ b/drivers/media/platform/vivid/vivid-core.c
-@@ -572,7 +572,9 @@ static const struct v4l2_ioctl_ops vivid
+@@ -573,7 +573,9 @@ static const struct v4l2_ioctl_ops vivid
  	.vidioc_querybuf		= vb2_ioctl_querybuf,
  	.vidioc_qbuf			= vb2_ioctl_qbuf,
  	.vidioc_dqbuf			= vb2_ioctl_dqbuf,
