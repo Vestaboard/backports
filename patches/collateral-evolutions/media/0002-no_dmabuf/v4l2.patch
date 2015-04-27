@@ -188,7 +188,7 @@
  
  /**
   * vb2_mmap() - map video buffers into application address space
-@@ -3364,6 +3382,7 @@ int vb2_ioctl_streamoff(struct file *fil
+@@ -3359,6 +3377,7 @@ int vb2_ioctl_streamoff(struct file *fil
  }
  EXPORT_SYMBOL_GPL(vb2_ioctl_streamoff);
  
@@ -196,7 +196,7 @@
  int vb2_ioctl_expbuf(struct file *file, void *priv, struct v4l2_exportbuffer *p)
  {
  	struct video_device *vdev = video_devdata(file);
-@@ -3373,6 +3392,7 @@ int vb2_ioctl_expbuf(struct file *file,
+@@ -3368,6 +3387,7 @@ int vb2_ioctl_expbuf(struct file *file,
  	return vb2_expbuf(vdev->queue, p);
  }
  EXPORT_SYMBOL_GPL(vb2_ioctl_expbuf);
@@ -225,7 +225,7 @@
  /*********************************************/
  /*         DMABUF ops for exporters          */
  /*********************************************/
-@@ -471,6 +474,7 @@ static struct dma_buf *vb2_dc_get_dmabuf
+@@ -465,6 +468,7 @@ static struct dma_buf *vb2_dc_get_dmabuf
  
  	return dbuf;
  }
@@ -233,7 +233,7 @@
  
  /*********************************************/
  /*       callbacks for USERPTR buffers       */
-@@ -773,6 +777,7 @@ fail_buf:
+@@ -766,6 +770,7 @@ fail_buf:
  	return ERR_PTR(ret);
  }
  
@@ -241,7 +241,7 @@
  /*********************************************/
  /*       callbacks for DMABUF buffers        */
  /*********************************************/
-@@ -883,6 +888,7 @@ static void *vb2_dc_attach_dmabuf(void *
+@@ -876,6 +881,7 @@ static void *vb2_dc_attach_dmabuf(void *
  
  	return buf;
  }
@@ -249,7 +249,7 @@
  
  /*********************************************/
  /*       DMA CONTIG exported functions       */
-@@ -891,7 +897,9 @@ static void *vb2_dc_attach_dmabuf(void *
+@@ -884,7 +890,9 @@ static void *vb2_dc_attach_dmabuf(void *
  const struct vb2_mem_ops vb2_dma_contig_memops = {
  	.alloc		= vb2_dc_alloc,
  	.put		= vb2_dc_put,
@@ -259,7 +259,7 @@
  	.cookie		= vb2_dc_cookie,
  	.vaddr		= vb2_dc_vaddr,
  	.mmap		= vb2_dc_mmap,
-@@ -899,10 +907,12 @@ const struct vb2_mem_ops vb2_dma_contig_
+@@ -892,10 +900,12 @@ const struct vb2_mem_ops vb2_dma_contig_
  	.put_userptr	= vb2_dc_put_userptr,
  	.prepare	= vb2_dc_prepare,
  	.finish		= vb2_dc_finish,
@@ -292,7 +292,7 @@
  #ifdef CONFIG_HAS_DMA
  /*********************************************/
  /*         DMABUF ops for exporters          */
-@@ -439,6 +442,7 @@ static void *vb2_vmalloc_attach_dmabuf(v
+@@ -433,6 +436,7 @@ static void *vb2_vmalloc_attach_dmabuf(v
  
  	return buf;
  }
@@ -300,7 +300,7 @@
  
  
  const struct vb2_mem_ops vb2_vmalloc_memops = {
-@@ -446,6 +450,7 @@ const struct vb2_mem_ops vb2_vmalloc_mem
+@@ -440,6 +444,7 @@ const struct vb2_mem_ops vb2_vmalloc_mem
  	.put		= vb2_vmalloc_put,
  	.get_userptr	= vb2_vmalloc_get_userptr,
  	.put_userptr	= vb2_vmalloc_put_userptr,
@@ -308,7 +308,7 @@
  #ifdef CONFIG_HAS_DMA
  	.get_dmabuf	= vb2_vmalloc_get_dmabuf,
  #endif
-@@ -453,6 +458,7 @@ const struct vb2_mem_ops vb2_vmalloc_mem
+@@ -447,6 +452,7 @@ const struct vb2_mem_ops vb2_vmalloc_mem
  	.unmap_dmabuf	= vb2_vmalloc_unmap_dmabuf,
  	.attach_dmabuf	= vb2_vmalloc_attach_dmabuf,
  	.detach_dmabuf	= vb2_vmalloc_detach_dmabuf,
@@ -530,7 +530,7 @@
  /*********************************************/
  /*         DMABUF ops for exporters          */
  /*********************************************/
-@@ -701,6 +704,7 @@ static void *vb2_dma_sg_attach_dmabuf(vo
+@@ -695,6 +698,7 @@ static void *vb2_dma_sg_attach_dmabuf(vo
  
  	return buf;
  }
@@ -538,7 +538,7 @@
  
  static void *vb2_dma_sg_cookie(void *buf_priv)
  {
-@@ -719,11 +723,13 @@ const struct vb2_mem_ops vb2_dma_sg_memo
+@@ -713,11 +717,13 @@ const struct vb2_mem_ops vb2_dma_sg_memo
  	.vaddr		= vb2_dma_sg_vaddr,
  	.mmap		= vb2_dma_sg_mmap,
  	.num_users	= vb2_dma_sg_num_users,
