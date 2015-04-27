@@ -78,6 +78,8 @@ class Req:
             sys.stdout.write("You are using for version: %s\n" % stdout.split()[version_pos])
             sys.stdout.write("Specifically your idx, element: %s\n" % ([[i, x] for i, x in enumerate(stdout.split())][version_pos]))
         return stdout.split()[version_pos]
+
+    MAX_RC = 25
     def __compute_rel_weight(self, rel_specs):
         weight = 0
         extra = 0
@@ -98,7 +100,7 @@ class Req:
                 if (rc == ""):
                     rc = 0
                 else:
-                    rc = int(rc) - 20
+                    rc = int(rc) - (Req.MAX_RC + 1)
                 extra = int(rc)
             else:
                 extra = int(rel_specs['EXTRAVERSION']) + 10
