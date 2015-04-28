@@ -27,23 +27,24 @@ KERNEL_URLS = [
     KPATH + "v3.1.10-precise/linux-headers-3.1.10-030110_3.1.10-030110.201201181135_all.deb",
     KPATH + "v3.2.68-precise/linux-headers-3.2.68-030268_3.2.68-030268.201503061936_all.deb",
     KPATH + "v3.3.8-quantal/linux-headers-3.3.8-030308_3.3.8-030308.201206041356_all.deb",
-    KPATH + "v3.4.106-quantal/linux-headers-3.4.106-0304106_3.4.106-0304106.201502031340_all.deb",
+    KPATH + "v3.4.107-quantal/linux-headers-3.4.107-0304107_3.4.107-0304107.201504210712_all.deb",
     KPATH + "v3.5.7.12-quantal/linux-headers-3.5.7-03050712_3.5.7-03050712.201305111435_all.deb",
     KPATH + "v3.6.11-raring/linux-headers-3.6.11-030611_3.6.11-030611.201212171335_all.deb",
     KPATH + "v3.7.10-raring/linux-headers-3.7.10-030710_3.7.10-030710.201302271235_all.deb",
     KPATH + "v3.8.13-raring/linux-headers-3.8.13-030813_3.8.13-030813.201305111843_all.deb",
     KPATH + "v3.9.11-saucy/linux-headers-3.9.11-030911_3.9.11-030911.201307202035_all.deb",
-    KPATH + "v3.10.73-saucy/linux-headers-3.10.73-031073_3.10.73-031073.201503261540_all.deb",
+    KPATH + "v3.10.75-saucy/linux-headers-3.10.75-031075_3.10.75-031075.201504211105_all.deb",
     KPATH + "v3.11.10-saucy/linux-headers-3.11.10-031110_3.11.10-031110.201311291453_all.deb",
-    KPATH + "v3.12.39-trusty/linux-headers-3.12.39-031239_3.12.39-031239.201503190941_all.deb",
+    KPATH + "v3.12.40-trusty/linux-headers-3.12.40-031240_3.12.40-031240.201504091735_all.deb",
     KPATH + "v3.13.11-trusty/linux-headers-3.13.11-031311_3.13.11-031311.201404222035_all.deb",
-    KPATH + "v3.14.37-utopic/linux-headers-3.14.37-031437_3.14.37-031437.201503261136_all.deb",
+    KPATH + "v3.14.39-utopic/linux-headers-3.14.39-031439_3.14.39-031439.201504211206_all.deb",
     KPATH + "v3.15.10-utopic/linux-headers-3.15.10-031510_3.15.10-031510.201408132333_all.deb",
     KPATH + "v3.16.7-utopic/linux-headers-3.16.7-031607_3.16.7-031607.201410301735_all.deb",
     KPATH + "v3.17.8-vivid/linux-headers-3.17.8-031708_3.17.8-031708.201501081837_all.deb",
-    KPATH + "v3.18.10-vivid/linux-headers-3.18.10-031810_3.18.10-031810.201503241436_all.deb",
-    KPATH + "v3.19.3-vivid/linux-headers-3.19.3-031903_3.19.3-031903.201503261036_all.deb",
-    KPATH + "v4.0-rc6-vivid/linux-headers-4.0.0-040000rc6_4.0.0-040000rc6.201503291935_all.deb"
+    KPATH + "v3.18.12-vivid/linux-headers-3.18.12-031812_3.18.12-031812.201504221338_all.deb",
+    KPATH + "v3.19.5-vivid/linux-headers-3.19.5-031905_3.19.5-031905.201504211114_all.deb",
+    KPATH + "v4.0-vivid/linux-headers-4.0.0-040000_4.0.0-040000.201504121935_all.deb",
+    KPATH + "v4.1-rc1-vivid/linux-headers-4.1.0-040100rc1_4.1.0-040100rc1.201504270235_all.deb"
 ]
 
 NUM_KERNELS=len(KERNEL_URLS)
