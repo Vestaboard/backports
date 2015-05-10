@@ -133,9 +133,9 @@
  
  /**
   * __enqueue_in_driver() - enqueue a vb2_buffer in driver for processing
-@@ -1661,9 +1671,11 @@ static int __buf_prepare(struct vb2_buff
+@@ -1659,9 +1669,11 @@ static int __buf_prepare(struct vb2_buff
+ 	case V4L2_MEMORY_USERPTR:
  		ret = __qbuf_userptr(vb, b);
- 		up_read(&current->mm->mmap_sem);
  		break;
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,5,0)
  	case V4L2_MEMORY_DMABUF:
@@ -145,7 +145,7 @@
  	default:
  		WARN(1, "Invalid queue type\n");
  		ret = -EINVAL;
-@@ -2049,8 +2061,10 @@ EXPORT_SYMBOL_GPL(vb2_wait_for_all_buffe
+@@ -2047,8 +2059,10 @@ EXPORT_SYMBOL_GPL(vb2_wait_for_all_buffe
   */
  static void __vb2_dqbuf(struct vb2_buffer *vb)
  {
@@ -156,7 +156,7 @@
  
  	/* nothing to do if the buffer is already dequeued */
  	if (vb->state == VB2_BUF_STATE_DEQUEUED)
-@@ -2058,6 +2072,7 @@ static void __vb2_dqbuf(struct vb2_buffe
+@@ -2056,6 +2070,7 @@ static void __vb2_dqbuf(struct vb2_buffe
  
  	vb->state = VB2_BUF_STATE_DEQUEUED;
  
@@ -164,7 +164,7 @@
  	/* unmap DMABUF buffer */
  	if (q->memory == V4L2_MEMORY_DMABUF)
  		for (i = 0; i < vb->num_planes; ++i) {
-@@ -2066,6 +2081,7 @@ static void __vb2_dqbuf(struct vb2_buffe
+@@ -2064,6 +2079,7 @@ static void __vb2_dqbuf(struct vb2_buffe
  			call_void_memop(vb, unmap_dmabuf, vb->planes[i].mem_priv);
  			vb->planes[i].dbuf_mapped = 0;
  		}
@@ -172,7 +172,7 @@
  }
  
  static int vb2_internal_dqbuf(struct vb2_queue *q, struct v4l2_buffer *b, bool nonblocking)
-@@ -2372,6 +2388,7 @@ static int __find_plane_by_offset(struct
+@@ -2370,6 +2386,7 @@ static int __find_plane_by_offset(struct
  	return -EINVAL;
  }
  
@@ -180,7 +180,7 @@
  /**
   * vb2_expbuf() - Export a buffer as a file descriptor
   * @q:		videobuf2 queue
-@@ -2449,6 +2466,7 @@ int vb2_expbuf(struct vb2_queue *q, stru
+@@ -2447,6 +2464,7 @@ int vb2_expbuf(struct vb2_queue *q, stru
  	return 0;
  }
  EXPORT_SYMBOL_GPL(vb2_expbuf);
@@ -188,7 +188,7 @@
  
  /**
   * vb2_mmap() - map video buffers into application address space
-@@ -3386,6 +3404,7 @@ int vb2_ioctl_streamoff(struct file *fil
+@@ -3384,6 +3402,7 @@ int vb2_ioctl_streamoff(struct file *fil
  }
  EXPORT_SYMBOL_GPL(vb2_ioctl_streamoff);
  
@@ -196,7 +196,7 @@
  int vb2_ioctl_expbuf(struct file *file, void *priv, struct v4l2_exportbuffer *p)
  {
  	struct video_device *vdev = video_devdata(file);
-@@ -3395,6 +3414,7 @@ int vb2_ioctl_expbuf(struct file *file,
+@@ -3393,6 +3412,7 @@ int vb2_ioctl_expbuf(struct file *file,
  	return vb2_expbuf(vdev->queue, p);
  }
  EXPORT_SYMBOL_GPL(vb2_ioctl_expbuf);
@@ -233,7 +233,7 @@
  
  /*********************************************/
  /*       callbacks for USERPTR buffers       */
-@@ -772,6 +776,7 @@ fail_buf:
+@@ -779,6 +783,7 @@ fail_buf:
  	return ERR_PTR(ret);
  }
  
@@ -241,7 +241,7 @@
  /*********************************************/
  /*       callbacks for DMABUF buffers        */
  /*********************************************/
-@@ -882,6 +887,7 @@ static void *vb2_dc_attach_dmabuf(void *
+@@ -889,6 +894,7 @@ static void *vb2_dc_attach_dmabuf(void *
  
  	return buf;
  }
@@ -249,7 +249,7 @@
  
  /*********************************************/
  /*       DMA CONTIG exported functions       */
-@@ -890,7 +896,9 @@ static void *vb2_dc_attach_dmabuf(void *
+@@ -897,7 +903,9 @@ static void *vb2_dc_attach_dmabuf(void *
  const struct vb2_mem_ops vb2_dma_contig_memops = {
  	.alloc		= vb2_dc_alloc,
  	.put		= vb2_dc_put,
@@ -259,7 +259,7 @@
  	.cookie		= vb2_dc_cookie,
  	.vaddr		= vb2_dc_vaddr,
  	.mmap		= vb2_dc_mmap,
-@@ -898,10 +906,12 @@ const struct vb2_mem_ops vb2_dma_contig_
+@@ -905,10 +913,12 @@ const struct vb2_mem_ops vb2_dma_contig_
  	.put_userptr	= vb2_dc_put_userptr,
  	.prepare	= vb2_dc_prepare,
  	.finish		= vb2_dc_finish,
@@ -284,7 +284,7 @@
  };
  
  static void vb2_vmalloc_put(void *buf_priv);
-@@ -211,6 +213,7 @@ static int vb2_vmalloc_mmap(void *buf_pr
+@@ -215,6 +217,7 @@ static int vb2_vmalloc_mmap(void *buf_pr
  	return 0;
  }
  
@@ -292,7 +292,7 @@
  #ifdef CONFIG_HAS_DMA
  /*********************************************/
  /*         DMABUF ops for exporters          */
-@@ -439,6 +442,7 @@ static void *vb2_vmalloc_attach_dmabuf(v
+@@ -443,6 +446,7 @@ static void *vb2_vmalloc_attach_dmabuf(v
  
  	return buf;
  }
@@ -300,7 +300,7 @@
  
  
  const struct vb2_mem_ops vb2_vmalloc_memops = {
-@@ -446,6 +450,7 @@ const struct vb2_mem_ops vb2_vmalloc_mem
+@@ -450,6 +454,7 @@ const struct vb2_mem_ops vb2_vmalloc_mem
  	.put		= vb2_vmalloc_put,
  	.get_userptr	= vb2_vmalloc_get_userptr,
  	.put_userptr	= vb2_vmalloc_put_userptr,
@@ -308,7 +308,7 @@
  #ifdef CONFIG_HAS_DMA
  	.get_dmabuf	= vb2_vmalloc_get_dmabuf,
  #endif
-@@ -453,6 +458,7 @@ const struct vb2_mem_ops vb2_vmalloc_mem
+@@ -457,6 +462,7 @@ const struct vb2_mem_ops vb2_vmalloc_mem
  	.unmap_dmabuf	= vb2_vmalloc_unmap_dmabuf,
  	.attach_dmabuf	= vb2_vmalloc_attach_dmabuf,
  	.detach_dmabuf	= vb2_vmalloc_detach_dmabuf,
@@ -390,7 +390,7 @@
  
 --- a/drivers/media/platform/am437x/am437x-vpfe.c
 +++ b/drivers/media/platform/am437x/am437x-vpfe.c
-@@ -2272,7 +2272,9 @@ static const struct v4l2_ioctl_ops vpfe_
+@@ -2256,7 +2256,9 @@ static const struct v4l2_ioctl_ops vpfe_
  	.vidioc_querybuf		= vb2_ioctl_querybuf,
  	.vidioc_qbuf			= vb2_ioctl_qbuf,
  	.vidioc_dqbuf			= vb2_ioctl_dqbuf,
@@ -474,7 +474,7 @@
  	.vidioc_g_crop			= fimc_m2m_g_crop,
 --- a/drivers/media/platform/vivid/vivid-core.c
 +++ b/drivers/media/platform/vivid/vivid-core.c
-@@ -573,7 +573,9 @@ static const struct v4l2_ioctl_ops vivid
+@@ -584,7 +584,9 @@ static const struct v4l2_ioctl_ops vivid
  	.vidioc_querybuf		= vb2_ioctl_querybuf,
  	.vidioc_qbuf			= vb2_ioctl_qbuf,
  	.vidioc_dqbuf			= vb2_ioctl_dqbuf,
@@ -486,7 +486,7 @@
  
 --- a/drivers/media/platform/vim2m.c
 +++ b/drivers/media/platform/vim2m.c
-@@ -697,7 +697,9 @@ static const struct v4l2_ioctl_ops vim2m
+@@ -693,7 +693,9 @@ static const struct v4l2_ioctl_ops vim2m
  	.vidioc_querybuf	= v4l2_m2m_ioctl_querybuf,
  	.vidioc_qbuf		= v4l2_m2m_ioctl_qbuf,
  	.vidioc_dqbuf		= v4l2_m2m_ioctl_dqbuf,
@@ -510,7 +510,7 @@
  	.vidioc_g_std               = vidioc_g_std,
 --- a/drivers/media/v4l2-core/videobuf2-dma-sg.c
 +++ b/drivers/media/v4l2-core/videobuf2-dma-sg.c
-@@ -373,9 +373,11 @@ static void *vb2_dma_sg_vaddr(void *buf_
+@@ -379,9 +379,11 @@ static void *vb2_dma_sg_vaddr(void *buf_
  	BUG_ON(!buf);
  
  	if (!buf->vaddr) {
@@ -522,7 +522,7 @@
  			buf->vaddr = vm_map_ram(buf->pages,
  					buf->num_pages, -1, PAGE_KERNEL);
  	}
-@@ -428,6 +430,7 @@ static int vb2_dma_sg_mmap(void *buf_pri
+@@ -434,6 +436,7 @@ static int vb2_dma_sg_mmap(void *buf_pri
  	return 0;
  }
  
@@ -530,7 +530,7 @@
  /*********************************************/
  /*         DMABUF ops for exporters          */
  /*********************************************/
-@@ -701,6 +704,7 @@ static void *vb2_dma_sg_attach_dmabuf(vo
+@@ -707,6 +710,7 @@ static void *vb2_dma_sg_attach_dmabuf(vo
  
  	return buf;
  }
@@ -538,7 +538,7 @@
  
  static void *vb2_dma_sg_cookie(void *buf_priv)
  {
-@@ -719,11 +723,13 @@ const struct vb2_mem_ops vb2_dma_sg_memo
+@@ -725,11 +729,13 @@ const struct vb2_mem_ops vb2_dma_sg_memo
  	.vaddr		= vb2_dma_sg_vaddr,
  	.mmap		= vb2_dma_sg_mmap,
  	.num_users	= vb2_dma_sg_num_users,
