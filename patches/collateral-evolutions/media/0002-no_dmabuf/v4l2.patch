@@ -552,3 +552,39 @@
  	.cookie		= vb2_dma_sg_cookie,
  };
  EXPORT_SYMBOL_GPL(vb2_dma_sg_memops);
+--- a/drivers/media/platform/xilinx/xilinx-dma.c
++++ b/drivers/media/platform/xilinx/xilinx-dma.c
+@@ -628,7 +628,9 @@ static const struct v4l2_ioctl_ops xvip_
+ 	.vidioc_qbuf			= vb2_ioctl_qbuf,
+ 	.vidioc_dqbuf			= vb2_ioctl_dqbuf,
+ 	.vidioc_create_bufs		= vb2_ioctl_create_bufs,
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,5,0)
+ 	.vidioc_expbuf			= vb2_ioctl_expbuf,
++#endif
+ 	.vidioc_streamon		= vb2_ioctl_streamon,
+ 	.vidioc_streamoff		= vb2_ioctl_streamoff,
+ };
+--- a/drivers/media/platform/marvell-ccic/mcam-core.c
++++ b/drivers/media/platform/marvell-ccic/mcam-core.c
+@@ -1586,7 +1586,9 @@ static const struct v4l2_ioctl_ops mcam_
+ 	.vidioc_querybuf	= vb2_ioctl_querybuf,
+ 	.vidioc_qbuf		= vb2_ioctl_qbuf,
+ 	.vidioc_dqbuf		= vb2_ioctl_dqbuf,
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,5,0)
+ 	.vidioc_expbuf		= vb2_ioctl_expbuf,
++#endif
+ 	.vidioc_streamon	= vb2_ioctl_streamon,
+ 	.vidioc_streamoff	= vb2_ioctl_streamoff,
+ 	.vidioc_g_parm		= mcam_vidioc_g_parm,
+--- a/drivers/media/pci/dt3155/dt3155.c
++++ b/drivers/media/pci/dt3155/dt3155.c
+@@ -415,7 +415,9 @@ static const struct v4l2_ioctl_ops dt315
+ 	.vidioc_reqbufs = vb2_ioctl_reqbufs,
+ 	.vidioc_create_bufs = vb2_ioctl_create_bufs,
+ 	.vidioc_querybuf = vb2_ioctl_querybuf,
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,5,0)
+ 	.vidioc_expbuf = vb2_ioctl_expbuf,
++#endif
+ 	.vidioc_qbuf = vb2_ioctl_qbuf,
+ 	.vidioc_dqbuf = vb2_ioctl_dqbuf,
+ 	.vidioc_streamon = vb2_ioctl_streamon,
