@@ -1,6 +1,6 @@
 --- a/net/ieee802154/socket.c
 +++ b/net/ieee802154/socket.c
-@@ -98,12 +98,21 @@ static int ieee802154_sock_release(struc
+@@ -96,12 +96,21 @@ static int ieee802154_sock_release(struc
  	return 0;
  }
  
@@ -22,7 +22,7 @@
  }
  
  static int ieee802154_sock_bind(struct socket *sock, struct sockaddr *uaddr,
-@@ -255,7 +264,12 @@ static int raw_disconnect(struct sock *s
+@@ -253,7 +262,12 @@ static int raw_disconnect(struct sock *s
  	return 0;
  }
  
@@ -35,7 +35,7 @@
  {
  	struct net_device *dev;
  	unsigned int mtu;
-@@ -326,8 +340,13 @@ out:
+@@ -324,8 +338,13 @@ out:
  	return err;
  }
  
@@ -49,7 +49,7 @@
  {
  	size_t copied = 0;
  	int err = -EOPNOTSUPP;
-@@ -614,7 +633,12 @@ static int dgram_disconnect(struct sock
+@@ -612,7 +631,12 @@ static int dgram_disconnect(struct sock
  	return 0;
  }
  
@@ -62,7 +62,7 @@
  {
  	struct net_device *dev;
  	unsigned int mtu;
-@@ -713,8 +737,14 @@ out:
+@@ -711,8 +735,14 @@ out:
  	return err;
  }
  
