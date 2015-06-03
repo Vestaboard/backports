@@ -105,7 +105,7 @@
  static struct l2cap_chan *a2mp_chan_open(struct l2cap_conn *conn, bool locked)
 --- a/net/bluetooth/l2cap_core.c
 +++ b/net/bluetooth/l2cap_core.c
-@@ -2120,7 +2120,12 @@ static inline int l2cap_skbuff_fromiovec
+@@ -2116,7 +2116,12 @@ static inline int l2cap_skbuff_fromiovec
  	struct sk_buff **frag;
  	int sent = 0;
  
@@ -118,7 +118,7 @@
  		return -EFAULT;
  
  	sent += count;
-@@ -2140,8 +2145,13 @@ static inline int l2cap_skbuff_fromiovec
+@@ -2136,8 +2141,13 @@ static inline int l2cap_skbuff_fromiovec
  
  		*frag = tmp;
  
@@ -175,7 +175,7 @@
  
  	l2cap_chan_send(chan, &msg, 1 + len);
  
-@@ -3049,6 +3054,9 @@ static const struct l2cap_ops smp_chan_o
+@@ -3047,6 +3052,9 @@ static const struct l2cap_ops smp_chan_o
  	.suspend		= l2cap_chan_no_suspend,
  	.set_shutdown		= l2cap_chan_no_set_shutdown,
  	.get_sndtimeo		= l2cap_chan_no_get_sndtimeo,
@@ -185,7 +185,7 @@
  };
  
  static inline struct l2cap_chan *smp_new_conn_cb(struct l2cap_chan *pchan)
-@@ -3097,6 +3105,9 @@ static const struct l2cap_ops smp_root_c
+@@ -3095,6 +3103,9 @@ static const struct l2cap_ops smp_root_c
  	.resume			= l2cap_chan_no_resume,
  	.set_shutdown		= l2cap_chan_no_set_shutdown,
  	.get_sndtimeo		= l2cap_chan_no_get_sndtimeo,
