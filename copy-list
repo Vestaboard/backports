@@ -78,6 +78,7 @@ drivers/net/wireless/libertas_tf/
 drivers/net/wireless/ipw2x00/
 drivers/net/wireless/ti/
 drivers/net/wireless/orinoco/
+drivers/net/wireless/mediatek/
 drivers/net/wireless/mwifiex/
 drivers/net/wireless/adm8211.c
 drivers/net/wireless/adm8211.h
