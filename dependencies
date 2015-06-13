@@ -46,6 +46,7 @@ DVB_RTL2832 3.8
 # This does not seem like a good test desirable test case to
 # start that work with.
 VIDEO_ADV7604 3.13
+VIDEO_COBALT 3.13
 
 # missing devm_gpiod_get_optional()
 # this needs devm_gpiod_get_optional() with 3 arguments.
