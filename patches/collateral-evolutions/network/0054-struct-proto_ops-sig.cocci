@@ -126,10 +126,10 @@ send_func(...)
 }
 
 +#if LINUX_VERSION_CODE < KERNEL_VERSION(4,1,0)
-+static int backport_send(struct kiocb *iocb, struct socket *sock,
++static int backport_send(struct kiocb *iocb, struct sock *sk,
 +			  struct msghdr *msg, size_t len)
 +{
-+	return send_func(sock, msg, len);
++	return send_func(sk, msg, len);
 +}
 +#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(4,1,0) */
 
@@ -144,11 +144,11 @@ recv_func(...)
 }
 
 +#if LINUX_VERSION_CODE < KERNEL_VERSION(4,1,0)
-+static int backport_recv(struct kiocb *iocb, struct socket *sock,
++static int backport_recv(struct kiocb *iocb, struct sock *sk,
 +			  struct msghdr *msg, size_t len,
 +			  int noblock, int flags, int *addr_len)
 +{
-+	return recv_func(sock, msg, len, noblock, flags, addr_len);
++	return recv_func(sk, msg, len, noblock, flags, addr_len);
 +}
 +#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(4,1,0) */
 
