@@ -182,6 +182,13 @@ static inline void *devm_kmalloc_array(struct device *dev,
 		return NULL;
 	return devm_kmalloc(dev, n * size, flags);
 }
+
+#define devm_kcalloc LINUX_BACKPORT(devm_kcalloc)
+static inline void *devm_kcalloc(struct device *dev,
+				 size_t n, size_t size, gfp_t flags)
+{
+	return devm_kmalloc_array(dev, n, size, flags);
+}
 #endif
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(3,16,0)
