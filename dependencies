@@ -55,8 +55,6 @@ DVB_SMIPCIE 3.8
 # integration only and figure out a way to easily split that.
 # This does not seem like a good test desirable test case to
 # start that work with.
-VIDEO_ADV7604 3.13
-VIDEO_COBALT 3.13
 
 # missing devm_gpiod_get_optional()
 # this needs devm_gpiod_get_optional() with 3 arguments.
@@ -64,6 +62,8 @@ I2C_SI4713 3.17
 USB_SI4713 3.17
 PLATFORM_SI4713 3.17
 SOC_CAMERA_OV2640 3.17
+VIDEO_ADV7604 3.17
+VIDEO_COBALT 3.17
 
 # missing function clk_prepare_enable(), clk_disable_unprepare() and devm_regulator_bulk_get()
 VIDEO_MT9V032 3.3
