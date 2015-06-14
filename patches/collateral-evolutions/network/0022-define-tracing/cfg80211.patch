@@ -1,8 +1,10 @@
 --- a/net/wireless/trace.c
 +++ b/net/wireless/trace.c
-@@ -1,4 +1,5 @@
+@@ -1,4 +1,7 @@
  #include <linux/module.h>
-+#include "trace.h"
++#if LINUX_VERSION_CODE < KERNEL_VERSION(3,1,0)
++#include <linux/interrupt.h>
++#endif
  
  #ifndef __CHECKER__
  #define CREATE_TRACE_POINTS
