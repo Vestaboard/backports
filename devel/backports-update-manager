@@ -44,7 +44,7 @@ KERNEL_URLS = [
     KPATH + "v3.18.12-vivid/linux-headers-3.18.12-031812_3.18.12-031812.201504221338_all.deb",
     KPATH + "v3.19.5-vivid/linux-headers-3.19.5-031905_3.19.5-031905.201504211114_all.deb",
     KPATH + "v4.0-vivid/linux-headers-4.0.0-040000_4.0.0-040000.201504121935_all.deb",
-    KPATH + "v4.1-rc1-vivid/linux-headers-4.1.0-040100rc1_4.1.0-040100rc1.201504270235_all.deb"
+    KPATH + "v4.1-rc8-unstable/linux-headers-4.1.0-040100rc8_4.1.0-040100rc8.201506150335_all.deb"
 ]
 
 NUM_KERNELS=len(KERNEL_URLS)
