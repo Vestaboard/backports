@@ -8,7 +8,7 @@
 +#include <linux/if_arp.h>
  #include <net/mac80211.h>
  
- 
+ #define MWIFIEX_BSS_COEX_COUNT	     2
 --- a/drivers/net/wireless/mwifiex/sta_rx.c
 +++ b/drivers/net/wireless/mwifiex/sta_rx.c
 @@ -17,7 +17,7 @@
