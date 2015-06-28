@@ -143,6 +143,7 @@ NFC_MEI_PHY 3.10
 
 # missing linux/gpio/consumer.h
 NFC_PN544_I2C 3.13
+NFC_NXP_NCI_I2C 3.13
 
 # can not backport ieee802154_ptr in struct net_device wich was added in
 # 98a18b6ffc7 "netdevice: add ieee802154_ptr to net_device"
