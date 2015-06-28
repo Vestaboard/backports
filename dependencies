@@ -65,6 +65,7 @@ PLATFORM_SI4713 3.17
 SOC_CAMERA_OV2640 3.17
 VIDEO_ADV7604 3.17
 VIDEO_COBALT 3.17
+NFC_PN544_I2C 3.17
 
 # missing function clk_prepare_enable(), clk_disable_unprepare() and devm_regulator_bulk_get()
 VIDEO_MT9V032 3.3
