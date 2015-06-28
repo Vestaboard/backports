@@ -29,4 +29,8 @@ extern void tty_port_tty_hangup(struct tty_port *port, bool check_clocal);
 extern int tty_set_termios(struct tty_struct *tty, struct ktermios *kt);
 #endif /* LINUX_VERSION_CODE < KERNEL_VERSION(4,1,0) */
 
+#ifndef N_NCI
+#define N_NCI		25	/* NFC NCI UART */
+#endif
+
 #endif /* __BACKPORT_LINUX_TTY_H */
