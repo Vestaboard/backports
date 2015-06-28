@@ -160,3 +160,12 @@ config BPAUTO_HDMI
 	default y if VIDEO_ADV7511
 	default y if VIDEO_ADV7604
 	default y if VIDEO_ADV7842
+
+config BPAUTO_FRAME_VECTOR
+	bool
+
+config BPAUTO_BUILD_FRAME_VECTOR
+	bool
+	default n if FRAME_VECTOR
+	default y if BPAUTO_FRAME_VECTOR
+	#c-file mm/frame_vector.c
