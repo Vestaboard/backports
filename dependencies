@@ -110,6 +110,9 @@ MEDIA_TUNER_IT913X 3.4
 VIDEO_CX23885 3.4
 VIDEO_EM28XX_DVB 3.4
 
+# this needs arch_phys_wc_add(), arch_phys_wc_del() and pat_enabled()
+VIDEO_FB_IVTV 4.2
+
 # missing kthread_freezable_should_stop()
 DVB_PT3 3.3
 
