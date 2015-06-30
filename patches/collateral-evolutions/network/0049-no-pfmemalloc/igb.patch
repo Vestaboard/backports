@@ -1,6 +1,6 @@
 --- a/drivers/net/ethernet/intel/igb/igb_main.c
 +++ b/drivers/net/ethernet/intel/igb/igb_main.c
-@@ -6594,7 +6594,11 @@ static void igb_reuse_rx_page(struct igb
+@@ -6596,7 +6596,11 @@ static void igb_reuse_rx_page(struct igb
  
  static inline bool igb_page_is_reserved(struct page *page)
  {
