@@ -9,7 +9,7 @@
  	tristate
  
  config VIDEOBUF2_MEMOPS
-@@ -91,13 +91,13 @@ config VIDEOBUF2_DMA_CONTIG
+@@ -90,13 +90,13 @@ config VIDEOBUF2_DMA_CONTIG
  	depends on HAS_DMA
  	select VIDEOBUF2_CORE
  	select VIDEOBUF2_MEMOPS
@@ -206,7 +206,7 @@
  
 --- a/drivers/media/v4l2-core/videobuf2-dma-contig.c
 +++ b/drivers/media/v4l2-core/videobuf2-dma-contig.c
-@@ -78,8 +78,10 @@ static void *vb2_dc_vaddr(void *buf_priv
+@@ -98,8 +98,10 @@ static void *vb2_dc_vaddr(void *buf_priv
  {
  	struct vb2_dc_buf *buf = buf_priv;
  
@@ -217,7 +217,7 @@
  
  	return buf->vaddr;
  }
-@@ -252,6 +254,7 @@ static int vb2_dc_mmap(void *buf_priv, s
+@@ -272,6 +274,7 @@ static int vb2_dc_mmap(void *buf_priv, s
  }
  #endif /* (LINUX_VERSION_CODE < KERNEL_VERSION(3,9,0)) */
  
@@ -225,7 +225,7 @@
  /*********************************************/
  /*         DMABUF ops for exporters          */
  /*********************************************/
-@@ -424,6 +427,7 @@ static struct sg_table *vb2_dc_get_base_
+@@ -444,6 +447,7 @@ static struct sg_table *vb2_dc_get_base_
  
  	return sgt;
  }
@@ -235,8 +235,8 @@
  {
 --- a/drivers/media/v4l2-core/videobuf2-vmalloc.c
 +++ b/drivers/media/v4l2-core/videobuf2-vmalloc.c
-@@ -28,7 +28,9 @@ struct vb2_vmalloc_buf {
- 	unsigned long			size;
+@@ -30,7 +30,9 @@ struct vb2_vmalloc_buf {
+ 	unsigned int			n_pages;
  	atomic_t			refcount;
  	struct vb2_vmarea_handler	handler;
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,5,0)
@@ -337,7 +337,7 @@
  		       int nonblocking)
 --- a/drivers/media/v4l2-core/videobuf2-dma-sg.c
 +++ b/drivers/media/v4l2-core/videobuf2-dma-sg.c
-@@ -316,9 +316,11 @@ static void *vb2_dma_sg_vaddr(void *buf_
+@@ -377,9 +377,11 @@ static void *vb2_dma_sg_vaddr(void *buf_
  	BUG_ON(!buf);
  
  	if (!buf->vaddr) {
