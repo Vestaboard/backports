@@ -1,7 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import argparse, os, sys, errno, getopt, re
-import shutil, urllib2
-from urlparse import urljoin
+import shutil
+from urllib.request import urlopen
+from urllib.parse import urljoin
 import tarfile, tempfile
 import fileinput, subprocess
 source_dir = os.path.abspath(os.path.dirname(__file__))
@@ -179,7 +180,7 @@ class backport_kernel_updater:
         sys.stdout.write("** This is a terrible idea. Consider running " \
                          "as a non root.\n")
         if not self.force:
-            answer = raw_input("Do you still want to continue (y/N)? ")
+            answer = input("Do you still want to continue (y/N)? ")
             if answer != "y":
                 sys.exit(1)
     def warn_size_reqs_about(self):
@@ -235,7 +236,7 @@ class backport_kernel_updater:
                     sys.stdout.write("%s\n" % (git_tree.get('directory')))
             sys.stdout.write("\n")
     def warn_size_reqs_prompt(self):
-        answer = raw_input("Do you still want to continue (y/N)? ")
+        answer = input("Do you still want to continue (y/N)? ")
         if answer != "y":
             sys.exit(1)
         sys.stdout.write("\n")
@@ -367,10 +368,10 @@ class backport_kernel_updater:
     def wget_url(self, url, dir_target):
         sys.stdout.write('Trying URL:  %s\n' % url)
         target = os.path.join(dir_target, url.split('/')[-1])
-        u = urllib2.urlopen(url)
+        u = urlopen(url)
         f = open(target, 'wb')
         meta = u.info()
-        target_size = int(meta.getheaders("Content-Length")[0])
+        target_size = int(meta.get_all("Content-Length")[0])
         sys.stdout.write('Target path: %s bytes: %s\n' % (target, target_size))
         target_size_now = os.path.getsize(target)
         check = 8192
@@ -387,18 +388,18 @@ class backport_kernel_updater:
                 break
             target_size_now += len(buff)
             f.write(buff)
-            stat = r"%10d  [%3.2f%%]" % (target_size_now, target_size_now * 100. / target_size)
-            stat = stat + chr(8)*(len(stat) + 1)
-            print stat,
+            sys.stdout.write('\r')
+            sys.stdout.write("%10d  [%3.2f%%]" % (target_size_now, target_size_now * 100. / target_size))
+            sys.stdout.flush()
         f.close()
         sys.stdout.write("\n")
     def url_file_chunks_missing(self, url, dir_target):
         target = os.path.join(dir_target, url.split('/')[-1])
         if not os.path.isfile(target):
             return True
-        u = urllib2.urlopen(url)
+        u = urlopen(url)
         meta = u.info()
-        target_size = int(meta.getheaders("Content-Length")[0])
+        target_size = int(meta.get_all("Content-Length")[0])
         target_size_now = os.path.getsize(target)
         if target_size_now < target_size:
             return True
