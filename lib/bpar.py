@@ -7,9 +7,9 @@ class ExecutionError(ArError):
         self.error_code = errcode
 
 def print_data(input_file, out_file, tree=None):
-    cmd = ['ar', 'p', input_file, 'data.tar.gz']
+    cmd = ['ar', 'p', input_file, 'data.tar.gz', 'data.tar.xz']
     process = subprocess.Popen(cmd,
-                               stdout=out_file, stderr=subprocess.STDOUT,
+                               stdout=out_file,
                                close_fds=True, universal_newlines=True, cwd=tree)
     stdout = process.communicate()[0]
     process.wait()
