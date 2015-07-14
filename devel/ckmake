@@ -455,52 +455,58 @@ class kernel_set():
                 return
         self.releases.insert(new_rel['idx'], new_rel)
 
-    def parse_releases(self, target_kranges):
+    def parse_releases(self, target_kranges, args):
         self.target_kranges = target_kranges
-        for dirname, dirnames, filenames in os.walk(modules):
-            rels = []
-            for subdirname in dirnames:
-                specifics = get_rel_spec_ubuntu(subdirname)
-                if (not specifics):
-                    continue
-                base_specs = get_base_spec(specifics)
-                if (not base_specs):
-                    continue
-                rc = False
+        rels = []
+        if args.develdebug:
+            sys.stdout.write("Paths for kernels:\n")
+        for path in os.listdir(os.path.abspath(modules)):
+            full_dir = os.path.abspath(os.path.join(modules, path))
+            if not os.path.isdir(full_dir):
+                continue
+            if args.develdebug:
+                sys.stdout.write("%s\n" % (path))
+            specifics = get_rel_spec_ubuntu(path)
+            if (not specifics):
+                continue
+            base_specs = get_base_spec(specifics)
+            if (not base_specs):
+                continue
+            rc = False
 
-                ver = specifics['VERSION'] + '.' + \
-                    specifics['PATCHLEVEL']
+            ver = specifics['VERSION'] + '.' + \
+                specifics['PATCHLEVEL']
 
-                if ("rc" in subdirname):
-                    rc = True
-                    ver = ver + '-rc' + specifics['EXTRAVERSION']
-                else:
-                    ver = ver + '.' + specifics['SUBLEVEL']
+            if ("rc" in path):
+                rc = True
+                ver = ver + '-rc' + specifics['EXTRAVERSION']
+            else:
+                ver = ver + '.' + specifics['SUBLEVEL']
 
-                get_rel_spec_base(subdirname)
-                rel = dict(name=subdirname,
-                           full_path=dirname + '/' +
-                           subdirname,
-                           version=ver,
-                           is_rc=rc,
-                           ver=specifics['VERSION'],
-                           pat=specifics['PATCHLEVEL'],
-                           sub=specifics['SUBLEVEL'],
-                           ext=specifics['EXTRAVERSION'],
-                           base_weight=compute_rel_weight_base(base_specs),
-                           weight=compute_rel_weight(specifics),
-                           processed=False,
-                           log='',
-                           status=1234)
-                rels.append(rel)
+            get_rel_spec_base(path)
+            rel = dict(name=path,
+                       full_path = full_dir,
+                       version=ver,
+                       is_rc=rc,
+                       ver=specifics['VERSION'],
+                       pat=specifics['PATCHLEVEL'],
+                       sub=specifics['SUBLEVEL'],
+                       ext=specifics['EXTRAVERSION'],
+                       base_weight=compute_rel_weight_base(base_specs),
+                       weight=compute_rel_weight(specifics),
+                       processed=False,
+                       log='',
+                       status=1234)
+            rels.append(rel)
 
-            def relsort(rel):
-                return int(rel['ver']), int(rel['pat']), int(rel['sub'])
-            rels.sort(key=relsort)
-            for rel in rels:
-                rel['idx'] = len(self.releases)
-                self.evaluate_new_rel(rel)
-        self.refresh()
+        def relsort(rel):
+            return int(rel['ver']), int(rel['pat']), int(rel['sub'])
+        rels.sort(key=relsort)
+        for rel in rels:
+            rel['idx'] = len(self.releases)
+            self.evaluate_new_rel(rel)
+        if not args.develdebug:
+            self.refresh()
 
     def setup_screen(self):
         for i in range(0, len(self.releases)):
@@ -518,6 +524,16 @@ class kernel_set():
             self.stdscr.addstr(rel['idx'], 30, "[        ]")
             self.stdscr.refresh()
             self.lock.release()
+
+    def setup_screen_debug(self):
+        sys.stdout.write("%-4s" % ("IDX"))
+        sys.stdout.write("%-20s" % ("VERSION"))
+        sys.stdout.write("%-60s\n" % ("DIRECTORY"))
+        for i in range(0, len(self.releases)):
+            rel = self.releases[i]
+            sys.stdout.write("%-4d" % (rel['idx'] + 1))
+            sys.stdout.write("%-20s" % (rel['version']))
+            sys.stdout.write("%-60s\n" % (rel['full_path']))
 
     def create_threads(self, cmdline_args):
         for rel in self.releases:
@@ -552,9 +568,19 @@ class kernel_set():
 def main(stdscr, args, target_kranges):
     kset = kernel_set(stdscr)
 
-    kset.set_locale()
-    kset.parse_releases(target_kranges)
+    if args.develdebug:
+        kill_curses()
+    else:
+        kset.set_locale()
+
+    kset.parse_releases(target_kranges, args)
+
+    if args.develdebug:
+        kset.setup_screen_debug()
+        sys.exit(0)
+
     kset.setup_screen()
+
     kset.create_threads(args)
     kset.kick_threads()
     kset.wait_threads()
@@ -602,6 +628,9 @@ if __name__ == "__main__":
                         help='Build this defconfig rather than only backport code.')
     parser.add_argument('--revs', metavar='<revision-list>', type=str,
                         help='Optional list of kernel revisions to test for, example: 2.6.24,2.6.30,2.6.32..3.2,3.4')
+    parser.add_argument(
+        '--develdebug', const=True, default=False, action="store_const",
+        help='Development debug - use to debug which kernels we are going to process')
     args = parser.parse_args()
 
     target_kranges = []
@@ -624,8 +653,15 @@ if __name__ == "__main__":
         os.remove(ckmake_report)
     if os.path.exists(tmp_path):
         rmtree(tmp_path)
-    os.makedirs(tmp_path)
+
+    if not args.develdebug:
+        os.makedirs(tmp_path)
+
     curses.wrapper(main, args, target_kranges)
+
+    if args.develdebug:
+        sys.exit(ckmake_return)
+
     kill_curses()
     process_logs()
     clean()
