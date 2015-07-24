@@ -46,7 +46,7 @@
  
  struct ccm_instance_ctx {
  	struct crypto_skcipher_spawn ctr;
-@@ -841,7 +872,7 @@ static struct crypto_template crypto_rfc
+@@ -901,7 +932,7 @@ static struct crypto_template crypto_rfc
  	.module = THIS_MODULE,
  };
  
@@ -55,7 +55,7 @@
  {
  	int err;
  
-@@ -867,18 +898,9 @@ out_undo_base:
+@@ -927,18 +958,9 @@ out_undo_base:
  	goto out;
  }
  
