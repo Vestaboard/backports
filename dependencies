@@ -7,6 +7,7 @@ ATL1C 3.5
 WL1251_SPI 3.5
 
 WL1251_SDIO 3.15
+WL1251_SDIO kconfig: CONFIG_WILINK_PLATFORM_DATA
 WLCORE_SDIO 3.15
 
 # This driver uses the remove_proc_subtree() function.
