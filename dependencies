@@ -67,6 +67,9 @@ VIDEO_ADV7604 3.17
 VIDEO_COBALT 3.17
 NFC_PN544_I2C 3.17
 
+# this needs devm_gpiod_get_index() with 4 arguments.
+NFC_NXP_NCI_I2C 3.17
+
 # missing function clk_prepare_enable(), clk_disable_unprepare() and devm_regulator_bulk_get()
 VIDEO_MT9V032 3.3
 VIDEO_S5K6AA 3.3
@@ -144,7 +147,6 @@ NFC_MEI_PHY 3.10
 
 # missing linux/gpio/consumer.h
 NFC_PN544_I2C 3.13
-NFC_NXP_NCI_I2C 3.13
 
 # can not backport ieee802154_ptr in struct net_device wich was added in
 # 98a18b6ffc7 "netdevice: add ieee802154_ptr to net_device"
