@@ -1,6 +1,6 @@
 --- a/drivers/media/rc/rc-main.c
 +++ b/drivers/media/rc/rc-main.c
-@@ -761,7 +761,11 @@ static void ir_close(struct input_dev *i
+@@ -762,7 +762,11 @@ static void ir_close(struct input_dev *i
  }
  
  /* class for /sys/class/rc */

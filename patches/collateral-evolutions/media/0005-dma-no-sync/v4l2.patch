@@ -1,6 +1,6 @@
 --- a/drivers/media/v4l2-core/videobuf2-dma-contig.c
 +++ b/drivers/media/v4l2-core/videobuf2-dma-contig.c
-@@ -570,7 +570,9 @@ static void vb2_dc_put_userptr(void *buf
+@@ -470,7 +470,9 @@ static void vb2_dc_put_userptr(void *buf
  	if (sgt) {
  		DEFINE_DMA_ATTRS(attrs);
  
@@ -10,7 +10,7 @@
  		/*
  		 * No need to sync to CPU, it's already synced to the CPU
  		 * since the finish() memop will have been called before this.
-@@ -635,7 +637,9 @@ static void *vb2_dc_get_userptr(void *al
+@@ -534,7 +536,9 @@ static void *vb2_dc_get_userptr(void *al
  	unsigned long dma_align = dma_get_cache_alignment();
  	DEFINE_DMA_ATTRS(attrs);
  
@@ -42,17 +42,17 @@
  		dprintk(1, "%s: Freeing buffer of %d pages\n", __func__,
  			buf->num_pages);
  		dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
-@@ -242,7 +246,9 @@ static void *vb2_dma_sg_get_userptr(void
- 	struct sg_table *sgt;
+@@ -235,7 +239,9 @@ static void *vb2_dma_sg_get_userptr(void
  	DEFINE_DMA_ATTRS(attrs);
+ 	struct frame_vector *vec;
  
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0) 
  	dma_set_attr(DMA_ATTR_SKIP_CPU_SYNC, &attrs);
 +#endif
- 
  	buf = kzalloc(sizeof *buf, GFP_KERNEL);
  	if (!buf)
-@@ -350,7 +356,9 @@ static void vb2_dma_sg_put_userptr(void
+ 		return NULL;
+@@ -292,7 +298,9 @@ static void vb2_dma_sg_put_userptr(void
  	int i = buf->num_pages;
  	DEFINE_DMA_ATTRS(attrs);
  
