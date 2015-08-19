@@ -172,8 +172,9 @@ def get_blob(blob, outf, tree=None):
         process.wait()
         _check(process)
 
-def clone(gittree, outputdir, options=[]):
-    process = subprocess.Popen(['git', 'clone'] + options + [gittree, outputdir])
+def clone(gittree, outputdir, options=[], env=None):
+    process = subprocess.Popen(['git', 'clone'] + options + [gittree, outputdir],
+                               env=env)
     process.wait()
     _check(process)
 
@@ -187,9 +188,10 @@ def set_origin(giturl, gitdir):
     process.wait()
     _check(process)
 
-def remote_update(gitdir):
+def remote_update(gitdir, env=None):
     process = subprocess.Popen(['git', 'remote', 'update'],
-                               close_fds=True, universal_newlines=True, cwd=gitdir)
+                               close_fds=True, universal_newlines=True, cwd=gitdir,
+                               env=env)
     process.wait()
     _check(process)
 
@@ -241,9 +243,9 @@ def remove_config(cfg, tree=None):
     process.wait()
     _check(process)
 
-def ls_remote(branch, tree=None, remote='origin'):
+def ls_remote(branch, tree=None, remote='origin', env=None):
     process = subprocess.Popen(['git', 'ls-remote', '--exit-code', remote, 'refs/heads/' + branch],
-                               stdout=subprocess.PIPE,
+                               stdout=subprocess.PIPE, env=env,
                                close_fds=True, universal_newlines=True, cwd=tree)
     stdout = process.communicate()[0]
     process.wait()

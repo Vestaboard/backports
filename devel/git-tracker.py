@@ -37,13 +37,22 @@ FAIL = 'failed'
 SCRIPT_GIT_NAME = 'backports git tracker'
 SCRIPT_GIT_EMAIL = ''
 
+def make_proxy_env(input):
+    env = os.environ.copy()
+    if input:
+        if 'INPUT_HTTP_PROXY' in env:
+            env['http_proxy'] = env['INPUT_HTTP_PROXY']
+        if 'INPUT_HTTPS_PROXY' in env:
+            env['https_proxy'] = env['INPUT_HTTPS_PROXY']
+    return env
 
-def update_cache_objects(gittree, objdir):
+def update_cache_objects(gittree, objdir, input):
+    env = make_proxy_env(input)
     if not os.path.isdir(objdir):
-        git.clone(gittree, objdir, options=['--bare'])
+        git.clone(gittree, objdir, options=['--bare'], env=env)
     else:
         git.set_origin(gittree, objdir)
-        git.remote_update(objdir)
+        git.remote_update(objdir, env=env)
 
 def handle_commit(args, msg, branch, treename, kernelobjdir, tmpdir, wgitdir, backport_rev, kernel_rev,
                   prev_kernel_rev=None, defconfig=None, env={}, commit_failure=True,
@@ -175,11 +184,11 @@ if __name__ == '__main__':
                 defconfig = config.get(tree, 'defconfig')
             branches = [r.strip() for r in config.get(tree, 'branches').split(',')]
 
-            update_cache_objects(input, kernelobjdir)
+            update_cache_objects(input, kernelobjdir, input=True)
 
             wgitref = os.path.join(cachedir, 'backport-' + tree)
 
-            update_cache_objects(output, wgitref)
+            update_cache_objects(output, wgitref, input=False)
 
             for branch in branches:
                 with tempdir.tempdir() as branch_tmpdir:
@@ -189,7 +198,8 @@ if __name__ == '__main__':
                     git.remove_config('core.bare', tree=wgitdir)
                     git.set_origin(output, wgitdir)
 
-                    kernel_head = git.ls_remote(branch, tree=kernelobjdir)
+                    env = make_proxy_env(True)
+                    kernel_head = git.ls_remote(branch, tree=kernelobjdir, env=env)
 
                     backport_author_env = {
                         'GIT_AUTHOR_NAME': SCRIPT_GIT_NAME,
