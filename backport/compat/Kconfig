@@ -73,17 +73,6 @@ config BPAUTO_BUILD_CORDIC
 config BPAUTO_CORDIC
 	bool
 
-config BPAUTO_BUILD_AVERAGE
-	bool
-	depends on !AVERAGE
-	default y if BPAUTO_USERSEL_BUILD_ALL
-	default y if BPAUTO_AVERAGE
-	#h-file linux/average.h
-	#c-file lib/average.c
-
-config BPAUTO_AVERAGE
-	bool
-
 config BPAUTO_MII
 	bool
 
