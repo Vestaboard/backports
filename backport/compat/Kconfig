@@ -53,6 +53,15 @@
 # Variations are obviously possible.
 #
 
+config BP_MODULES
+	option modules
+	bool
+	default MODULES
+
+	help
+	This symbol is necessary for the newer kconf tool, it looks
+	for the "option modules" to control the 'm' state.
+
 config BPAUTO_BUILD_CORDIC
 	tristate
 	depends on !CORDIC
