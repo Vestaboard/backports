@@ -4,6 +4,6 @@ expression E1;
 @@
  return E1
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0)
- || page->pfmemalloc
+ || page_is_pfmemalloc(page)
 +#endif /* if LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0) */
  ;
