@@ -174,3 +174,6 @@ ATH_TRACEPOINTS 3.1
 # to backport that only down to 3.5. For full details refer to backports
 # commit 8cb8816d
 IGB 3.5
+
+# This driver needs mmc_hw_reset() which was added in kernel version 3.2
+MWIFIEX_SDIO 3.2
