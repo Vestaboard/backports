@@ -123,6 +123,7 @@ DVB_PT3 3.3
 
 # missing spi_finalize_current_message() and struct spi_master.transfer_one_message
 USB_MSI2500 3.4
+DVB_NETUP_UNIDVB 3.4
 
 # missing vb2_expbuf()
 SOC_CAMERA 3.5
