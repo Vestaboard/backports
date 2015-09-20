@@ -247,7 +247,7 @@
  static void vb2_vmalloc_put(void *buf_priv);
 --- a/include/media/v4l2-mem2mem.h
 +++ b/include/media/v4l2-mem2mem.h
-@@ -121,8 +121,10 @@ int v4l2_m2m_prepare_buf(struct file *fi
+@@ -125,8 +125,10 @@ int v4l2_m2m_prepare_buf(struct file *fi
  int v4l2_m2m_create_bufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
  			 struct v4l2_create_buffers *create);
  
@@ -258,7 +258,7 @@
  
  int v4l2_m2m_streamon(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
  		      enum v4l2_buf_type type);
-@@ -244,8 +246,10 @@ int v4l2_m2m_ioctl_create_bufs(struct fi
+@@ -264,8 +266,10 @@ int v4l2_m2m_ioctl_create_bufs(struct fi
  				struct v4l2_create_buffers *create);
  int v4l2_m2m_ioctl_querybuf(struct file *file, void *fh,
  				struct v4l2_buffer *buf);
@@ -296,7 +296,7 @@
  
  	void		*(*vaddr)(void *buf_priv);
  	void		*(*cookie)(void *buf_priv);
-@@ -465,7 +469,9 @@ void vb2_queue_release(struct vb2_queue
+@@ -467,7 +471,9 @@ void vb2_queue_release(struct vb2_queue
  void vb2_queue_error(struct vb2_queue *q);
  
  int vb2_qbuf(struct vb2_queue *q, struct v4l2_buffer *b);
@@ -306,7 +306,7 @@
  int vb2_dqbuf(struct vb2_queue *q, struct v4l2_buffer *b, bool nonblocking);
  
  int vb2_streamon(struct vb2_queue *q, enum v4l2_buf_type type);
-@@ -639,8 +645,10 @@ int vb2_ioctl_qbuf(struct file *file, vo
+@@ -641,8 +647,10 @@ int vb2_ioctl_qbuf(struct file *file, vo
  int vb2_ioctl_dqbuf(struct file *file, void *priv, struct v4l2_buffer *p);
  int vb2_ioctl_streamon(struct file *file, void *priv, enum v4l2_buf_type i);
  int vb2_ioctl_streamoff(struct file *file, void *priv, enum v4l2_buf_type i);
