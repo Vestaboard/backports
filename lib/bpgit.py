@@ -15,8 +15,7 @@ def _check(process):
 _sha_re = re.compile('^[0-9a-fA-F]*$')
 
 def rev_parse(rev='HEAD', tree=None):
-    process = subprocess.Popen(['git', 'rev-parse', rev],
-                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+    process = subprocess.Popen(['git', 'rev-parse', rev], stdout=subprocess.PIPE,
                                close_fds=True, universal_newlines=True, cwd=tree)
     stdout = process.communicate()[0]
     process.wait()
@@ -30,8 +29,7 @@ def rev_parse(rev='HEAD', tree=None):
 def clean(tree=None):
     cmd = ['git', 'clean', '-f', '-x', '-d', '-q']
 
-    process = subprocess.Popen(cmd,
-                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                                close_fds=True, universal_newlines=True, cwd=tree)
     stdout = process.communicate()[0]
     process.wait()
@@ -56,8 +54,7 @@ def status(tree=None):
     '''
     cmd = ['git', 'status', '--porcelain', '-z']
 
-    process = subprocess.Popen(cmd, stdout=subprocess.PIPE,
-                               stderr=subprocess.STDOUT, close_fds=True,
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, close_fds=True,
                                universal_newlines=True, cwd=tree)
     stdout = process.communicate()[0]
     process.wait()
@@ -89,8 +86,7 @@ def describe(rev='HEAD', tree=None, extra_args=[]):
     if rev is not None:
         cmd.append(rev)
 
-    process = subprocess.Popen(cmd,
-                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                                close_fds=True, universal_newlines=True, cwd=tree)
     stdout = process.communicate()[0]
     process.wait()
@@ -102,8 +98,7 @@ def verify(git_tree):
     tag = describe(rev=None, tree=git_tree, extra_args=['--dirty'])
     cmd = ['git', 'tag', '-v', tag]
 
-    process = subprocess.Popen(cmd,
-                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                                close_fds=True, universal_newlines=True, cwd=git_tree)
     stdout = process.communicate()[0]
     process.wait()
@@ -118,8 +113,7 @@ def paranoia(tree):
     return verify(tree)
 
 def init(tree=None):
-    process = subprocess.Popen(['git', 'init'],
-                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+    process = subprocess.Popen(['git', 'init'], stdout=subprocess.PIPE,
                                close_fds=True, universal_newlines=True, cwd=tree)
     stdout = process.communicate()[0]
     process.wait()
@@ -127,7 +121,7 @@ def init(tree=None):
 
 def add(path, tree=None):
     process = subprocess.Popen(['git', 'add', '--ignore-removal', path],
-                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                               stdout=subprocess.PIPE,
                                close_fds=True, universal_newlines=True, cwd=tree)
     stdout = process.communicate()[0]
     process.wait()
@@ -136,7 +130,7 @@ def add(path, tree=None):
 def commit_all(message, tree=None):
     add('.', tree=tree)
     process = subprocess.Popen(['git', 'commit', '--allow-empty', '-a', '-m', message],
-                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                               stdout=subprocess.PIPE,
                                close_fds=True, universal_newlines=True, cwd=tree)
     stdout = process.communicate()[0]
     process.wait()
@@ -144,7 +138,7 @@ def commit_all(message, tree=None):
 
 def ls_tree(rev, files, tree=None):
     process = subprocess.Popen(['git', 'ls-tree', '-z', '-r', rev, '--', ] + list(files),
-                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                               stdout=subprocess.PIPE,
                                close_fds=True, universal_newlines=True, cwd=tree)
     stdout = process.communicate()[0]
     files = stdout.split('\0')
@@ -201,7 +195,7 @@ def shortlog(from_commit, to_commit, tree=None, files=None):
     else:
         fargs = []
     process = subprocess.Popen(['git', 'shortlog', from_commit + '..' + to_commit] + fargs,
-                               stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                               stdout=subprocess.PIPE,
                                close_fds=True, universal_newlines=True,
                                cwd=tree)
     stdout = process.communicate()[0]
@@ -213,7 +207,7 @@ def commit_env_vars(commitid, tree=None):
     process = subprocess.Popen(['git', 'show', '--name-only',
                                 '--format=format:GIT_AUTHOR_NAME=%an%nGIT_AUTHOR_EMAIL=%ae%nGIT_AUTHOR_DATE=%aD%x00',
                                 commitid],
-                                stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                stdout=subprocess.PIPE,
                                 close_fds=True, universal_newlines=True,
                                 cwd=tree)
     stdout = process.communicate()[0]
@@ -229,7 +223,7 @@ def commit_env_vars(commitid, tree=None):
 def commit_message(commitid, tree=None):
     process = subprocess.Popen(['git', 'show', '--name-only',
                                 '--format=format:%s%n%n%b%x00', commitid],
-                                stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                stdout=subprocess.PIPE,
                                 close_fds=True, universal_newlines=True,
                                 cwd=tree)
     stdout = process.communicate()[0]
@@ -294,7 +288,7 @@ def commit_env_vars(commitid, tree=None):
     process = subprocess.Popen(['git', 'show', '--name-only',
                                 '--format=format:GIT_AUTHOR_NAME=%an%nGIT_AUTHOR_EMAIL=%ae%nGIT_AUTHOR_DATE=%aD%x00',
                                 commitid],
-                                stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                stdout=subprocess.PIPE,
                                 close_fds=True, universal_newlines=True,
                                 cwd=tree)
     stdout = process.communicate()[0]
@@ -322,8 +316,7 @@ def reset(opts=[], tree=None):
 def diff(tree=None, extra_args=None):
     cmd = ['git', 'diff', '--color=always'] + extra_args
 
-    process = subprocess.Popen(cmd,
-                               stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                                close_fds=True, universal_newlines=True, cwd=tree)
     stdout = process.communicate()[0]
     process.wait()
