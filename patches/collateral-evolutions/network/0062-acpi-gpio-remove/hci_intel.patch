@@ -10,7 +10,7 @@
  #include <linux/acpi.h>
  #include <linux/interrupt.h>
  #include <linux/pm_runtime.h>
-@@ -374,7 +376,9 @@ static int intel_set_power(struct hci_ua
+@@ -379,7 +381,9 @@ static int intel_set_power(struct hci_ua
  		BT_INFO("hu %p, Switching compatible pm device (%s) to %u",
  			hu, dev_name(&idev->pdev->dev), powered);
  
@@ -20,7 +20,7 @@
  
  		/* Provide to idev a hu reference which is used to run LPM
  		 * transactions (lpm suspend/resume) from PM callbacks.
-@@ -1322,14 +1326,17 @@ static int intel_probe(struct platform_d
+@@ -1352,14 +1356,17 @@ static int intel_probe(struct platform_d
  		return -ENODEV;
  	}
  
@@ -38,7 +38,7 @@
  	if (idev->irq < 0) {
  		struct gpio_desc *host_wake;
  
-@@ -1348,12 +1355,15 @@ static int intel_probe(struct platform_d
+@@ -1378,12 +1385,15 @@ static int intel_probe(struct platform_d
  			goto no_irq;
  		}
  	}
@@ -54,7 +54,7 @@
  	platform_set_drvdata(pdev, idev);
  
  	/* Place this instance on the device list */
-@@ -1361,8 +1371,10 @@ no_irq:
+@@ -1391,8 +1401,10 @@ no_irq:
  	list_add_tail(&idev->list, &intel_device_list);
  	mutex_unlock(&intel_device_list_lock);
  
