@@ -1,6 +1,6 @@
 --- a/drivers/bluetooth/hci_vhci.c
 +++ b/drivers/bluetooth/hci_vhci.c
-@@ -159,6 +159,7 @@ static int vhci_create_device(struct vhc
+@@ -151,6 +151,7 @@ static int vhci_create_device(struct vhc
  	return 0;
  }
  
@@ -8,7 +8,7 @@
  static inline ssize_t vhci_get_user(struct vhci_data *data,
  				    struct iov_iter *from)
  {
-@@ -166,6 +167,17 @@ static inline ssize_t vhci_get_user(stru
+@@ -158,6 +159,17 @@ static inline ssize_t vhci_get_user(stru
  	struct sk_buff *skb;
  	__u8 pkt_type, opcode;
  	int ret;
@@ -26,7 +26,7 @@
  
  	if (len < 2 || len > HCI_MAX_FRAME_SIZE)
  		return -EINVAL;
-@@ -174,10 +186,20 @@ static inline ssize_t vhci_get_user(stru
+@@ -166,10 +178,20 @@ static inline ssize_t vhci_get_user(stru
  	if (!skb)
  		return -ENOMEM;
  
@@ -47,7 +47,7 @@
  
  	pkt_type = *((__u8 *) skb->data);
  	skb_pull(skb, 1);
-@@ -289,12 +311,21 @@ static ssize_t vhci_read(struct file *fi
+@@ -281,12 +303,21 @@ static ssize_t vhci_read(struct file *fi
  	return ret;
  }
  
@@ -69,7 +69,7 @@
  }
  
  static unsigned int vhci_poll(struct file *file, poll_table *wait)
-@@ -359,7 +390,11 @@ static int vhci_release(struct inode *in
+@@ -351,7 +382,11 @@ static int vhci_release(struct inode *in
  static const struct file_operations vhci_fops = {
  	.owner		= THIS_MODULE,
  	.read		= vhci_read,

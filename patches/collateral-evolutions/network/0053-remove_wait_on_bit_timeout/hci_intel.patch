@@ -86,7 +86,7 @@
  
  	return err;
  }
-@@ -835,6 +887,7 @@ static int intel_setup(struct hci_uart *
+@@ -836,6 +888,7 @@ static int intel_setup(struct hci_uart *
  	 * and thus just timeout if that happens and fail the setup
  	 * of this device.
  	 */
@@ -94,7 +94,7 @@
  	err = wait_on_bit_timeout(&intel->flags, STATE_DOWNLOADING,
  				  TASK_INTERRUPTIBLE,
  				  msecs_to_jiffies(5000));
-@@ -849,6 +902,33 @@ static int intel_setup(struct hci_uart *
+@@ -850,6 +903,33 @@ static int intel_setup(struct hci_uart *
  		err = -ETIMEDOUT;
  		goto done;
  	}
@@ -128,7 +128,7 @@
  
  	if (test_bit(STATE_FIRMWARE_FAILED, &intel->flags)) {
  		bt_dev_err(hdev, "Firmware loading failed");
-@@ -980,8 +1060,12 @@ static int intel_recv_event(struct hci_d
+@@ -981,8 +1061,12 @@ static int intel_recv_event(struct hci_d
  
  		if (test_and_clear_bit(STATE_DOWNLOADING, &intel->flags) &&
  		    test_bit(STATE_FIRMWARE_LOADED, &intel->flags)) {
@@ -141,7 +141,7 @@
  		}
  
  	/* When switching to the operational firmware the device
-@@ -991,8 +1075,12 @@ static int intel_recv_event(struct hci_d
+@@ -992,8 +1076,12 @@ static int intel_recv_event(struct hci_d
  	} else if (skb->len == 9 && hdr->evt == 0xff && hdr->plen == 0x07 &&
  		   skb->data[2] == 0x02) {
  		if (test_and_clear_bit(STATE_BOOTING, &intel->flags)) {
@@ -154,7 +154,7 @@
  		}
  	}
  recv:
-@@ -1031,15 +1119,23 @@ static int intel_recv_lpm(struct hci_dev
+@@ -1032,15 +1120,23 @@ static int intel_recv_lpm(struct hci_dev
  	case LPM_OP_SUSPEND_ACK:
  		set_bit(STATE_SUSPENDED, &intel->flags);
  		if (test_and_clear_bit(STATE_LPM_TRANSACTION, &intel->flags)) {

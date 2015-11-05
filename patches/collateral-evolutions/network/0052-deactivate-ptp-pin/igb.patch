@@ -8,8 +8,8 @@
  	struct ptp_pin_desc sdp_config[IGB_N_SDP];
 +#endif
  	struct {
- 		struct timespec start;
- 		struct timespec period;
+ 		struct timespec64 start;
+ 		struct timespec64 period;
 --- a/drivers/net/ethernet/intel/igb/igb_ptp.c
 +++ b/drivers/net/ethernet/intel/igb/igb_ptp.c
 @@ -115,6 +115,7 @@ static cycle_t igb_ptp_read_82580(const

@@ -9,8 +9,8 @@
 +#endif
  #include <linux/tty.h>
  #include <linux/interrupt.h>
- 
-@@ -141,8 +143,10 @@ static int bcm_gpio_set_power(struct bcm
+ #include <linux/dmi.h>
+@@ -148,8 +150,10 @@ static int bcm_gpio_set_power(struct bcm
  	if (powered && !IS_ERR(dev->clk) && !dev->clk_enabled)
  		clk_enable(dev->clk);
  
@@ -21,7 +21,7 @@
  
  	if (!powered && !IS_ERR(dev->clk) && dev->clk_enabled)
  		clk_disable(dev->clk);
-@@ -447,7 +451,9 @@ static int bcm_suspend(struct device *de
+@@ -520,7 +524,9 @@ static int bcm_suspend_device(struct dev
  
  	/* Suspend the device */
  	if (bdev->device_wakeup) {
@@ -31,8 +31,8 @@
  		bt_dev_dbg(bdev, "suspend, delaying 15 ms");
  		mdelay(15);
  	}
-@@ -482,7 +488,9 @@ static int bcm_resume(struct device *dev
- 	}
+@@ -535,7 +541,9 @@ static int bcm_resume_device(struct devi
+ 	bt_dev_dbg(bdev, "");
  
  	if (bdev->device_wakeup) {
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,13,0)
@@ -41,7 +41,7 @@
  		bt_dev_dbg(bdev, "resume, delaying 15 ms");
  		mdelay(15);
  	}
-@@ -501,6 +509,7 @@ unlock:
+@@ -618,6 +626,7 @@ unlock:
  }
  #endif
  
@@ -49,15 +49,15 @@
  static const struct acpi_gpio_params device_wakeup_gpios = { 0, 0, false };
  static const struct acpi_gpio_params shutdown_gpios = { 1, 0, false };
  static const struct acpi_gpio_params host_wakeup_gpios = { 2, 0, false };
-@@ -512,7 +521,6 @@ static const struct acpi_gpio_mapping ac
+@@ -629,7 +638,6 @@ static const struct acpi_gpio_mapping ac
  	{ },
  };
  
 -#ifdef CONFIG_ACPI
- static int bcm_resource(struct acpi_resource *ares, void *data)
- {
- 	struct bcm_device *dev = data;
-@@ -683,7 +691,7 @@ static const struct hci_uart_proto bcm_p
+ static u8 acpi_active_low = ACPI_ACTIVE_LOW;
+ 
+ /* IRQ polarity of some chipsets are not defined correctly in ACPI table. */
+@@ -811,7 +819,7 @@ static const struct hci_uart_proto bcm_p
  	.dequeue	= bcm_dequeue,
  };
  
@@ -66,7 +66,7 @@
  static const struct acpi_device_id bcm_acpi_match[] = {
  	{ "BCM2E39", 0 },
  	{ "BCM2E67", 0 },
-@@ -700,7 +708,9 @@ static struct platform_driver bcm_driver
+@@ -831,7 +839,9 @@ static struct platform_driver bcm_driver
  	.remove = bcm_remove,
  	.driver = {
  		.name = "hci_bcm",
