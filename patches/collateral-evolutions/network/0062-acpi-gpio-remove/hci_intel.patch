@@ -20,7 +20,7 @@
  
  		/* Provide to idev a hu reference which is used to run LPM
  		 * transactions (lpm suspend/resume) from PM callbacks.
-@@ -1329,14 +1333,17 @@ static int intel_probe(struct platform_d
+@@ -1330,14 +1334,17 @@ static int intel_probe(struct platform_d
  
  	idev->pdev = pdev;
  
@@ -38,7 +38,7 @@
  	if (idev->irq < 0) {
  		struct gpio_desc *host_wake;
  
-@@ -1355,12 +1362,15 @@ static int intel_probe(struct platform_d
+@@ -1356,12 +1363,15 @@ static int intel_probe(struct platform_d
  			goto no_irq;
  		}
  	}
@@ -54,7 +54,7 @@
  	platform_set_drvdata(pdev, idev);
  
  	/* Place this instance on the device list */
-@@ -1368,8 +1378,10 @@ no_irq:
+@@ -1369,8 +1379,10 @@ no_irq:
  	list_add_tail(&idev->list, &intel_device_list);
  	mutex_unlock(&intel_device_list_lock);
  

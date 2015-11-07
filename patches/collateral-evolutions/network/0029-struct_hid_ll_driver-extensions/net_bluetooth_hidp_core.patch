@@ -16,7 +16,7 @@
  
  static void hidp_idle_timeout(unsigned long arg)
  {
-@@ -725,8 +727,10 @@ static struct hid_ll_driver hidp_hid_dri
+@@ -739,8 +741,10 @@ static struct hid_ll_driver hidp_hid_dri
  	.stop = hidp_stop,
  	.open  = hidp_open,
  	.close = hidp_close,
