@@ -58,6 +58,7 @@ DVB_SMIPCIE 3.8
 # start that work with.
 VIDEO_ADP1653 3.13
 VIDEO_TC358743 3.13
+VIDEO_MT9P031 3.13
 
 # missing devm_gpiod_get_optional()
 # this needs devm_gpiod_get_optional() with 3 arguments.
@@ -79,7 +80,6 @@ VIDEO_S5K6AA 3.3
 # missing devm_regulator_bulk_get
 VIDEO_MT9T001 3.5
 VIDEO_NOON010PC30 3.5
-VIDEO_MT9P031 3.5
 
 # missing of_property_read_bool() added via fa4d34cc on v3.4-rc1~71, backport
 # that attomically and you can enable this for older kernels.
