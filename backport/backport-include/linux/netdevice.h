@@ -292,4 +292,12 @@ netdev_features_t passthru_features_check(struct sk_buff *skb,
 })
 #endif /* netdev_alloc_pcpu_stats */
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,19,0)
+#define napi_complete_done LINUX_BACKPORT(napi_complete_done)
+static inline void napi_complete_done(struct napi_struct *n, int work_done)
+{
+	napi_complete(n);
+}
+#endif /* < 3.19 */
+
 #endif /* __BACKPORT_NETDEVICE_H */
