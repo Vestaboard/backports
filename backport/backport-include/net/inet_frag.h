@@ -64,4 +64,13 @@ static inline void inet_frags_uninit_net(struct netns_frags *nf)
 }
 #endif /* < 4.4 && >= 3.9 */
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4,4,0)
+static inline int backport_inet_frags_init_net(struct netns_frags *nf)
+{
+	inet_frags_init_net(nf);
+	return 0;
+}
+#define inet_frags_init_net LINUX_BACKPORT(inet_frags_init_net)
+#endif /* < 4.4 */
+
 #endif /* __BACKPORT__NET_FRAG_H__ */
