@@ -73,8 +73,7 @@ drivers/net/wireless/rt2x00/
 drivers/net/wireless/zd1211rw/
 drivers/net/wireless/libertas/
 drivers/net/wireless/p54/
-drivers/net/wireless/rtl818x/
-drivers/net/wireless/rtlwifi/
+drivers/net/wireless/realtek/
 drivers/net/wireless/libertas_tf/
 drivers/net/wireless/ipw2x00/
 drivers/net/wireless/ti/
