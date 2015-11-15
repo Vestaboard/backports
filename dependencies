@@ -149,6 +149,11 @@ BCMA_DRIVER_GPIO 3.13
 # only introduced in kernel 3.1
 NFC 3.1
 
+# This needs of_find_property() and devm_gpio_free()
+NFC_MRVL 3.3
+NFC_MRVL_USB 3.3
+NFC_MRVL_UART 3.3
+
 NFC_TRF7970A 3.4
 
 INTEL_IPS 3.2
