@@ -29,4 +29,11 @@ static const char __UNIQUE_ID(name)[]					  \
 #endif
 #endif /* < 3.8 */
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,17,0)
+extern struct kernel_param_ops param_ops_ullong;
+extern int param_set_ullong(const char *val, const struct kernel_param *kp);
+extern int param_get_ullong(char *buffer, const struct kernel_param *kp);
+#define param_check_ullong(name, p) __param_check(name, p, unsigned long long)
+#endif
+
 #endif /* __BACKPORT_LINUX_MODULEPARAM_H */
