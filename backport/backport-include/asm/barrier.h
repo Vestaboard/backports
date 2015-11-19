@@ -10,4 +10,8 @@
 #define dma_rmb()	rmb()
 #endif
 
+#ifndef smp_mb__after_atomic
+#define smp_mb__after_atomic smp_mb__after_clear_bit
+#endif
+
 #endif /* __BACKPORT_ASM_BARRIER_H */
