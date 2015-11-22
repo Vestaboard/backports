@@ -49,6 +49,8 @@ VIDEO_CX88_DVB 3.8
 DVB_DM1105 3.8
 DVB_SMIPCIE 3.8
 
+SOC_CAMERA_PLATFORM 3.9
+
 # missing linux/gpio/consumer.h
 # consumer.h cannot be backported currently, as functions rely
 # on in-kernel functionality (GPIO_DEVRES), we can now backport
