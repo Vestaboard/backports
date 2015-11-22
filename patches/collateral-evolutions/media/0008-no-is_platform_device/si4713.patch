@@ -1,0 +1,14 @@
+--- a/drivers/media/radio/si4713/si4713.c
++++ b/drivers/media/radio/si4713/si4713.c
+@@ -1605,7 +1605,11 @@ static int si4713_probe(struct i2c_clien
+ 		goto free_ctrls;
+ 	}
+ 
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,19,0)
+ 	if (!np && (!pdata || !pdata->is_platform_device))
++#else
++	if (!np && !pdata)
++#endif
+ 		return 0;
+ 
+ 	si4713_pdev = platform_device_alloc("radio-si4713", -1);
