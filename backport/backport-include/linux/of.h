@@ -184,4 +184,19 @@ static inline int of_property_read_u64_array(const struct device_node *np,
 #endif /* CONFIG_OF */
 #endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,15,0) */
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,6,0)
+#define of_node_full_name LINUX_BACKPORT(of_node_full_name)
+#ifdef CONFIG_OF
+static inline const char *of_node_full_name(const struct device_node *np)
+{
+	return np ? np->full_name : "<no-node>";
+}
+#else
+static inline const char* of_node_full_name(const struct device_node *np)
+{
+	return "<no-node>";
+}
+#endif /* CONFIG_OF */
+#endif /* < 3.6 */
+
 #endif	/* _COMPAT_LINUX_OF_H */
