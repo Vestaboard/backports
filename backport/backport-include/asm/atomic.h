@@ -2,6 +2,7 @@
 #define __BACKPORT_ASM_ATOMIC_H
 #include_next <asm/atomic.h>
 #include <linux/version.h>
+#include <asm/barrier.h>
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(3,1,0)
 /*
