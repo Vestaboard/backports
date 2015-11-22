@@ -169,7 +169,10 @@ include/uapi/linux/ivtv.h
 include/uapi/linux/meye.h
 
 drivers/media/
+include/linux/platform_data/media/gpio-ir-recv.h
 include/linux/of_graph.h
+include/uapi/linux/lirc.h
+include/uapi/linux/usb/video.h
 
 include/net/6lowpan.h
 include/net/cfg802154.h
