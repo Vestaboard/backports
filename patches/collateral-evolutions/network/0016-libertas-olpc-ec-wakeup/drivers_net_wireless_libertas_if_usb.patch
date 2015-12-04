@@ -1,5 +1,5 @@
---- a/drivers/net/wireless/libertas/if_usb.c
-+++ b/drivers/net/wireless/libertas/if_usb.c
+--- a/drivers/net/wireless/marvell/libertas/if_usb.c
++++ b/drivers/net/wireless/marvell/libertas/if_usb.c
 @@ -959,6 +959,7 @@ static int if_usb_suspend(struct usb_int
  		goto out;
  	}

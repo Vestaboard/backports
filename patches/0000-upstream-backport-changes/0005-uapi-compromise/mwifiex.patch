@@ -1,5 +1,5 @@
---- a/drivers/net/wireless/mwifiex/decl.h
-+++ b/drivers/net/wireless/mwifiex/decl.h
+--- a/drivers/net/wireless/marvell/mwifiex/decl.h
++++ b/drivers/net/wireless/marvell/mwifiex/decl.h
 @@ -26,7 +26,7 @@
  #include <linux/wait.h>
  #include <linux/timer.h>
@@ -9,8 +9,8 @@
  #include <net/mac80211.h>
  
  #define MWIFIEX_BSS_COEX_COUNT	     2
---- a/drivers/net/wireless/mwifiex/sta_rx.c
-+++ b/drivers/net/wireless/mwifiex/sta_rx.c
+--- a/drivers/net/wireless/marvell/mwifiex/sta_rx.c
++++ b/drivers/net/wireless/marvell/mwifiex/sta_rx.c
 @@ -17,7 +17,7 @@
   * this warranty disclaimer.
   */

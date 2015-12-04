@@ -1,5 +1,5 @@
---- a/drivers/net/wireless/iwlwifi/iwl-debug.c
-+++ b/drivers/net/wireless/iwlwifi/iwl-debug.c
+--- a/drivers/net/wireless/intel/iwlwifi/iwl-debug.c
++++ b/drivers/net/wireless/intel/iwlwifi/iwl-debug.c
 @@ -74,13 +74,16 @@ void __iwl_ ##fn(struct device *dev, con
  	struct va_format vaf = {				\
  		.fmt = fmt,					\
