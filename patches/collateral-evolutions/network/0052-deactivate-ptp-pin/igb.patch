@@ -1,6 +1,6 @@
 --- a/drivers/net/ethernet/intel/igb/igb.h
 +++ b/drivers/net/ethernet/intel/igb/igb.h
-@@ -442,7 +442,9 @@ struct igb_adapter {
+@@ -444,7 +444,9 @@ struct igb_adapter {
  	u32 tx_hwtstamp_timeouts;
  	u32 rx_hwtstamp_cleared;
  
