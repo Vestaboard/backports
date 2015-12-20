@@ -194,6 +194,9 @@ IR_HIX5HD2 kconfig: CONFIG_MFD_SYSCON
 ATH10K_TRACING 3.4
 ATH_TRACEPOINTS 3.1
 
+# missigng add_hwgenerator_randomness()
+ATH9K_HWRNG 3.17
+
 # depends on netdev_rss_key_fill() which uses net_get_random_once()
 # and since net_get_random_once() depends on static keys we've decided
 # to backport that only down to 3.5. For full details refer to backports
