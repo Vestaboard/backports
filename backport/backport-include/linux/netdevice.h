@@ -232,6 +232,10 @@ static inline void backport_unregister_netdevice_many(struct list_head *head)
 #define unregister_netdevice_many LINUX_BACKPORT(unregister_netdevice_many)
 #endif
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,19,0)
+#define napi_alloc_frag(fragsz) netdev_alloc_frag(fragsz)
+#endif
+
 /*
  * Complicated way of saying: We only backport netdev_rss_key stuff on kernels
  * that either already have net_get_random_once() (>= 3.13) or where we've been
