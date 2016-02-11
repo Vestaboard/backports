@@ -65,8 +65,8 @@
 +#if defined(CONFIG_ACPI) && LINUX_VERSION_CODE >= KERNEL_VERSION(3,19,0)
  static const struct acpi_device_id bcm_acpi_match[] = {
  	{ "BCM2E39", 0 },
- 	{ "BCM2E67", 0 },
-@@ -832,7 +840,9 @@ static struct platform_driver bcm_driver
+ 	{ "BCM2E65", 0 },
+@@ -833,7 +841,9 @@ static struct platform_driver bcm_driver
  	.remove = bcm_remove,
  	.driver = {
  		.name = "hci_bcm",
