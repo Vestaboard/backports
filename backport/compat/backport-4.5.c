@@ -12,6 +12,9 @@
 #include <linux/export.h>
 #include <linux/errno.h>
 #include <linux/fs.h>
+#include <linux/slab.h>
+#include <linux/string.h>
+#include <asm/uaccess.h>
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(3,19,0)
 int led_set_brightness_sync(struct led_classdev *led_cdev,
@@ -58,3 +61,34 @@ loff_t no_seek_end_llseek(struct file *file, loff_t offset, int whence)
 }
 EXPORT_SYMBOL_GPL(no_seek_end_llseek);
 #endif /* >= 3.2 */
+
+/**
+ * memdup_user_nul - duplicate memory region from user space and NUL-terminate
+ *
+ * @src: source address in user space
+ * @len: number of bytes to copy
+ *
+ * Returns an ERR_PTR() on failure.
+ */
+void *memdup_user_nul(const void __user *src, size_t len)
+{
+	char *p;
+
+	/*
+	 * Always use GFP_KERNEL, since copy_from_user() can sleep and
+	 * cause pagefault, which makes it pointless to use GFP_NOFS
+	 * or GFP_ATOMIC.
+	 */
+	p = kmalloc(len + 1, GFP_KERNEL);
+	if (!p)
+		return ERR_PTR(-ENOMEM);
+
+	if (copy_from_user(p, src, len)) {
+		kfree(p);
+		return ERR_PTR(-EFAULT);
+	}
+	p[len] = '\0';
+
+	return p;
+}
+EXPORT_SYMBOL_GPL(memdup_user_nul);
