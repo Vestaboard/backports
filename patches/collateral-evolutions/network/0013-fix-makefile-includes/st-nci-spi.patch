@@ -1,10 +1,10 @@
 --- a/drivers/nfc/st-nci/spi.c
 +++ b/drivers/nfc/st-nci/spi.c
-@@ -20,6 +20,7 @@
- #include <linux/module.h>
+@@ -21,6 +21,7 @@
  #include <linux/spi/spi.h>
  #include <linux/gpio.h>
+ #include <linux/gpio/consumer.h>
 +#include <linux/of.h>
  #include <linux/of_irq.h>
  #include <linux/of_gpio.h>
- #include <linux/interrupt.h>
+ #include <linux/acpi.h>
