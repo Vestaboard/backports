@@ -58,4 +58,18 @@ static inline void backport_mdiobus_unregister(struct mii_bus *bus)
 #define mdiobus_unregister LINUX_BACKPORT(mdiobus_unregister)
 #endif /* < 4.5 */
 
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(4,5,0))
+#define phydev_get_addr LINUX_BACKPORT(phydev_get_addr)
+static inline int phydev_get_addr(struct phy_device *phydev)
+{
+	return phydev->addr;
+}
+#else
+#define phydev_get_addr LINUX_BACKPORT(phydev_get_addr)
+static inline int phydev_get_addr(struct phy_device *phydev)
+{
+	return phydev->mdio.addr;
+}
+#endif
+
 #endif /* __BACKPORT_LINUX_PHY_H */
