@@ -70,6 +70,9 @@ VIDEO_ADP1653 3.13
 VIDEO_TC358743 3.13
 VIDEO_MT9P031 3.13
 
+# missing linux/property.h
+NFC_ST95HF 3.18
+
 # missing devm_gpiod_get_optional()
 # this needs devm_gpiod_get_optional() with 3 arguments.
 I2C_SI4713 3.17
