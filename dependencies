@@ -85,6 +85,9 @@ NFC_NXP_NCI_I2C 3.17
 
 # this needs device_property..() functions
 NFC_FDP_I2C 3.18
+NFC_ST21NFCA_I2C 3.18
+NFC_ST_NCI_I2C 3.18
+NFC_ST_NCI_SPI 3.18
 
 # missing function clk_prepare_enable(), clk_disable_unprepare() and devm_regulator_bulk_get()
 VIDEO_MT9V032 3.3
