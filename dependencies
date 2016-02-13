@@ -152,8 +152,8 @@ SSB_DRIVER_MIPS 3.3
 # BCMA_HOST_SOC are set.
 BCMA_HOST_SOC 3.7
 
-# linux/gpio/driver.h
-BCMA_DRIVER_GPIO 3.13
+# Uses gpiochip_get_data()
+BCMA_DRIVER_GPIO 4.5
 
 # NFC core needs PF_NFC defined in socket.h which was
 # only introduced in kernel 3.1
