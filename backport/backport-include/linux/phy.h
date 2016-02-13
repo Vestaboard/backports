@@ -14,6 +14,12 @@ static inline const char *phydev_name(const struct phy_device *phydev)
 {
 	return dev_name(&phydev->dev);
 }
+
+#define mdiobus_is_registered_device LINUX_BACKPORT(mdiobus_is_registered_device)
+static inline bool mdiobus_is_registered_device(struct mii_bus *bus, int addr)
+{
+	return bus->phy_map[addr];
+}
 #endif /* < 4.5 */
 
 #endif /* __BACKPORT_LINUX_PHY_H */
