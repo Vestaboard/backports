@@ -65,6 +65,7 @@ config BP_MODULES
 config BPAUTO_BUILD_CORDIC
 	tristate
 	depends on !CORDIC
+	depends on KERNEL_3_1
 	default m if BPAUTO_CORDIC
 	default m if BPAUTO_USERSEL_BUILD_ALL
 	#module-name cordic
