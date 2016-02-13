@@ -27,6 +27,35 @@ void phy_attached_print(struct phy_device *phydev, const char *fmt, ...)
 	__printf(2, 3);
 #define phy_attached_info LINUX_BACKPORT(phy_attached_info)
 void phy_attached_info(struct phy_device *phydev);
+
+static inline int backport_mdiobus_register(struct mii_bus *bus)
+{
+	bus->irq = kmalloc(sizeof(int) * PHY_MAX_ADDR, GFP_KERNEL);
+	if (!bus->irq) {
+		pr_err("mii_bus irq allocation failed\n");
+		return -ENOMEM;
+	}
+
+	memset(bus->irq, PHY_POLL, sizeof(int) * PHY_MAX_ADDR);
+
+/* in kernel 4.3 a #define for mdiobus_register is added to the kernel. */
+#ifndef mdiobus_register
+	return mdiobus_register(bus);
+#else
+	return __mdiobus_register(bus, THIS_MODULE);
+#endif
+}
+#ifdef mdiobus_register
+#undef mdiobus_register
+#endif
+#define mdiobus_register LINUX_BACKPORT(mdiobus_register)
+
+static inline void backport_mdiobus_unregister(struct mii_bus *bus)
+{
+	kfree(bus->irq);
+	mdiobus_unregister(bus);
+}
+#define mdiobus_unregister LINUX_BACKPORT(mdiobus_unregister)
 #endif /* < 4.5 */
 
 #endif /* __BACKPORT_LINUX_PHY_H */
