@@ -3,6 +3,8 @@
 #include_next <linux/leds.h>
 #include <linux/version.h>
 
+#include <backport/leds-disabled.h>
+
 #if LINUX_VERSION_CODE < KERNEL_VERSION(3,6,0)
 /*
  * Backports 
@@ -61,7 +63,5 @@ extern int led_set_brightness_sync(struct led_classdev *led_cdev,
 extern int devm_led_trigger_register(struct device *dev,
 				     struct led_trigger *trigger);
 #endif /* < 4.5 */
-
-#include <backport/leds-disabled.h>
 
 #endif /* __BACKPORT_LINUX_LEDS_H */
