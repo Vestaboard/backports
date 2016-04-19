@@ -1,6 +1,6 @@
 --- a/net/bluetooth/6lowpan.c
 +++ b/net/bluetooth/6lowpan.c
-@@ -623,7 +623,9 @@ static netdev_tx_t bt_xmit(struct sk_buf
+@@ -628,7 +628,9 @@ static netdev_tx_t bt_xmit(struct sk_buf
  	return err < 0 ? NET_XMIT_DROP : err;
  }
  
@@ -10,7 +10,7 @@
  static struct lock_class_key bt_netdev_xmit_lock_key;
  
  static void bt_set_lockdep_class_one(struct net_device *dev,
-@@ -636,7 +638,9 @@ static void bt_set_lockdep_class_one(str
+@@ -641,7 +643,9 @@ static void bt_set_lockdep_class_one(str
  static int bt_dev_init(struct net_device *dev)
  {
  	netdev_for_each_tx_queue(dev, bt_set_lockdep_class_one, NULL);

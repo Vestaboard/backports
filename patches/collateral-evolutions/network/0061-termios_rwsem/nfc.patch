@@ -1,6 +1,6 @@
 --- a/net/nfc/nci/uart.c
 +++ b/net/nfc/nci/uart.c
-@@ -446,9 +446,17 @@ void nci_uart_set_config(struct nci_uart
+@@ -439,9 +439,17 @@ void nci_uart_set_config(struct nci_uart
  	if (!nu->tty)
  		return;
  
