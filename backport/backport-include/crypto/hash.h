@@ -21,4 +21,11 @@ static inline void ahash_request_zero(struct ahash_request *req)
 }
 #endif
 
+#ifndef AHASH_REQUEST_ON_STACK
+#define AHASH_REQUEST_ON_STACK(name, ahash) \
+	char __##name##_desc[sizeof(struct ahash_request) + \
+		crypto_ahash_reqsize(ahash)] CRYPTO_MINALIGN_ATTR; \
+	struct ahash_request *name = (void *)__##name##_desc
+#endif
+
 #endif /* _BACKPORT_CRYPTO_HASH_H */
