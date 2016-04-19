@@ -84,6 +84,9 @@ BCMA_HOST_SOC 3.7
 
 # Uses gpiochip_get_data()
 BCMA_DRIVER_GPIO 4.5
+VIDEO_EM28XX_DVB 4.5
+DVB_CXD2820R 4.5
+DVB_USB_ANYSEE 4.5
 
 # NFC core needs PF_NFC defined in socket.h which was
 # only introduced in kernel 3.1
