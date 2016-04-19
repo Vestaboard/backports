@@ -1,0 +1,24 @@
+#ifndef _BACKPORT_CRYPTO_HASH_H
+#define _BACKPORT_CRYPTO_HASH_H
+#include_next <crypto/hash.h>
+#include <linux/version.h>
+
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4,6,0)
+#define shash_desc_zero LINUX_BACKPORT(shash_desc_zero)
+static inline void shash_desc_zero(struct shash_desc *desc)
+{
+	memzero_explicit(desc,
+			 sizeof(*desc) + crypto_shash_descsize(desc->tfm));
+}
+#endif
+
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4,6,0)
+#define ahash_request_zero LINUX_BACKPORT(ahash_request_zero)
+static inline void ahash_request_zero(struct ahash_request *req)
+{
+	memzero_explicit(req, sizeof(*req) +
+			      crypto_ahash_reqsize(crypto_ahash_reqtfm(req)));
+}
+#endif
+
+#endif /* _BACKPORT_CRYPTO_HASH_H */
