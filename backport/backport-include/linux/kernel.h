@@ -153,6 +153,13 @@ int __must_check hex2bin(u8 *dst, const char *src, size_t count);
 #define clamp(val, lo, hi) min((typeof(val))max(val, lo), hi)
 #endif /* < 3.18 */
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4,6,0)
+#define kstrtobool LINUX_BACKPORT(kstrtobool)
+int __must_check kstrtobool(const char *s, bool *res);
+#define kstrtobool_from_user LINUX_BACKPORT(kstrtobool_from_user)
+int __must_check kstrtobool_from_user(const char __user *s, size_t count, bool *res);
+#endif
+
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4,5,0)
 
 #undef abs
