@@ -113,6 +113,16 @@ config BPAUTO_BUILD_CRYPTO_CCM
 	default y if BPAUTO_CRYPTO_CCM
 	#c-file crypto/ccm.c
 
+config BPAUTO_CRYPTO_SKCIPHER
+	tristate
+	depends on KERNEL_4_3
+	default y if MAC802154
+	default y if LIB80211_CRYPT_WEP
+	default y if LIB80211_CRYPT_TKIP
+	default y if BT
+	#c-file crypto/skcipher.c
+	#module-name skcipher
+
 config BPAUTO_WANT_DEV_COREDUMP
 	bool
 

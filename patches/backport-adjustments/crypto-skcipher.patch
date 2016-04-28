@@ -1,0 +1,32 @@
+--- a/compat/crypto-skcipher.c
++++ b/compat/crypto-skcipher.c
+@@ -18,7 +18,28 @@
+ #include <linux/bug.h>
+ #include <linux/module.h>
+ 
+-#include "internal.h"
++struct crypto_tfm *__crypto_alloc_tfm(struct crypto_alg *alg, u32 type,
++				      u32 mask);
++
++void *crypto_alloc_tfm(const char *alg_name,
++		       const struct crypto_type *frontend, u32 type, u32 mask);
++
++struct crypto_alg *crypto_mod_get(struct crypto_alg *alg);
++
++static inline void *crypto_skcipher_ctx(struct crypto_skcipher *tfm)
++{
++	return crypto_tfm_ctx(&tfm->base);
++}
++
++static inline void *skcipher_request_ctx(struct skcipher_request *req)
++{
++	return req->__ctx;
++}
++
++static inline u32 skcipher_request_flags(struct skcipher_request *req)
++{
++	return req->base.flags;
++}
+ 
+ static unsigned int crypto_skcipher_extsize(struct crypto_alg *alg)
+ {
