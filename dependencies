@@ -23,39 +23,9 @@ AIRO 3.9
 AIRO_CS 3.9
 
 # Media
-MEDIA_SUPPORT 3.2
-USB_GSPCA_OV534 3.5
-# Some media drivers depend on the CONFIG_REGULATOR which
-# we only support on >= 3.4 give that reguatory itself depends
-# on -EPROBE_DEFER.
-SOC_CAMERA 3.4
-VIDEO_S5K5BAF 3.4
-VIDEO_S5K4ECGX 3.4
-# 49920bc6 and 1003cab8 and while it seems there is a
-# one to one map DMA_FROM_DEVICE to DMA_DEV_TO_MEM
-# I can't verify this fully yet.
-VIDEO_TIMBERDALE 3.4
+MEDIA_SUPPORT 3.8
 # someone has to backport "firewire: introduce fw_driver.probe and .remove methods"
 DVB_FIREDTV 3.11
-VIDEO_RENESAS_VSP1 3.4
-VIDEO_MEM2MEM_DEINTERLACE 3.3
-MEDIA_TUNER_E4000 3.4
-DVB_USB_RTL28XXU 3.4
-
-# missing many members in struct regmap_config
-DVB_USB_RTL28XXU 3.8
-DVB_RTL2830 3.8
-DVB_RTL2832 3.8
-DVB_M88DS3103 3.8
-DVB_TS2020 3.8
-DVB_USB_DW2102 3.8
-DVB_USB_LME2510 3.8
-DVB_USB_DVBSKY 3.8
-VIDEO_EM28XX_DVB 3.8
-VIDEO_CX23885 3.8
-VIDEO_CX88_DVB 3.8
-DVB_DM1105 3.8
-DVB_SMIPCIE 3.8
 
 SOC_CAMERA_PLATFORM 3.9
 
@@ -92,18 +62,6 @@ NFC_ST21NFCA_I2C 3.18
 NFC_ST_NCI_I2C 3.18
 NFC_ST_NCI_SPI 3.18
 
-# missing function clk_prepare_enable(), clk_disable_unprepare() and devm_regulator_bulk_get()
-VIDEO_MT9V032 3.3
-VIDEO_S5K6AA 3.3
-
-# missing devm_regulator_bulk_get
-VIDEO_MT9T001 3.5
-VIDEO_NOON010PC30 3.5
-
-# missing of_property_read_bool() added via fa4d34cc on v3.4-rc1~71, backport
-# that attomically and you can enable this for older kernels.
-VIDEO_ADV7343 3.4
-
 # for whoever wants to backport this: GPIOF_EXPORT was redefined via commit
 # 79a9becd on v3.13-rc1~120^2~15, before this it was redefined via commit
 # f567fde2 on v3.5-rc7~32^2~4 and finally added via commit fc3a1f04 on
@@ -112,42 +70,8 @@ VIDEO_ADV7343 3.4
 VIDEO_S5K6AA 3.13
 VIDEO_S5K6A3 3.13
 
-# missing linux/sizes.h
-VIDEO_M5MOLS 3.6
-VIDEO_S5C73M3 3.6
-
-# missing function devm_regmap_init_i2c()
-VIDEO_LM3646 3.3
-VIDEO_LM3560 3.3
-MEDIA_TUNER_M88RS6000T 3.3
-MEDIA_TUNER_FC2580 3.3
-MEDIA_TUNER_TUA9001 3.3
-
-# missing regmap_bulk_write()
-DVB_USB_AF9035 3.4
-DVB_USB_ANYSEE 3.4
-DVB_USB_DVBSKY 3.4
-DVB_TDA10071 3.4
-DVB_SMIPCIE 3.4
-MEDIA_TUNER_E4000 3.4
-MEDIA_TUNER_M88TS2022 3.4
-MEDIA_TUNER_TDA18212 3.4
-MEDIA_TUNER_IT913X 3.4
-VIDEO_CX23885 3.4
-VIDEO_EM28XX_DVB 3.4
-
 # this needs arch_phys_wc_add(), arch_phys_wc_del() and pat_enabled()
 VIDEO_FB_IVTV 4.2
-
-# missing kthread_freezable_should_stop()
-DVB_PT3 3.3
-
-# missing spi_finalize_current_message() and struct spi_master.transfer_one_message
-USB_MSI2500 3.4
-DVB_NETUP_UNIDVB 3.4
-
-# missing vb2_expbuf()
-SOC_CAMERA 3.5
 
 BCMA_DRIVER_MIPS 3.3
 SSB_DRIVER_MIPS 3.3
