@@ -154,4 +154,8 @@ backport_genlmsg_multicast_allns(struct genl_family *family,
 #endif /* < 4.4 */
 #endif /* < 3.13 */
 
+#ifndef GENL_UNS_ADMIN_PERM
+#define GENL_UNS_ADMIN_PERM	GENL_ADMIN_PERM
+#endif
+
 #endif /* __BACKPORT_NET_GENETLINK_H */
