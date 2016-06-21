@@ -549,7 +549,7 @@ def apply_patches(args, desc, source_dir, patch_src, target_dir, logwrite=lambda
                 logwrite("Failed to apply changes from %s" % print_name)
                 for line in output:
                     logwrite('> %s' % line)
-            raise Exception('Patch failed')
+            return 2
 
         if args.refresh:
             pfilef = open(pfile + '.tmp', 'a')
@@ -569,7 +569,7 @@ def apply_patches(args, desc, source_dir, patch_src, target_dir, logwrite=lambda
                     logwrite("Failed to diff to refresh %s" % print_name)
                     pfilef.close()
                     os.unlink(pfile + '.tmp')
-                    raise Exception('Refresh failed')
+                    return 2
             pfilef.close()
             os.rename(pfile + '.tmp', pfile)
 
@@ -602,7 +602,7 @@ def apply_patches(args, desc, source_dir, patch_src, target_dir, logwrite=lambda
         sprocess.wait()
         if sprocess.returncode != 0:
             logwrite("Failed to process SmPL patch %s with %i" % (print_name, sprocess.returncode))
-            raise Exception('SmPL patch failed')
+            return 2
         output = output.split('\n')
         if output[-1] == '':
             output = output[:-1]
@@ -903,7 +903,9 @@ def process(kerneldir, copy_list_file, git_revision=None,
         bpcfg.disable_symbols(disable_list)
     git_debug_snapshot(args, 'Add automatic backports')
 
-    apply_patches(args, "backport", source_dir, 'patches', bpid.target_dir, logwrite)
+    failure = apply_patches(args, "backport", source_dir, 'patches', bpid.target_dir, logwrite)
+    if failure:
+        return failure
 
     # Kernel integration requires Kconfig.versions already generated for you,
     # we cannot do this for a package as we have no idea what kernel folks
@@ -1074,8 +1076,10 @@ def process(kerneldir, copy_list_file, git_revision=None,
         f.close()
         git_debug_snapshot(args, "hooked backport to top level Kconfig")
 
-        apply_patches(args, "integration", source_dir, 'integration-patches/',
-                      bpid.project_dir, logwrite)
+        failure = apply_patches(args, "integration", source_dir, 'integration-patches/',
+                                bpid.project_dir, logwrite)
+        if failure:
+            return failure
 
     if (args.kup or args.kup_test):
         req = reqs.Req()
