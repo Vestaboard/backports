@@ -7,6 +7,6 @@ index d385589..6d9a84d 100644
  #define _MEDIA_DEVICE_H
  
 +#include <linux/idr.h>
+ #include <linux/kref.h>
  #include <linux/list.h>
  #include <linux/mutex.h>
- #include <linux/spinlock.h>

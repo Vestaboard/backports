@@ -1,6 +1,6 @@
 --- a/drivers/net/ethernet/intel/igb/igb.h
 +++ b/drivers/net/ethernet/intel/igb/igb.h
-@@ -444,7 +444,9 @@ struct igb_adapter {
+@@ -443,7 +443,9 @@ struct igb_adapter {
  	u32 tx_hwtstamp_timeouts;
  	u32 rx_hwtstamp_cleared;
  
@@ -68,7 +68,7 @@
  static int igb_ptp_settime_i210(struct ptp_clock_info *ptp,
  				const struct timespec64 *ts)
  {
-@@ -597,6 +604,7 @@ static int igb_ptp_feature_enable_i210(s
+@@ -598,6 +605,7 @@ static int igb_ptp_feature_enable_i210(s
  
  	return -EOPNOTSUPP;
  }
@@ -76,7 +76,7 @@
  
  static int igb_ptp_feature_enable(struct ptp_clock_info *ptp,
  				  struct ptp_clock_request *rq, int on)
-@@ -604,6 +612,7 @@ static int igb_ptp_feature_enable(struct
+@@ -605,6 +613,7 @@ static int igb_ptp_feature_enable(struct
  	return -EOPNOTSUPP;
  }
  
@@ -84,7 +84,7 @@
  static int igb_ptp_verify_pin(struct ptp_clock_info *ptp, unsigned int pin,
  			      enum ptp_pin_function func, unsigned int chan)
  {
-@@ -617,6 +626,7 @@ static int igb_ptp_verify_pin(struct ptp
+@@ -618,6 +627,7 @@ static int igb_ptp_verify_pin(struct ptp
  	}
  	return 0;
  }
@@ -92,7 +92,7 @@
  
  /**
   * igb_ptp_tx_work
-@@ -1009,7 +1019,9 @@ void igb_ptp_init(struct igb_adapter *ad
+@@ -1010,7 +1020,9 @@ void igb_ptp_init(struct igb_adapter *ad
  {
  	struct e1000_hw *hw = &adapter->hw;
  	struct net_device *netdev = adapter->netdev;
@@ -102,7 +102,7 @@
  
  	switch (hw->mac.type) {
  	case e1000_82576:
-@@ -1050,6 +1062,7 @@ void igb_ptp_init(struct igb_adapter *ad
+@@ -1051,6 +1063,7 @@ void igb_ptp_init(struct igb_adapter *ad
  		/* Enable the timer functions by clearing bit 31. */
  		wr32(E1000_TSAUXC, 0x0);
  		break;
@@ -110,7 +110,7 @@
  	case e1000_i210:
  	case e1000_i211:
  		for (i = 0; i < IGB_N_SDP; i++) {
-@@ -1076,6 +1089,7 @@ void igb_ptp_init(struct igb_adapter *ad
+@@ -1077,6 +1090,7 @@ void igb_ptp_init(struct igb_adapter *ad
  		/* Enable the timer functions by clearing bit 31. */
  		wr32(E1000_TSAUXC, 0x0);
  		break;
@@ -118,7 +118,7 @@
  	default:
  		adapter->ptp_clock = NULL;
  		return;
-@@ -1087,11 +1101,14 @@ void igb_ptp_init(struct igb_adapter *ad
+@@ -1088,11 +1102,14 @@ void igb_ptp_init(struct igb_adapter *ad
  	INIT_WORK(&adapter->ptp_tx_work, igb_ptp_tx_work);
  
  	/* Initialize the clock and overflow work for devices that need it. */
