@@ -2,6 +2,7 @@
 #define __BACKPORT_MM_H
 #include_next <linux/mm.h>
 #include <linux/page_ref.h>
+#include <linux/sched.h>
 
 #ifndef VM_NODUMP
 /*
@@ -28,19 +29,41 @@ void kvfree(const void *addr);
 
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(3,20,0))
 #define get_user_pages_locked LINUX_BACKPORT(get_user_pages_locked)
-long get_user_pages_locked(struct task_struct *tsk, struct mm_struct *mm,
-		    unsigned long start, unsigned long nr_pages,
-		    int write, int force, struct page **pages,
-		    int *locked);
-#define __get_user_pages_unlocked LINUX_BACKPORT(__get_user_pages_unlocked)
-long __get_user_pages_unlocked(struct task_struct *tsk, struct mm_struct *mm,
-			       unsigned long start, unsigned long nr_pages,
-			       int write, int force, struct page **pages,
-			       unsigned int gup_flags);
+long get_user_pages_locked(unsigned long start, unsigned long nr_pages,
+		    int write, int force, struct page **pages, int *locked);
 #define get_user_pages_unlocked LINUX_BACKPORT(get_user_pages_unlocked)
-long get_user_pages_unlocked(struct task_struct *tsk, struct mm_struct *mm,
-		    unsigned long start, unsigned long nr_pages,
+long get_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
 		    int write, int force, struct page **pages);
+#elif (LINUX_VERSION_CODE < KERNEL_VERSION(4,6,0))
+static inline
+long backport_get_user_pages_locked(unsigned long start, unsigned long nr_pages,
+		    int write, int force, struct page **pages, int *locked)
+{
+	return get_user_pages_locked(current, current->mm, start, nr_pages,
+		    write, force, pages, locked);
+}
+#define get_user_pages_locked LINUX_BACKPORT(get_user_pages_locked)
+
+static inline
+long backport_get_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
+				      int write, int force, struct page **pages)
+{
+	return get_user_pages_unlocked(current, current->mm, start,  nr_pages,
+		    write, force, pages);
+}
+#define get_user_pages_unlocked LINUX_BACKPORT(get_user_pages_unlocked)
+#endif
+
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(4,6,0))
+static inline
+long backport_get_user_pages(unsigned long start, unsigned long nr_pages,
+			    int write, int force, struct page **pages,
+			    struct vm_area_struct **vmas)
+{
+	return get_user_pages(current, current->mm, start,  nr_pages,
+		    write, force, pages, vmas);
+}
+#define get_user_pages LINUX_BACKPORT(get_user_pages)
 #endif
 
 #ifndef FOLL_TRIED
