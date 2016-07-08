@@ -150,6 +150,8 @@ drivers/staging/media/cxd2099/cxd2099.h
 include/uapi/linux/ivtv.h
 include/uapi/linux/meye.h
 
+include/dt-bindings/media/tvp5150.h
+
 drivers/media/
 include/linux/platform_data/media/gpio-ir-recv.h
 include/linux/of_graph.h
