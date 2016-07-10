@@ -136,7 +136,8 @@ ATH9K_HWRNG 3.17
 # and since net_get_random_once() depends on static keys we've decided
 # to backport that only down to 3.5. For full details refer to backports
 # commit 8cb8816d
-IGB 3.5
+# mpls_features was added with kernel 3.11
+IGB 3.11
 
 # This driver needs mmc_hw_reset() which was added in kernel version 3.2
 MWIFIEX_SDIO 3.2
