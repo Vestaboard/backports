@@ -601,7 +601,7 @@ def apply_patches(args, desc, source_dir, patch_src, target_dir, logwrite=lambda
         output = sprocess.communicate()[0]
         sprocess.wait()
         if sprocess.returncode != 0:
-            logwrite("Failed to process SmPL patch %s" % print_name)
+            logwrite("Failed to process SmPL patch %s with %i" % (print_name, sprocess.returncode))
             raise Exception('SmPL patch failed')
         output = output.split('\n')
         if output[-1] == '':
