@@ -14,4 +14,14 @@
 	thermal_zone_device_register(type, trips, mask, devdata, ops, passive_delay, polling_delay)
 #endif /* < 3.8 */
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,8,0)
+#define thermal_notify_framework LINUX_BACKPORT(thermal_notify_framework)
+static inline void thermal_notify_framework(struct thermal_zone_device *tz, int trip)
+{
+       thermal_zone_device_update(tz);
+}
+#elif LINUX_VERSION_CODE < KERNEL_VERSION(3,10,0)
+#define thermal_notify_framework(tz, trip) notify_thermal_framework(tz, trip)
+#endif /* < 3.10 */
+
 #endif /* __BACKPORT_THERMAL_H__ */
