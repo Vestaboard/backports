@@ -199,4 +199,9 @@ static inline const char* of_node_full_name(const struct device_node *np)
 #endif /* CONFIG_OF */
 #endif /* < 3.6 */
 
+#ifndef for_each_child_of_node
+#define for_each_child_of_node(parent, child) \
+	while (0)
+#endif
+
 #endif	/* _COMPAT_LINUX_OF_H */
