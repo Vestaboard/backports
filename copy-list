@@ -45,6 +45,11 @@ include/net/ieee80211_radiotap.h
 include/net/lib80211.h
 include/net/mac80211.h
 include/net/regulatory.h
+include/net/codel.h
+include/net/codel_impl.h
+include/net/codel_qdisc.h
+include/net/fq.h
+include/net/fq_impl.h
 
 net/Makefile
 net/Kconfig
