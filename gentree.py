@@ -924,7 +924,7 @@ def process(kerneldir, copy_list_file, git_revision=None,
 
     # some post-processing is required
     configtree = kconfig.ConfigTree(os.path.join(bpid.target_dir, 'Kconfig'), bpid)
-    ignore=['Kconfig.kernel', 'Kconfig.versions']
+    ignore=['Kconfig.kernel', 'Kconfig.versions', 'Kconfig.local']
 
     configtree.verify_sources(ignore=ignore)
     git_debug_snapshot(args, "verify sources on top level backports Kconfig")
@@ -942,6 +942,7 @@ def process(kerneldir, copy_list_file, git_revision=None,
     ignore = [os.path.join(bpid.target_dir, x) for x in [
                 'Kconfig.package.hacks',
                 'Kconfig.versions',
+                'Kconfig.local',
                 'Kconfig',
                 ]
             ]
@@ -960,6 +961,15 @@ def process(kerneldir, copy_list_file, git_revision=None,
             f.write('%s=\n' % sym)
         f.close()
         git_debug_snapshot(args, "add symbols files")
+    # also write Kconfig.local, representing all local symbols
+    # with a BACKPORTED_ prefix
+    f = open(os.path.join(bpid.target_dir, 'Kconfig.local'), 'w')
+    for sym in symbols:
+        f.write('config BACKPORTED_%s\n' % sym)
+        f.write('\ttristate\n')
+        f.write('\tdefault %s\n' % sym)
+    f.close()
+    git_debug_snapshot(args, "add Kconfig.local")
 
     # add defconfigs that we want
     defconfigs_dir = os.path.join(source_dir, 'backport', 'defconfigs')
