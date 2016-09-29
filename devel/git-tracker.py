@@ -12,7 +12,7 @@ problem to occur (although this is less useful since lots of commits
 need to be squashed in the output tree.)
 """
 
-import sys, re, os, argparse, shutil
+import sys, re, os, argparse, shutil, hashlib
 try:
     import configparser as ConfigParser
 except:
@@ -56,7 +56,7 @@ def update_cache_objects(gittree, objdir, input):
 
 def handle_commit(args, msg, branch, treename, kernelobjdir, tmpdir, wgitdir, backport_rev, kernel_rev,
                   prev_kernel_rev=None, defconfig=None, env={}, commit_failure=True,
-                  append_shortlog=None):
+                  append_shortlog=None, add_changeid=False):
     log = []
     def logwrite(l):
         log.append(l)
@@ -127,6 +127,15 @@ def handle_commit(args, msg, branch, treename, kernelobjdir, tmpdir, wgitdir, ba
             'krev': kernel_rev,
           }
 
+            if add_changeid:
+                have_changeid = False
+                for line in msg.split('\n'):
+                    if line.lower().startswith('change-id: I'):
+                        have_changeid = True
+                        break
+                if not have_changeid:
+                    msg += 'Change-Id: I%s\n' % hashlib.sha1(msg).hexdigest()
+
             git.commit(msg, tree=wdir, env=env, opts=['-q', '--allow-empty'])
             git.push(opts=['-f', '-q', 'origin', branch], tree=wdir)
         os.rename(os.path.join(wdir, '.git'), wgitdir)
@@ -162,6 +171,10 @@ if __name__ == '__main__':
         if not config.has_option(tree, 'output'):
             print("No output defined in section %s" % tree)
             sys.exit(3)
+        if config.has_option(tree, 'changeid'):
+            if config.get(tree, 'changeid') != 'true':
+                print("changeid option can only take the value 'true'")
+                sys.exit(3)
 
     with tempdir.tempdir() as kernel_tmpdir:
         # get cachedir, or use temporary directory
@@ -182,6 +195,7 @@ if __name__ == '__main__':
             defconfig = None
             if config.has_option(tree, 'defconfig'):
                 defconfig = config.get(tree, 'defconfig')
+            add_changeid = config.has_option(tree, 'changeid')
             branches = [r.strip() for r in config.get(tree, 'branches').split(',')]
 
             update_cache_objects(input, kernelobjdir, input=True)
@@ -277,7 +291,8 @@ if __name__ == '__main__':
                                                 wgitdir, backport_rev, commit, env=env,
                                                 prev_kernel_rev=prev, defconfig=defconfig,
                                                 commit_failure=not catch_up_from_failure,
-                                                append_shortlog=append_shortlog)
+                                                append_shortlog=append_shortlog,
+                                                add_changeid=add_changeid)
                         if not failure:
                             prev = commit
                             catch_up_from_failure = False
