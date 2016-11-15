@@ -25,7 +25,7 @@ the tools -- menuconfig, defconfig-*, ...
 When the configuration is complete and exists in .config, the autoconf
 header (backport-include/backport/autoconf.h) must be generated. This step is
 also done in the make system (by a small embedded shell script) and needs
-the .local-symbols so it only includes the symbols from the backport.
+the local-symbols so it only includes the symbols from the backport.
 
 After this exists, all that's left to do is source the .config file and
 export everything in there into the environment for calling the kernel's

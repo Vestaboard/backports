@@ -99,7 +99,7 @@ These are the problems and their solutions:
     To achieve this, all Kconfig files are walked during the backporting
     process, starting at the root "Kconfig", and any symbols defined in
     them collected. Later then, only those options are renamed. They are
-    also recorded for the build process in the output file .local-symbols.
+    also recorded for the build process in the output file local-symbols.
 
  2) Kconfig files may reference files that don't exist when they're copied
     but not all the drivers, e.g. drivers/net/wireless/Kconfig is copied

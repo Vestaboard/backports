@@ -953,7 +953,7 @@ def process(kerneldir, copy_list_file, git_revision=None,
 
     # write local symbol list -- needed during packaging build
     if not bpid.integrate:
-        f = open(os.path.join(bpid.target_dir, '.local-symbols'), 'w')
+        f = open(os.path.join(bpid.target_dir, 'local-symbols'), 'w')
         for sym in symbols:
             f.write('%s=\n' % sym)
         f.close()
