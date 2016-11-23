@@ -1,0 +1,75 @@
+@initialize:python@
+@@
+
+first_ops = 0
+
+@r@
+identifier OPS;
+position p;
+@@
+
+struct net_device_ops OPS@p = { ... };
+
+@script:python depends on r@
+@@
+
+first_ops = 0
+
+@script:python@
+p << r.p;
+@@
+
+ln = int(p[0].line)
+if first_ops == 0 or ln < first_ops:
+  first_ops = ln
+
+@script:python@
+p << r.p;
+@@
+
+ln = int(p[0].line)
+if not(first_ops == ln):
+  cocci.include_match(False)
+
+@r1 exists@
+expression ndevexp, e1, e2;
+identifier func;
+@@
+func(...) {
+	<+...
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(4,10,0)
+	ndevexp->min_mtu = e1;
+	ndevexp->max_mtu = e2;
++#endif
+	...+>
+}
+
+@r2@
+expression r1.e1,r1.e2;
+identifier r.OPS;
+@@
++#if LINUX_VERSION_CODE < KERNEL_VERSION(4,10,0)
++ static int __change_mtu(struct net_device *ndev, int new_mtu)
++ {
++ if (new_mtu < e1 || new_mtu > e2)
++             return -EINVAL;
++             ndev->mtu = new_mtu;
++             return 0;
++ }
++#endif
++
+struct net_device_ops OPS = {
+       ...
+};
+
+@depends on r2@
+identifier OPS;
+@@
+
+struct net_device_ops OPS = {
++#if LINUX_VERSION_CODE < KERNEL_VERSION(4,10,0)
++      .ndo_change_mtu = __change_mtu,
++#endif
+       ...
+};
+
