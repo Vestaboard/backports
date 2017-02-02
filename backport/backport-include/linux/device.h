@@ -261,4 +261,16 @@ extern char *devm_kasprintf(struct device *dev, gfp_t gfp,
 			    const char *fmt, ...);
 #endif /* < 3.17 */
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 1, 0)
+#define dev_of_node LINUX_BACKPORT(dev_of_node)
+static inline struct device_node *dev_of_node(struct device *dev)
+{
+#ifndef CONFIG_OF
+	return NULL;
+#else
+	return dev->of_node;
+#endif
+}
+#endif
+
 #endif /* __BACKPORT_DEVICE_H */
