@@ -1,0 +1,60 @@
+diff --git a/net/mac80211/fils_aead.c b/net/mac80211/fils_aead.c
+index ecfdd97758a3..95fc9669ea4f 100644
+--- a/net/mac80211/fils_aead.c
++++ b/net/mac80211/fils_aead.c
+@@ -1,3 +1,4 @@
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(4,3,0)
+ /*
+  * FILS AEAD for (Re)Association Request/Response frames
+  * Copyright 2016, Qualcomm Atheros, Inc.
+@@ -340,3 +341,4 @@ int fils_decrypt_assoc_resp(struct ieee80211_sub_if_data *sdata,
+ 	*frame_len -= AES_BLOCK_SIZE;
+ 	return 0;
+ }
++#endif
+diff --git a/net/mac80211/fils_aead.h b/net/mac80211/fils_aead.h
+index fbc65232f0b3..482bc5fcdd18 100644
+--- a/net/mac80211/fils_aead.h
++++ b/net/mac80211/fils_aead.h
+@@ -10,10 +10,27 @@
+ #ifndef FILS_AEAD_H
+ #define FILS_AEAD_H
+ 
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(4,3,0)
+ int fils_encrypt_assoc_req(struct sk_buff *skb,
+ 			   struct ieee80211_mgd_assoc_data *assoc_data);
+ int fils_decrypt_assoc_resp(struct ieee80211_sub_if_data *sdata,
+ 			    u8 *frame, size_t *frame_len,
+ 			    struct ieee80211_mgd_assoc_data *assoc_data);
++#else
++static inline
++int fils_encrypt_assoc_req(struct sk_buff *skb,
++			   struct ieee80211_mgd_assoc_data *assoc_data)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline
++int fils_decrypt_assoc_resp(struct ieee80211_sub_if_data *sdata,
++			    u8 *frame, size_t *frame_len,
++			    struct ieee80211_mgd_assoc_data *assoc_data)
++{
++	return -EOPNOTSUPP;
++}
++#endif
+ 
+ #endif /* FILS_AEAD_H */
+diff --git a/net/mac80211/main.c b/net/mac80211/main.c
+index a6ecbbf0f47f..afc1517e9729 100644
+--- a/net/mac80211/main.c
++++ b/net/mac80211/main.c
+@@ -553,7 +553,9 @@ struct ieee80211_hw *ieee80211_alloc_hw_nm(size_t priv_data_len,
+ 			   NL80211_FEATURE_MAC_ON_CREATE |
+ 			   NL80211_FEATURE_USERSPACE_MPM |
+ 			   NL80211_FEATURE_FULL_AP_CLIENT_STATE;
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(4,3,0)
+ 	wiphy_ext_feature_set(wiphy, NL80211_EXT_FEATURE_FILS_STA);
++#endif
+ 
+ 	if (!ops->hw_scan)
+ 		wiphy->features |= NL80211_FEATURE_LOW_PRIORITY_SCAN |
