@@ -79,7 +79,6 @@ class backport_kernel_updater:
         sys.exit(1)
     def __init__(self,
                  force=False,
-                 rebuild_only=False,
                  git_trees_only=False,
                  reference=None):
         self.ksrc_base = ""
@@ -96,7 +95,6 @@ class backport_kernel_updater:
         self.kernel_vers_count = list()
         self.root = os.geteuid() == 0
         self.force = force
-        self.rebuild_only = rebuild_only
         self.git_trees_only = git_trees_only
         self.reference = reference
         self.reference_git = None
@@ -247,9 +245,9 @@ class backport_kernel_updater:
             sys.exit(1)
         sys.stdout.write("\n")
     def warn_size_reqs(self):
-        if self.force or self.rebuild_only:
+        if self.force:
             return
-        if not self.rebuild_only and not self.git_trees_only:
+        if not self.git_trees_only:
             self.warn_size_reqs_about()
         if not self.git_trees_only:
             self.warn_size_reqs_kernels()
@@ -522,32 +520,6 @@ class backport_kernel_updater:
                              cwd=kbuild_path)
         p.wait()
         null_file.close()
-    def rebuild_binary_deps(self, kpath, count):
-        kbuild_path = os.path.join(kpath, "build")
-        for target in ['basic', 'mod', 'genksyms']:
-            modpath = 'scripts/' + target
-            if count == 0:
-                make_args = ['-C' + kbuild_path, 'M=' + modpath, '-j', '4', 'clean' ]
-                self.make_kdir(make_args, kbuild_path)
-            make_args = ['-C' + kbuild_path, 'M=' + modpath, '-j', '4' ]
-            self.make_kdir(make_args, kbuild_path)
-    def rebuild_kdir_binary_deps(self, kpath):
-        """
-        We found out empirically at least 4 rebuilds are required...
-        """
-        kver = self.get_kver(kpath)
-        sys.stdout.write("%s - rebuilding binary dependencies ...\n" % kver.get('ver'))
-        for count in range(0, 4):
-            self.rebuild_binary_deps(kpath, count)
-    def rebuild_header_binary_deps(self):
-        dir_target = os.path.join(self.ksrc_prefix, "lib/modules")
-        for kdir in os.listdir(dir_target):
-            if not self.rebuild_needed(kdir):
-                continue
-            if not self.rebuild_only and not self.is_new_kernel(kdir):
-                continue
-            kpath = os.path.join(dir_target, kdir)
-            self.rebuild_kdir_binary_deps(kpath)
     def clone_git_tree(self, git_tree):
         sys.stdout.write("Cloning tree %s\n" % git_tree.get('git_url'))
         git.clone(git_tree.get('git_url'),
@@ -589,8 +561,6 @@ def _main():
     parser = argparse.ArgumentParser(description='Linux kernel backports update manager')
     parser.add_argument('--force', const=True, default=False, action="store_const",
                         help='Force run without sanity or careful user checks')
-    parser.add_argument('--rebuild-only', const=True, default=False, action="store_const",
-                        help='Only rebuild the binary kernel header dependencies, don\'t download new stuff')
     parser.add_argument('--git-trees-only', const=True, default=False, action="store_const",
                         help='Only download or update the required git trees')
     parser.add_argument('--reference', metavar='<path-to-git-obj-dir>', type=str,
@@ -599,7 +569,6 @@ def _main():
     args = parser.parse_args()
 
     bk_updater = backport_kernel_updater(force=args.force,
-                                         rebuild_only=args.rebuild_only,
                                          git_trees_only=args.git_trees_only,
                                          reference=args.reference)
 
@@ -608,9 +577,6 @@ def _main():
     bk_updater.move_old_compat_dirs()
     bk_updater.prep_dirs()
 
-    if bk_updater.rebuild_only:
-        bk_updater.rebuild_header_binary_deps()
-        return 0
     if bk_updater.git_trees_only:
         bk_updater.update_git_trees()
         return 0
@@ -619,7 +585,6 @@ def _main():
     bk_updater.remove_stale_kernel_dirs()
     bk_updater.get_backport_pkgs()
     bk_updater.extract_backport_pkgs()
-    bk_updater.rebuild_header_binary_deps()
     bk_updater.update_git_trees()
 
     return 0
