@@ -330,4 +330,12 @@ static inline void netif_tx_napi_add(struct net_device *dev,
 #define NETIF_F_CSUM_MASK NETIF_F_ALL_CSUM
 #endif
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4,7,0)
+#define netif_trans_update LINUX_BACKPORT(netif_trans_update)
+static inline void netif_trans_update(struct net_device *dev)
+{
+	dev->trans_start = jiffies;
+}
+#endif
+
 #endif /* __BACKPORT_NETDEVICE_H */
