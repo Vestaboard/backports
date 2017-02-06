@@ -5,7 +5,7 @@
  }
  
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,13,0)
- static int bcma_of_irq_parse(struct platform_device *parent,
+ static int bcma_of_irq_parse(struct device *parent,
  			     struct bcma_device *core,
  			     struct of_phandle_args *out_irq, int num)
 @@ -195,6 +196,13 @@ static unsigned int bcma_of_get_irq(stru
@@ -13,7 +13,7 @@
  	return irq_create_of_mapping(&out_irq);
  }
 +#else
-+static unsigned int bcma_of_get_irq(struct platform_device *parent,
++static unsigned int bcma_of_get_irq(struct device *parent,
 +				    struct bcma_device *core, int num)
 +{
 +	return 0;
