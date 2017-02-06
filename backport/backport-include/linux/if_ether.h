@@ -39,4 +39,8 @@
 #define ETH_P_8021AD	0x88A8          /* 802.1ad Service VLAN		*/
 #endif
 
+#ifndef ETH_MAX_MTU
+#define ETH_MAX_MTU	0xFFFFU
+#endif
+
 #endif /* __BACKPORT_IF_ETHER_H */
