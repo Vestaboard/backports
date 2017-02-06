@@ -421,7 +421,7 @@ class backport_kernel_updater:
             return
         kver['count'] = kver['count'] + 1
         if kver['count'] >= 2:
-            sys.stdout.write("%s - up to date !\n" % kver.get('ver'))
+            sys.stdout.write("%s - up to date!\n" % kver.get('ver'))
     def is_new_kernel(self, string):
         if self.force:
             return True
