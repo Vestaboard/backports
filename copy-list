@@ -86,27 +86,6 @@ drivers/net/usb/cdc_ether.c
 drivers/net/usb/usbnet.c
 
 
-# Bluetooth
-include/net/bluetooth/
-net/bluetooth/
-drivers/bluetooth/
-
-
-# Ethernet drivers
-drivers/net/ethernet/Kconfig
-drivers/net/ethernet/Makefile
-
-drivers/net/ethernet/atheros/
-
-drivers/net/ethernet/broadcom/Kconfig
-drivers/net/ethernet/broadcom/Makefile
-drivers/net/ethernet/broadcom/b44.c
-drivers/net/ethernet/broadcom/b44.h
-
-drivers/net/ethernet/intel/Kconfig
-drivers/net/ethernet/intel/Makefile
-drivers/net/ethernet/intel/igb/
-
 # wwan drivers
 include/uapi/linux/usb/cdc.h
 include/uapi/linux/usb/cdc-wdm.h
@@ -133,51 +112,6 @@ include/linux/platform_data/nxp-nci.h
 include/linux/platform_data/pn544.h
 include/linux/platform_data/st21nfca.h
 include/linux/platform_data/st-nci.h
-
-# Media
-include/media/
-
-include/linux/videodev2.h
-
-include/uapi/linux/media.h
-include/uapi/linux/dvb/
-include/uapi/linux/v4l2-common.h
-include/uapi/linux/v4l2-controls.h
-include/uapi/linux/v4l2-dv-timings.h
-include/uapi/linux/v4l2-mediabus.h
-include/uapi/linux/media-bus-format.h
-include/uapi/linux/v4l2-subdev.h
-include/uapi/linux/videodev2.h
-include/uapi/linux/vsp1.h
-include/trace/events/v4l2.h
-include/trace/events/vb2.h
-drivers/staging/media/cxd2099/cxd2099.h
-include/uapi/linux/ivtv.h
-include/uapi/linux/meye.h
-
-include/dt-bindings/media/tvp5150.h
-
-drivers/media/
-include/linux/platform_data/media/gpio-ir-recv.h
-include/linux/of_graph.h
-include/uapi/linux/lirc.h
-include/uapi/linux/usb/video.h
-
-include/net/6lowpan.h
-include/net/cfg802154.h
-include/net/netns/ieee802154_6lowpan.h
-include/net/nl802154.h
-include/net/mac802154.h
-include/linux/ieee802154.h
-include/net/af_ieee802154.h
-include/linux/nl802154.h
-include/net/ieee802154_netdev.h
-include/linux/spi/at86rf230.h
-include/linux/spi/cc2520.h
-net/6lowpan/
-net/ieee802154/
-net/mac802154/
-drivers/net/ieee802154/
 
 # MPLS labels, checked on skb->protocol on the
 # respective 802 family, only ethernet seems to use
