@@ -33,9 +33,15 @@ declarer name ATTRIBUTE_GROUPS;
 
 ATTRIBUTE_GROUPS(group);
 
-@ class_group depends on attribute_group @
+@script:python attribute_groups_name@
+group << attribute_group.group;
+groups;
+@@
+coccinelle.groups = group + "_groups"
+
+@ class_group @
 identifier group_class;
-expression groups;
+identifier attribute_groups_name.groups;
 fresh identifier group_dev_attr = attribute_group.group ## "_dev_attrs";
 @@
 
@@ -47,9 +53,9 @@ struct class group_class = {
 +#endif
 };
 
-@ attribute_group_mod depends on attribute_group && class_group @
+@ attribute_group_mod depends on class_group @
 declarer name ATTRIBUTE_GROUPS_BACKPORT;
-identifier group;
+identifier attribute_group.group;
 @@
 
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,11,0)
@@ -59,10 +65,10 @@ ATTRIBUTE_GROUPS(group);
 +ATTRIBUTE_GROUPS_BACKPORT(group);
 +#endif
 
-@ class_registering depends on class_group && attribute_group_mod @
+@ class_registering @
 identifier class_register, ret;
 identifier class_group.group_class;
-fresh identifier group_class_init = "init_" ## attribute_group_mod.group ## "_attrs";
+fresh identifier group_class_init = "init_" ## attribute_group.group ## "_attrs";
 @@
 
 (
