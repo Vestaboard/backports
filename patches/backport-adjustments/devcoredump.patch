@@ -62,7 +62,7 @@
 +#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,11,0)
  	.dev_groups	= devcd_dev_groups,
 +#endif
- 	.class_attrs	= devcd_class_attrs,
+ 	.class_groups	= devcd_class_groups,
  };
  
 @@ -270,6 +281,11 @@ void dev_coredumpm(struct device *dev, s
