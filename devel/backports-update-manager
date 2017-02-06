@@ -470,16 +470,6 @@ class backport_kernel_updater:
             sys.stdout.write("dst: %s\n" % dst)
             self.rm_clean_dir(dst)
             shutil.move(src, dst)
-    def fix_makefile_old_kernels(self, makefile):
-        if not os.path.isfile(makefile):
-            return
-        if '-generic' in makefile:
-            return
-        kver = self.get_kver(makefile)
-        sys.stdout.write("%s - fixing Makefile due to make 3.82 bug (required for 2.6.24-2.6.28) ...\n" % (kver.get('ver')))
-        for line in fileinput.input(makefile, inplace=True):
-            print("%s" % (re.sub('^/ %', '%', line))),
-        fileinput.close()
     def sanitize_and_install_kernel_dirs(self, dir_path):
         d_lib_modules = os.path.join(dir_path, "lib/modules")
         d_usr_src     = os.path.join(dir_path, "usr/src")
