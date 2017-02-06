@@ -479,22 +479,25 @@ class backport_kernel_updater:
             self.fix_header_lib_modules(d_lib_modules)
     def extract_backport_pkgs(self):
         tmp_prefix = BACKPORTS_KSRC_DIR + '_'
-        tmpdir_path = tempfile.mkdtemp(prefix=tmp_prefix)
         for url in self.all_kernel_urls:
-            kver = self.get_kver(url)
-            dir_target = os.path.join(self.ksrc_prefix, "debs")
-            target = os.path.join(dir_target, url.split('/')[-1])
-            if not self.is_new_kernel(url):
-                sys.stdout.write("%s - already installed %s ...\n" % (kver.get('ver'), target))
-                continue
-            sys.stdout.write("%s - extracting new %s ...\n" % (kver.get('ver'), target))
-            data, dpath = tempfile.mkstemp(prefix=tmp_prefix)
-            ar.print_data(target, data)
-            tar = tarfile.open(name=dpath, mode='r')
-            tar.extractall(path=tmpdir_path, members=bk_tar_members(tar))
-            os.unlink(dpath)
-        self.sanitize_and_install_kernel_dirs(tmpdir_path)
-        self.rm_clean_dir(tmpdir_path)
+            tmpdir_path = tempfile.mkdtemp(prefix=tmp_prefix)
+            try:
+                kver = self.get_kver(url)
+                dir_target = os.path.join(self.ksrc_prefix, "debs")
+                target = os.path.join(dir_target, url.split('/')[-1])
+                if not self.is_new_kernel(url):
+                    sys.stdout.write("%s - already installed %s ...\n" % (kver.get('ver'), target))
+                    continue
+                sys.stdout.write("%s - extracting new %s ...\n" % (kver.get('ver'), target))
+                data, dpath = tempfile.mkstemp(prefix=tmp_prefix)
+                ar.print_data(target, data)
+                tar = tarfile.open(name=dpath, mode='r')
+                tar.extractall(path=tmpdir_path, members=bk_tar_members(tar))
+                os.unlink(dpath)
+
+                self.sanitize_and_install_kernel_dirs(tmpdir_path)
+            finally:
+                self.rm_clean_dir(tmpdir_path)
     def rebuild_needed(self, kdir):
         if '-generic' not in kdir:
             return False
