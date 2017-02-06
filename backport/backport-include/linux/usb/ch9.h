@@ -21,4 +21,8 @@ static inline int usb_endpoint_maxp(const struct usb_endpoint_descriptor *epd)
 }
 #endif /* < 3.2 */
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4,6,0)
+#define USB_SPEED_SUPER_PLUS	6
+#endif
+
 #endif /* __BACKPORT__LINUX_USB_CH9_H */
