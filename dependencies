@@ -150,3 +150,6 @@ IPW2100 4.3
 IPW2200 4.3
 HOSTAP 4.3
 LIBERTAS 4.3
+
+# some prototypes changed - might be fixable but I'm lazy
+NFC_WILINK 4.8
