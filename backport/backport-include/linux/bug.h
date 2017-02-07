@@ -11,4 +11,8 @@
 #endif /* __CHECKER__ */
 #endif /* __BUILD_BUG_ON_NOT_POWER_OF_2 */
 
+#ifndef BUILD_BUG_ON_MSG
+#define BUILD_BUG_ON_MSG(x, msg) BUILD_BUG_ON(x)
+#endif
+
 #endif /* __BP_BUG_H */
