@@ -56,4 +56,9 @@ static inline void idr_preload_end(void)
 }
 #endif
 
+#ifndef idr_for_each_entry
+#define idr_for_each_entry(idp, entry, id)			\
+	for (id = 0; ((entry) = idr_get_next(idp, &(id))) != NULL; ++id)
+#endif
+
 #endif /* __BACKPORT_IDR_H */
