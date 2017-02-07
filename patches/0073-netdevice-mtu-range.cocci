@@ -3,6 +3,32 @@
 
 first_ops = 0
 
+@both@
+expression ndevexp;
+constant e1, e2;
+identifier func;
+position p;
+@@
+func(...) {
+	<+...
+	ndevexp->min_mtu = e1;
+	ndevexp->max_mtu@p = e2;
+	...+>
+}
+
+@@
+expression ndevexp;
+constant MAX;
+identifier func;
+position p != both.p;
+@@
+func(...) {
+	<+...
++	ndevexp->min_mtu = 0;
+	ndevexp->max_mtu@p = MAX;
+	...+>
+}
+
 @r@
 identifier OPS;
 position p;
@@ -32,7 +58,8 @@ if not(first_ops == ln):
   cocci.include_match(False)
 
 @r1 exists@
-expression ndevexp, e1, e2;
+expression ndevexp;
+constant e1, e2;
 identifier func;
 @@
 func(...) {
@@ -45,7 +72,7 @@ func(...) {
 }
 
 @r2@
-expression r1.e1,r1.e2;
+constant r1.e1,r1.e2;
 identifier r.OPS;
 @@
 +#if LINUX_VERSION_CODE < KERNEL_VERSION(4,10,0)
