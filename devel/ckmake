@@ -20,7 +20,7 @@ import subprocess
 import sys
 import signal
 
-from Queue import *
+from Queue import Queue
 from threading import Thread, Lock
 from shutil import copytree, ignore_patterns, rmtree, copyfileobj
 from time import sleep
