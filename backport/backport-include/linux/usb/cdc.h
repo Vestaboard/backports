@@ -13,6 +13,10 @@
 
 #define CDC_PHONET_MAGIC_NUMBER		0xAB
 
+#ifndef USB_CDC_MBIM_EXTENDED_TYPE
+#define USB_CDC_MBIM_EXTENDED_TYPE 0x1c
+#endif
+
 /*
  * parsing CDC headers
  */
