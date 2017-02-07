@@ -103,7 +103,8 @@ NFC_TRF7970A 3.4
 
 INTEL_IPS 3.2
 
-NFC_MEI_PHY 3.10
+# needs mei_cldev_register_rx_cb
+NFC_MEI_PHY 4.10
 
 # missing linux/gpio/consumer.h
 NFC_PN544_I2C 3.13
