@@ -16,54 +16,6 @@
 #include <linux/skbuff.h>
 #include <net/netlink.h>
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(4,1,0)
-#include <linux/rhashtable.h>
-
-/**
- * rhashtable_walk_init - Initialise an iterator
- * @ht:		Table to walk over
- * @iter:	Hash table Iterator
- * @gfp:	GFP flags for allocations
- *
- * This function prepares a hash table walk.
- *
- * Note that if you restart a walk after rhashtable_walk_stop you
- * may see the same object twice.  Also, you may miss objects if
- * there are removals in between rhashtable_walk_stop and the next
- * call to rhashtable_walk_start.
- *
- * For a completely stable walk you should construct your own data
- * structure outside the hash table.
- *
- * This function may sleep so you must not call it from interrupt
- * context or with spin locks held.
- *
- * You must call rhashtable_walk_exit if this function returns
- * successfully.
- */
-int rhashtable_walk_init(struct rhashtable *ht, struct rhashtable_iter *iter,
-			 gfp_t gfp)
-{
-	iter->ht = ht;
-	iter->p = NULL;
-	iter->slot = 0;
-	iter->skip = 0;
-
-	iter->walker = kmalloc(sizeof(*iter->walker), gfp);
-	if (!iter->walker)
-		return -ENOMEM;
-
-	spin_lock(&ht->lock);
-	iter->walker->tbl =
-		rcu_dereference_protected(ht->tbl, lockdep_is_held(&ht->lock));
-	list_add(&iter->walker->list, &iter->walker->tbl->walkers);
-	spin_unlock(&ht->lock);
-
-	return 0;
-}
-EXPORT_SYMBOL_GPL(rhashtable_walk_init);
-#endif /* >= 4.1 */
-
 /**
  * __nla_reserve_64bit - reserve room for attribute on the skb and align it
  * @skb: socket buffer to reserve room on
