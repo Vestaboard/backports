@@ -5,7 +5,6 @@
 #include_next <linux/kconfig.h>
 #endif
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,4,0)
 #ifndef __ARG_PLACEHOLDER_1
 #define __ARG_PLACEHOLDER_1 0,
 #define config_enabled(cfg) _config_enabled(cfg)
@@ -43,5 +42,4 @@
 		 (config_enabled(option##_MODULE) && config_enabled(MODULE)))
 #endif
 
-#endif
 #endif
