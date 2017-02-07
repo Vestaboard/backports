@@ -16,6 +16,7 @@
 #include <linux/thermal.h>
 #include <linux/slab.h>
 
+#if LINUX_VERSION_IS_GEQ(3,8,0)
 struct backport_thermal_ops_wrapper {
 	old_thermal_zone_device_ops_t ops;
 	struct thermal_zone_device_ops *driver_ops;
@@ -168,6 +169,8 @@ void backport_thermal_zone_device_unregister(struct thermal_zone_device *dev)
 	kfree(wrapper);
 }
 EXPORT_SYMBOL_GPL(backport_thermal_zone_device_unregister);
+
+#endif /* >= 3.8.0 */
 
 static void seq_set_overflow(struct seq_file *m)
 {
