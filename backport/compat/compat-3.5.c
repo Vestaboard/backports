@@ -149,4 +149,19 @@ int devm_gpio_request_one(struct device *dev, unsigned gpio,
 	return 0;
 }
 EXPORT_SYMBOL_GPL(devm_gpio_request_one);
+
+static int devm_gpio_match(struct device *dev, void *res, void *data)
+{
+	unsigned *this = res, *gpio = data;
+
+	return *this == *gpio;
+}
+
+void devm_gpio_free(struct device *dev, unsigned int gpio)
+{
+	WARN_ON(devres_destroy(dev, devm_gpio_release, devm_gpio_match,
+		&gpio));
+	gpio_free(gpio);
+}
+EXPORT_SYMBOL_GPL(devm_gpio_free);
 #endif /* CONFIG_GPIOLIB */
