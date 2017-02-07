@@ -2,6 +2,10 @@
 #define __BACKPORT_SCATTERLIST_H
 #include_next <linux/scatterlist.h>
 
+#if LINUX_VERSION_IS_LESS(3,7,0)
+int sg_nents(struct scatterlist *sg);
+#endif
+
 #if LINUX_VERSION_CODE < KERNEL_VERSION(3, 9, 0)
 
 /*

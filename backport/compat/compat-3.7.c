@@ -13,6 +13,7 @@
 #include <linux/pci.h>
 #include <linux/pci_regs.h>
 #include <linux/of.h>
+#include <linux/scatterlist.h>
 
 bool mod_delayed_work(struct workqueue_struct *wq, struct delayed_work *dwork,
 		      unsigned long delay)
@@ -278,3 +279,12 @@ struct device_node *of_get_child_by_name(const struct device_node *node,
 EXPORT_SYMBOL_GPL(of_get_child_by_name);
 #endif /* (LINUX_VERSION_CODE < KERNEL_VERSION(3,7,0)) */
 #endif /* CONFIG_OF */
+
+int sg_nents(struct scatterlist *sg)
+{
+	int nents;
+	for (nents = 0; sg; sg = sg_next(sg))
+		nents++;
+	return nents;
+}
+EXPORT_SYMBOL_GPL(sg_nents);
