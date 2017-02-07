@@ -3,13 +3,9 @@
 This package provides backport support for drivers from newer kernels
 down to older kernels. It currently backports the following subsystems:
 
-  * Ethernet
   * Wireless
-  * Bluetooth
   * NFC
-  * ieee802154
-  * Media
-  * Regulator
+  * WWAN
 
 This package provides the latest Linux kernel subsystem enhancements
 for kernels 3.0 and above.
