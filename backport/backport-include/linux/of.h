@@ -204,4 +204,56 @@ static inline const char* of_node_full_name(const struct device_node *np)
 	while (0)
 #endif
 
+#ifndef CONFIG_OF
+#if LINUX_VERSION_IS_LESS(3,10,0)
+static inline int of_device_is_available(const struct device_node *device)
+{
+	return 0;
+}
+#endif
+
+#if LINUX_VERSION_IS_LESS(3,6,0) && !LINUX_VERSION_IN_RANGE(3,2,70, 3,3,0)
+static inline int of_property_match_string(struct device_node *np,
+					   const char *propname,
+					   const char *string)
+{
+	return -ENOSYS;
+}
+#endif
+
+#if LINUX_VERSION_IS_LESS(3,2,0)
+static inline struct property *of_find_property(const struct device_node *np,
+						const char *name, int *lenp)
+{
+	return NULL;
+}
+
+static inline int of_device_is_compatible(const struct device_node *device,
+					  const char *name)
+{
+	return 0;
+}
+
+static inline struct device_node *of_parse_phandle(struct device_node *np,
+						   const char *phandle_name,
+						   int index)
+{
+	return NULL;
+}
+
+#define of_match_node(_matches, _node)	NULL
+#endif
+
+#endif /* CONFIG_OF */
+
+#if LINUX_VERSION_IS_LESS(3,4,0) && !LINUX_VERSION_IN_RANGE(3,2,44, 3,3,0)
+static inline bool of_property_read_bool(const struct device_node *np,
+					 const char *propname)
+{
+	struct property *prop = of_find_property(np, propname, NULL);
+
+	return prop ? true : false;
+}
+#endif
+
 #endif	/* _COMPAT_LINUX_OF_H */

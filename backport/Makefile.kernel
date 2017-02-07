@@ -31,6 +31,7 @@ NOSTDINC_FLAGS := \
 endif
 
 subdir-ccflags-y += $(call cc-option, -fno-pie) $(call cc-option, -no-pie)
+subdir-ccflags-y += -Wno-pointer-sign -Wno-unused-but-set-variable
 
 obj-y += compat/
 
