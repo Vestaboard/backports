@@ -3,6 +3,8 @@
 #include_next <linux/of_platform.h>
 #include <linux/version.h>
 #include <linux/of.h>
+/* upstream now includes this here and some people rely on it */
+#include <linux/of_device.h>
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(3,4,0) && !defined(CONFIG_OF_DEVICE)
 struct of_dev_auxdata;
