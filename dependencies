@@ -77,6 +77,8 @@ VIDEO_FB_IVTV 4.2
 
 BCMA_DRIVER_MIPS 3.3
 SSB_DRIVER_MIPS 3.3
+# needs GPIO stuff we didn't backport
+SSB_DRIVER_GPIO 4.5
 
 # the irq handler in the gpio driver uses 
 # irq_set_chip_and_handler_name() which gets exported starting with 
