@@ -217,3 +217,29 @@ void seq_hex_dump(struct seq_file *m, const char *prefix_str, int prefix_type,
 	}
 }
 EXPORT_SYMBOL_GPL(seq_hex_dump);
+
+ssize_t strscpy(char *dest, const char *src, size_t count)
+{
+	long res = 0;
+
+	if (count == 0)
+		return -E2BIG;
+
+	while (count) {
+		char c;
+
+		c = src[res];
+		dest[res] = c;
+		if (!c)
+			return res;
+		res++;
+		count--;
+	}
+
+	/* Hit buffer length without finding a NUL; force NUL-termination. */
+	if (res)
+		dest[res-1] = '\0';
+
+	return -E2BIG;
+}
+EXPORT_SYMBOL_GPL(strscpy);

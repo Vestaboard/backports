@@ -25,4 +25,8 @@ extern void *memdup_user_nul(const void __user *, size_t);
 void memzero_explicit(void *s, size_t count);
 #endif
 
+#if LINUX_VERSION_IS_LESS(4,3,0)
+ssize_t strscpy(char *dest, const char *src, size_t count);
+#endif
+
 #endif /* __BACKPORT_LINUX_STRING_H */
