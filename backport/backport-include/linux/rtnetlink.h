@@ -18,5 +18,4 @@
 	ndo_dflt_fdb_add(ndm, tb, dev, addr, flags)
 #endif
 
-			    
 #endif /* __BACKPORT_LINUX_RTNETLINK_H */

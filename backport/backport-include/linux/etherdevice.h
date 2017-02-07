@@ -54,8 +54,8 @@ static inline void eth_random_addr(u8 *addr)
  * commit 6d57e9078e880a3dd232d579f42ac437a8f1ef7b
  * Author: Duan Jiong <djduanjiong@gmail.com>
  * Date:   Sat Sep 8 16:32:28 2012 +0000
- * 
- *     etherdevice: introduce help function eth_zero_addr() 
+ *
+ *     etherdevice: introduce help function eth_zero_addr()
  */
 #define eth_zero_addr LINUX_BACKPORT(eth_zero_addr)
 static inline void eth_zero_addr(u8 *addr)

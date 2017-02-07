@@ -174,7 +174,7 @@ static inline void init_##_name##_attrs(void) {}		\
 __ATTRIBUTE_GROUPS(_name)
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(3,13,0)
-#define devm_kmalloc(dev, size, flags) devm_kzalloc(dev, size, flags) 
+#define devm_kmalloc(dev, size, flags) devm_kzalloc(dev, size, flags)
 #endif
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(3,15,0)

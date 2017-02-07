@@ -18,7 +18,7 @@ void ida_simple_remove(struct ida *ida, unsigned int id);
 #include <linux/errno.h>
 /**
  * backport of idr idr_alloc() usage
- * 
+ *
  * This backports a patch series send by Tejun Heo:
  * https://lkml.org/lkml/2013/2/2/159
  */
