@@ -142,3 +142,9 @@ IGB 3.11
 
 # This driver needs mmc_hw_reset() which was added in kernel version 3.2
 MWIFIEX_SDIO 3.2
+
+# these need LIB80211 and thus SKCIPHER - disable them
+IPW2100 4.3
+IPW2200 4.3
+HOSTAP 4.3
+LIBERTAS 4.3
