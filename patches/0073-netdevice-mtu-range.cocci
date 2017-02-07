@@ -64,10 +64,8 @@ identifier func;
 @@
 func(...) {
 	<+...
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4,10,0)
 	ndevexp->min_mtu = e1;
 	ndevexp->max_mtu = e2;
-+#endif
 	...+>
 }
 
