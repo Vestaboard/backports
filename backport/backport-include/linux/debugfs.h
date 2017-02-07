@@ -39,4 +39,18 @@ debugfs_create_bool(const char *name, umode_t mode,
 #endif
 #endif /* LINUX_VERSION_CODE < KERNEL_VERSION(4,4,0) */
 
+#if LINUX_VERSION_IS_LESS(4,9,0) && \
+    !LINUX_VERSION_IS_GEQ(4,8,4) && \
+    !LINUX_VERSION_IS_GEQ(4,7,10)
+static inline const struct file_operations *
+debugfs_real_fops(const struct file *filp)
+{
+	/*
+	 * Neither the pointer to the struct file_operations, nor its
+	 * contents ever change -- srcu_dereference() is not needed here.
+	 */
+	return filp->f_path.dentry->d_fsdata;
+}
+#endif /* <4.9.0 but not >= 4.8.4, 4.7.10 */
+
 #endif /* __BACKPORT_DEBUGFS_H_ */
