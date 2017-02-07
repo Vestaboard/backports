@@ -22,6 +22,13 @@
         (config_enabled(option) || config_enabled(option##_MODULE))
 #endif
 
+/*
+ * Since 4.9 config_enabled has been removed in favor of __is_defined.
+ */
+#ifndef config_enabled
+#define config_enabled(cfg)	__is_defined(cfg)
+#endif
+
 #undef IS_BUILTIN
 #define IS_BUILTIN(option) config_enabled(option)
 
