@@ -40,8 +40,8 @@ debugfs_create_bool(const char *name, umode_t mode,
 #endif /* LINUX_VERSION_CODE < KERNEL_VERSION(4,4,0) */
 
 #if LINUX_VERSION_IS_LESS(4,9,0) && \
-    !LINUX_VERSION_IS_GEQ(4,8,4) && \
-    !LINUX_VERSION_IS_GEQ(4,7,10)
+    !LINUX_VERSION_IN_RANGE(4,8,4, 4,9,0) && \
+    !LINUX_VERSION_IN_RANGE(4,7,10, 4,8,0)
 static inline const struct file_operations *
 debugfs_real_fops(const struct file *filp)
 {
