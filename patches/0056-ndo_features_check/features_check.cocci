@@ -3,9 +3,9 @@ identifier s, func;
 @@
 
 struct net_device_ops s = {
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,19,0)
++#if LINUX_VERSION_IS_GEQ(3,19,0)
 .ndo_features_check = func,
-+#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,19,0) */
++#endif /* LINUX_VERSION_IS_GEQ(3,19,0) */
 };
 
 // ----------------------------------------------------------------------
@@ -14,6 +14,6 @@ struct net_device_ops s = {
 identifier r1.func;
 @@
 
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,19,0)
++#if LINUX_VERSION_IS_GEQ(3,19,0)
 func(...) { ... }
-+#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,19,0) */
++#endif /* LINUX_VERSION_IS_GEQ(3,19,0) */

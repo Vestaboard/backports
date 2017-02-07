@@ -35,11 +35,11 @@ static inline void thermal_notify_framework(struct thermal_zone_device *tz,
 { }
 #else /* < 3.8.0 */
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,10,0)
+#if LINUX_VERSION_IS_LESS(3,10,0)
 #define thermal_notify_framework notify_thermal_framework
-#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,10,0) */
+#endif /* LINUX_VERSION_IS_LESS(3,10,0) */
 
-#if (LINUX_VERSION_CODE < KERNEL_VERSION(4,3,0))
+#if LINUX_VERSION_IS_LESS(4,3,0)
 
 typedef struct thermal_zone_device_ops old_thermal_zone_device_ops_t;
 
@@ -108,7 +108,7 @@ void backport_thermal_zone_device_unregister(struct thermal_zone_device *);
 #define thermal_zone_device_unregister			\
 	LINUX_BACKPORT(thermal_zone_device_unregister)
 
-#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(4,3,0) */
+#endif /* LINUX_VERSION_IS_LESS(4,3,0) */
 #endif /* ! < 3.8.0 */
 
 #endif /* __BACKPORT_LINUX_THERMAL_H */

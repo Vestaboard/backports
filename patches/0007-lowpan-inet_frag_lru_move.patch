@@ -8,7 +8,7 @@ and then domain specific inet_frag_lru_move() define.
  	fq->d_size = arg->d_size;
  	fq->saddr = *arg->src;
  	fq->daddr = *arg->dst;
-+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,9,0)
++#if LINUX_VERSION_IS_LESS(3,9,0)
 +	spin_lock_init(&fq->lru_lock);
 +#endif
  }
@@ -28,12 +28,12 @@ and then domain specific inet_frag_lru_move() define.
  	u16			d_size;
  	struct ieee802154_addr	saddr;
  	struct ieee802154_addr	daddr;
-+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,9,0)
++#if LINUX_VERSION_IS_LESS(3,9,0)
 +	spinlock_t		lru_lock;
 +#endif
  };
  
-+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,9,0)
++#if LINUX_VERSION_IS_LESS(3,9,0)
 +/*
 + * XXX: this is a *domain* specific inet_frag_lru_move backport,
 + * note the added lowpan_ prefix, this requires a respective patch
@@ -52,7 +52,7 @@ and then domain specific inet_frag_lru_move() define.
 +	list_move_tail(&q->lru_list, &q->net->lru_list);
 +	spin_unlock(&fq->lru_lock);
 +}
-+#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,9,0) */
++#endif /* LINUX_VERSION_IS_LESS(3,9,0) */
 +
  static inline u32 ieee802154_addr_hash(const struct ieee802154_addr *a)
  {

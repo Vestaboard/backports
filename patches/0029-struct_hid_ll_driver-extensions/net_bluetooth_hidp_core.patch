@@ -4,7 +4,7 @@
  	input_sync(dev);
  }
  
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,15,0)
++#if LINUX_VERSION_IS_GEQ(3,15,0)
  static int hidp_get_raw_report(struct hid_device *hid,
  		unsigned char report_number,
  		unsigned char *data, size_t count,
@@ -20,7 +20,7 @@
  	.stop = hidp_stop,
  	.open  = hidp_open,
  	.close = hidp_close,
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,15,0)
++#if LINUX_VERSION_IS_GEQ(3,15,0)
  	.raw_request = hidp_raw_request,
  	.output_report = hidp_output_report,
 +#endif

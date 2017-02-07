@@ -12,7 +12,7 @@
  /* if data isn't read by userspace after 5 minutes then delete it */
  #define DEVCD_TIMEOUT	(HZ * 60 * 5)
  
-+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0)
++#if LINUX_VERSION_IS_LESS(3,11,0)
 +static struct bin_attribute devcd_attr_data;
 +#endif
 +
@@ -33,7 +33,7 @@
  
  	devcd = container_of(wk, struct devcd_entry, del_wk.work);
  
-+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0)
++#if LINUX_VERSION_IS_LESS(3,11,0)
 +	device_remove_bin_file(&devcd->devcd_dev, &devcd_attr_data);
 +#endif
  	device_del(&devcd->devcd_dev);
@@ -43,7 +43,7 @@
  	.write = devcd_data_write,
  };
  
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,11,0)
++#if LINUX_VERSION_IS_GEQ(3,11,0)
  static struct bin_attribute *devcd_dev_bin_attrs[] = {
  	&devcd_attr_data, NULL,
  };
@@ -51,7 +51,7 @@
  static const struct attribute_group *devcd_dev_groups[] = {
  	&devcd_dev_group, NULL,
  };
-+#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,11,0) */
++#endif /* LINUX_VERSION_IS_GEQ(3,11,0) */
  
  static int devcd_free(struct device *dev, void *data)
  {
@@ -59,7 +59,7 @@
  	.name		= "devcoredump",
  	.owner		= THIS_MODULE,
  	.dev_release	= devcd_dev_release,
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,11,0)
++#if LINUX_VERSION_IS_GEQ(3,11,0)
  	.dev_groups	= devcd_dev_groups,
 +#endif
  	.class_groups	= devcd_class_groups,
@@ -69,7 +69,7 @@
  	if (device_add(&devcd->devcd_dev))
  		goto put_device;
  
-+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0)
++#if LINUX_VERSION_IS_LESS(3,11,0)
 +	if (device_create_bin_file(&devcd->devcd_dev, &devcd_attr_data))
 +		goto put_device;
 +#endif

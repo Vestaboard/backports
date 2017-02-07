@@ -4,7 +4,7 @@
  	return NULL;
  }
  
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,13,0)
++#if LINUX_VERSION_IS_GEQ(3,13,0)
  static int bcma_of_irq_parse(struct device *parent,
  			     struct bcma_device *core,
  			     struct of_phandle_args *out_irq, int num)

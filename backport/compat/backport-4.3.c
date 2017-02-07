@@ -96,7 +96,7 @@ static int backport_thermal_get_crit_temp(struct thermal_zone_device *dev,
 	return ret;
 }
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 19, 0)
+#if LINUX_VERSION_IS_GEQ(3, 19, 0)
 static int backport_thermal_set_emul_temp(struct thermal_zone_device *dev,
 					  unsigned long temp)
 {
@@ -105,7 +105,7 @@ static int backport_thermal_set_emul_temp(struct thermal_zone_device *dev,
 
 	return wrapper->driver_ops->set_emul_temp(dev, (int)temp);
 }
-#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3, 19, 0) */
+#endif /* LINUX_VERSION_IS_GEQ(3, 19, 0) */
 
 struct thermal_zone_device *backport_thermal_zone_device_register(
 	const char *type, int trips, int mask, void *devdata,
@@ -146,9 +146,9 @@ struct thermal_zone_device *backport_thermal_zone_device_register(
 	assign_ops(get_trip_hyst);
 	assign_ops(set_trip_hyst);
 	assign_ops(get_crit_temp);
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 19, 0)
+#if LINUX_VERSION_IS_GEQ(3, 19, 0)
 	assign_ops(set_emul_temp);
-#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3, 19, 0) */
+#endif /* LINUX_VERSION_IS_GEQ(3, 19, 0) */
 #undef assign_ops
 
 	ret = old_thermal_zone_device_register(type, trips, mask, devdata,

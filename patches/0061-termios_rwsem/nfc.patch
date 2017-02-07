@@ -4,17 +4,17 @@
  	if (!nu->tty)
  		return;
  
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,12,0)
++#if LINUX_VERSION_IS_GEQ(3,12,0)
  	down_read(&nu->tty->termios_rwsem);
 +#else
 +	mutex_lock(&nu->tty->termios_mutex);
-+#endif /* if LINUX_VERSION_CODE >= KERNEL_VERSION(3,12,0) */
++#endif /* if LINUX_VERSION_IS_GEQ(3,12,0) */
  	new_termios = nu->tty->termios;
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,12,0)
++#if LINUX_VERSION_IS_GEQ(3,12,0)
  	up_read(&nu->tty->termios_rwsem);
 +#else
 +	mutex_unlock(&nu->tty->termios_mutex);
-+#endif /* if LINUX_VERSION_CODE >= KERNEL_VERSION(3,12,0) */
++#endif /* if LINUX_VERSION_IS_GEQ(3,12,0) */
  	tty_termios_encode_baud_rate(&new_termios, baudrate, baudrate);
  
  	if (flow_ctrl)

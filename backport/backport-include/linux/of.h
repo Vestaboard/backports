@@ -4,7 +4,7 @@
 #include <linux/version.h>
 #include_next <linux/of.h>
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,7,0)
+#if LINUX_VERSION_IS_LESS(3,7,0)
 #ifdef CONFIG_OF
 extern struct device_node *of_get_child_by_name(const struct device_node *node,
 						const char *name);
@@ -16,9 +16,9 @@ static inline struct device_node *of_get_child_by_name(
 	return NULL;
 }
 #endif /* CONFIG_OF */
-#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,7,0) */
+#endif /* LINUX_VERSION_IS_LESS(3,7,0) */
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,7,0)
+#if LINUX_VERSION_IS_LESS(3,7,0)
 #ifndef CONFIG_OF
 static inline struct device_node *of_find_node_by_name(struct device_node *from,
 	const char *name)
@@ -26,9 +26,9 @@ static inline struct device_node *of_find_node_by_name(struct device_node *from,
 	return NULL;
 }
 #endif /* CONFIG_OF */
-#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,7,0) */
+#endif /* LINUX_VERSION_IS_LESS(3,7,0) */
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,8,0)
+#if LINUX_VERSION_IS_LESS(3,8,0)
 #define of_property_read_u8_array LINUX_BACKPORT(of_property_read_u8_array)
 #ifdef CONFIG_OF
 extern int of_property_read_u8_array(const struct device_node *np,
@@ -40,9 +40,9 @@ static inline int of_property_read_u8_array(const struct device_node *np,
 	return -ENOSYS;
 }
 #endif /* CONFIG_OF */
-#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,8,0) */
+#endif /* LINUX_VERSION_IS_LESS(3,8,0) */
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,1,0)
+#if LINUX_VERSION_IS_LESS(3,1,0)
 #define of_property_read_u32_array LINUX_BACKPORT(of_property_read_u32_array)
 #ifdef CONFIG_OF
 extern int of_property_read_u32_array(const struct device_node *np,
@@ -74,9 +74,9 @@ static inline const void *of_get_property(const struct device_node *node,
 }
 
 #endif
-#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,1,0) */
+#endif /* LINUX_VERSION_IS_LESS(3,1,0) */
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,10,0)
+#if LINUX_VERSION_IS_LESS(3,10,0)
 #define of_property_read_u32_index LINUX_BACKPORT(of_property_read_u32_index)
 #ifdef CONFIG_OF
 extern int of_property_read_u32_index(const struct device_node *np,
@@ -89,9 +89,9 @@ static inline int of_property_read_u32_index(const struct device_node *np,
 	return -ENOSYS;
 }
 #endif /* CONFIG_OF */
-#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,10,0) */
+#endif /* LINUX_VERSION_IS_LESS(3,10,0) */
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,15,0)
+#if LINUX_VERSION_IS_LESS(3,15,0)
 #define of_property_count_elems_of_size LINUX_BACKPORT(of_property_count_elems_of_size)
 #ifdef CONFIG_OF
 extern int of_property_count_elems_of_size(const struct device_node *np,
@@ -103,10 +103,10 @@ static inline int of_property_count_elems_of_size(const struct device_node *np,
 	return -ENOSYS;
 }
 #endif /* CONFIG_OF */
-#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,15,0) */
+#endif /* LINUX_VERSION_IS_LESS(3,15,0) */
 
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,15,0)
+#if LINUX_VERSION_IS_LESS(3,15,0)
 /**
  * of_property_count_u32_elems - Count the number of u32 elements in a property
  *
@@ -124,9 +124,9 @@ static inline int of_property_count_u32_elems(const struct device_node *np,
 {
 	return of_property_count_elems_of_size(np, propname, sizeof(u32));
 }
-#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,15,0) */
+#endif /* LINUX_VERSION_IS_LESS(3,15,0) */
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,3,0)
+#if LINUX_VERSION_IS_LESS(3,3,0)
 #ifndef CONFIG_OF
 #define of_node_get LINUX_BACKPORT(of_node_get)
 /* Dummy ref counting routines - to be implemented later */
@@ -136,7 +136,7 @@ static inline struct device_node *of_node_get(struct device_node *node)
 }
 static inline void of_node_put(struct device_node *node) { }
 #endif /* CONFIG_OF */
-#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,3,0) */
+#endif /* LINUX_VERSION_IS_LESS(3,3,0) */
 
 #ifndef of_match_ptr
 #ifdef CONFIG_OF
@@ -152,7 +152,7 @@ static inline void of_node_put(struct device_node *node) { }
 	     dn = of_find_compatible_node(dn, type, compatible))
 #endif /* for_each_compatible_node */
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,3,0)
+#if LINUX_VERSION_IS_LESS(3,3,0)
 #ifndef CONFIG_OF
 static inline struct device_node *of_find_compatible_node(
 						struct device_node *from,
@@ -164,7 +164,7 @@ static inline struct device_node *of_find_compatible_node(
 #endif
 #endif
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,18,0)
+#if LINUX_VERSION_IS_LESS(3,18,0)
 #define of_property_read_u64_array LINUX_BACKPORT(of_property_read_u64_array)
 #ifdef CONFIG_OF
 /* This is static in the kernel, but we need it in multiple places */
@@ -182,9 +182,9 @@ static inline int of_property_read_u64_array(const struct device_node *np,
 	return -ENOSYS;
 }
 #endif /* CONFIG_OF */
-#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,15,0) */
+#endif /* LINUX_VERSION_IS_LESS(3,15,0) */
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,6,0)
+#if LINUX_VERSION_IS_LESS(3,6,0)
 #define of_node_full_name LINUX_BACKPORT(of_node_full_name)
 #ifdef CONFIG_OF
 static inline const char *of_node_full_name(const struct device_node *np)

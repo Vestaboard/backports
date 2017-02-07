@@ -6,7 +6,7 @@
 #include <backport/leds-disabled.h>
 
 #ifndef CPTCFG_BPAUTO_BUILD_LEDS
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,6,0)
+#if LINUX_VERSION_IS_LESS(3,6,0)
 /*
  * Backports
  *
@@ -27,10 +27,10 @@
  *   Signed-off-by: Bryan Wu <bryan.wu@canonical.com>
  */
 #define led_set_brightness(_dev, _switch) led_brightness_set(_dev, _switch)
-#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,6,0) */
+#endif /* LINUX_VERSION_IS_LESS(3,6,0) */
 #endif /* CPTCFG_BPAUTO_BUILD_LEDS */
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(4,2,0)
+#if LINUX_VERSION_IS_LESS(4,2,0)
 /*
  * There is no LINUX_BACKPORT() guard here because we want it to point to
  * the original function which is exported normally.
@@ -42,8 +42,8 @@ static inline void led_trigger_remove(struct led_classdev *led_cdev) {}
 #endif
 #endif
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(4,5,0) && \
-    LINUX_VERSION_CODE >= KERNEL_VERSION(3,19,0)
+#if LINUX_VERSION_IS_LESS(4,5,0) && \
+    LINUX_VERSION_IS_GEQ(3,19,0)
 #define led_set_brightness_sync LINUX_BACKPORT(led_set_brightness_sync)
 /**
  * led_set_brightness_sync - set LED brightness synchronously
@@ -60,7 +60,7 @@ extern int led_set_brightness_sync(struct led_classdev *led_cdev,
 				   enum led_brightness value);
 #endif /* < 4.5 && >= 3.19 */
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(4,5,0)
+#if LINUX_VERSION_IS_LESS(4,5,0)
 #define devm_led_trigger_register LINUX_BACKPORT(devm_led_trigger_register)
 extern int devm_led_trigger_register(struct device *dev,
 				     struct led_trigger *trigger);

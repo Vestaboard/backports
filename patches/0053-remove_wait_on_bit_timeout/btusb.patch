@@ -4,7 +4,7 @@
  		return;
  
  	if (test_and_clear_bit(BTUSB_BOOTING, &data->flags)) {
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,17,0)
++#if LINUX_VERSION_IS_GEQ(3,17,0)
  		smp_mb__after_atomic();
  		wake_up_bit(&data->flags, BTUSB_BOOTING);
 +#else
@@ -17,7 +17,7 @@
  
  	if (test_and_clear_bit(BTUSB_DOWNLOADING, &data->flags) &&
  	    test_bit(BTUSB_FIRMWARE_LOADED, &data->flags)) {
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,17,0)
++#if LINUX_VERSION_IS_GEQ(3,17,0)
  		smp_mb__after_atomic();
  		wake_up_bit(&data->flags, BTUSB_DOWNLOADING);
 +#else
@@ -30,7 +30,7 @@
  	 * and thus just timeout if that happens and fail the setup
  	 * of this device.
  	 */
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,17,0)
++#if LINUX_VERSION_IS_GEQ(3,17,0)
  	err = wait_on_bit_timeout(&data->flags, BTUSB_DOWNLOADING,
  				  TASK_INTERRUPTIBLE,
  				  msecs_to_jiffies(5000));
@@ -70,7 +70,7 @@
  	 */
  	BT_INFO("%s: Waiting for device to boot", hdev->name);
  
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,17,0)
++#if LINUX_VERSION_IS_GEQ(3,17,0)
  	err = wait_on_bit_timeout(&data->flags, BTUSB_BOOTING,
  				  TASK_INTERRUPTIBLE,
  				  msecs_to_jiffies(1000));

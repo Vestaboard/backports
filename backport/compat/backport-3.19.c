@@ -16,7 +16,7 @@
 #include <linux/skbuff.h>
 #include <linux/debugfs.h>
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,18,12)
+#if LINUX_VERSION_IS_LESS(3,18,12)
 static inline bool is_kthread_should_stop(void)
 {
 	return (current->flags & PF_KTHREAD) && kthread_should_stop();

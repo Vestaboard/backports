@@ -150,25 +150,25 @@
 )
 #endif /* rounddown */
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,2,0)
+#if LINUX_VERSION_IS_LESS(3,2,0)
 /* kernels before 3.2 didn't have error checking for the function */
 #define hex2bin LINUX_BACKPORT(hex2bin)
 int __must_check hex2bin(u8 *dst, const char *src, size_t count);
 #endif /* < 3.2 */
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,18,0)
+#if LINUX_VERSION_IS_LESS(3,18,0)
 #undef clamp
 #define clamp(val, lo, hi) min((typeof(val))max(val, lo), hi)
 #endif /* < 3.18 */
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(4,6,0)
+#if LINUX_VERSION_IS_LESS(4,6,0)
 #define kstrtobool LINUX_BACKPORT(kstrtobool)
 int __must_check kstrtobool(const char *s, bool *res);
 #define kstrtobool_from_user LINUX_BACKPORT(kstrtobool_from_user)
 int __must_check kstrtobool_from_user(const char __user *s, size_t count, bool *res);
 #endif
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(4,5,0)
+#if LINUX_VERSION_IS_LESS(4,5,0)
 
 #undef abs
 /**
@@ -196,12 +196,12 @@ int __must_check kstrtobool_from_user(const char __user *s, size_t count, bool *
 
 #endif
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0)
+#if LINUX_VERSION_IS_LESS(3,14,0)
 static inline u32 reciprocal_scale(u32 val, u32 ep_ro)
 {
 	return (u32)(((u64) val * ep_ro) >> 32);
 }
-#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0) */
+#endif /* LINUX_VERSION_IS_LESS(3,14,0) */
 
 #endif /* __BACKPORT_KERNEL_H */
 

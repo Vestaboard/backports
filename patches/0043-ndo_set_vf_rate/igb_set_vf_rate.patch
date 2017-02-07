@@ -4,7 +4,7 @@
  	if (hw->mac.type != e1000_82576)
  		return -EOPNOTSUPP;
  
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,16,0)
++#if LINUX_VERSION_IS_GEQ(3,16,0)
  	if (min_tx_rate)
  		return -EINVAL;
  
@@ -22,7 +22,7 @@
 +	adapter->vf_rate_link_speed = actual_link_speed;
 +	adapter->vf_data[vf].tx_rate = (u16)tx_rate;
 +	igb_set_vf_rate_limit(hw, vf, tx_rate, actual_link_speed);
-+#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,16,0) */
++#endif /* LINUX_VERSION_IS_GEQ(3,16,0) */
  	return 0;
  }
  

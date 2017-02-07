@@ -3,7 +3,7 @@
 
 #include_next <net/net_namespace.h>
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,20,0)
+#if LINUX_VERSION_IS_LESS(3,20,0)
 /*
  * In older kernels we simply fail this function.
  */
@@ -14,7 +14,7 @@ static inline struct net *get_net_ns_by_fd(int fd)
 }
 #endif
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(4,1,0)
+#if LINUX_VERSION_IS_LESS(4,1,0)
 typedef struct {
 #ifdef CONFIG_NET_NS
 	struct net *net;
@@ -39,6 +39,6 @@ static inline struct net *possible_read_pnet(const possible_net_t *pnet)
 #else
 #define possible_write_pnet(pnet, net) write_pnet(pnet, net)
 #define possible_read_pnet(pnet) read_pnet(pnet)
-#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(4,1,0) */
+#endif /* LINUX_VERSION_IS_LESS(4,1,0) */
 
 #endif	/* _COMPAT_NET_NET_NAMESPACE_H */

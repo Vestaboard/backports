@@ -4,7 +4,7 @@
 #include_next <linux/hrtimer.h>
 #include <linux/interrupt.h>
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(4,10,0)
+#if LINUX_VERSION_IS_LESS(4,10,0)
 static inline void backport_hrtimer_start(struct hrtimer *timer, s64 time,
 					  const enum hrtimer_mode mode)
 {

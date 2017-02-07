@@ -4,7 +4,7 @@
  
  static int igb_ndo_fdb_add(struct ndmsg *ndm, struct nlattr *tb[],
  			   struct net_device *dev,
-+#if LINUX_VERSION_CODE < KERNEL_VERSION(3,19,0)
++#if LINUX_VERSION_IS_LESS(3,19,0)
 +			   const unsigned char *addr,
 +#else
  			   const unsigned char *addr, u16 vid,

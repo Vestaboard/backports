@@ -6,7 +6,7 @@ index 2898973..7fa1b96 100644
  		  DEV_PR_ARG, __entry->phy_mode, __entry->freq_off)
  );
  
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,16,0)
++#if LINUX_VERSION_IS_GEQ(3,16,0)
  TRACE_EVENT(mt_rx,
  	TP_PROTO(struct mt7601u_dev *dev, struct mt7601u_rxwi *rxwi, u32 f),
  	TP_ARGS(dev, rxwi, f),
@@ -27,7 +27,7 @@ index 2898973..7fa1b96 100644
 +{
 +}
 +#endif /* __BACKPORT_MT7601U_TRACE_H_EXTRA */
-+#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,16,0) */
++#endif /* LINUX_VERSION_IS_GEQ(3,16,0) */
  
  TRACE_EVENT(mt_tx_dma_done,
  	TP_PROTO(struct mt7601u_dev *dev, struct sk_buff *skb),

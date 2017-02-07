@@ -3,9 +3,9 @@ identifier s, func;
 @@
 
 struct ethtool_ops s = {
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,5,0)
++#if LINUX_VERSION_IS_GEQ(3,5,0)
 .get_ts_info = func,
-+#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,5,0) */
++#endif /* LINUX_VERSION_IS_GEQ(3,5,0) */
 };
 
 // ----------------------------------------------------------------------
@@ -14,6 +14,6 @@ struct ethtool_ops s = {
 identifier r1.func;
 @@
 
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,5,0)
++#if LINUX_VERSION_IS_GEQ(3,5,0)
 func(...) { ... }
-+#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(3,5,0) */
++#endif /* LINUX_VERSION_IS_GEQ(3,5,0) */

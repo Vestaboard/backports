@@ -29,8 +29,8 @@ Date:   Thu Jun 14 11:32:21 2012 -0300
  	return buf;
  }
  
-+#if (LINUX_VERSION_CODE < KERNEL_VERSION(3,9,0))
-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,2,0))
++#if LINUX_VERSION_IS_LESS(3,9,0)
++#if LINUX_VERSION_IS_GEQ(3,2,0)
 +static int
 +backport_vb2_mmap_pfn_range(struct vm_area_struct *vma, unsigned long paddr,
 +			    unsigned long size,
@@ -73,7 +73,7 @@ Date:   Thu Jun 14 11:32:21 2012 -0300
 +	return backport_vb2_mmap_pfn_range(vma, buf->dma_addr, buf->size,
 +					   &vb2_common_vm_ops, &buf->handler);
 +}
-+#endif /* (LINUX_VERSION_CODE >= KERNEL_VERSION(3,2,0)) */
++#endif /* LINUX_VERSION_IS_GEQ(3,2,0) */
 +#else
  static int vb2_dc_mmap(void *buf_priv, struct vm_area_struct *vma)
  {
@@ -82,7 +82,7 @@ Date:   Thu Jun 14 11:32:21 2012 -0300
  
  	return 0;
  }
-+#endif /* (LINUX_VERSION_CODE < KERNEL_VERSION(3,9,0)) */
++#endif /* LINUX_VERSION_IS_LESS(3,9,0) */
  
  /*********************************************/
  /*         DMABUF ops for exporters          */

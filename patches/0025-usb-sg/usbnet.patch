@@ -4,7 +4,7 @@
  
  /*-------------------------------------------------------------------------*/
  
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,35,0)
++#if LINUX_VERSION_IS_GEQ(3,35,0)
  static int build_dma_sg(const struct sk_buff *skb, struct urb *urb)
  {
  	unsigned num_sgs, total_len = 0;
@@ -25,7 +25,7 @@
  		if (!(info->flags & FLAG_SEND_ZLP)) {
  			if (!(info->flags & FLAG_MULTI_PACKET)) {
  				length++;
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,35,0)
++#if LINUX_VERSION_IS_GEQ(3,35,0)
  				if (skb_tailroom(skb) && !urb->num_sgs) {
  					skb->data[skb->len] = 0;
  					__skb_put(skb, 1);
@@ -45,7 +45,7 @@
  		if (skb)
  			dev_kfree_skb_any (skb);
  		if (urb) {
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,35,0)
++#if LINUX_VERSION_IS_GEQ(3,35,0)
  			kfree(urb->sg);
 +#endif
  			usb_free_urb(urb);
@@ -55,7 +55,7 @@
  			rx_process (dev, skb);
  			continue;
  		case tx_done:
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,35,0)
++#if LINUX_VERSION_IS_GEQ(3,35,0)
  			kfree(entry->urb->sg);
 +#endif
  		case rx_cleanup:
@@ -65,7 +65,7 @@
  			retval = usb_submit_urb(res, GFP_ATOMIC);
  			if (retval < 0) {
  				dev_kfree_skb_any(skb);
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,35,0)
++#if LINUX_VERSION_IS_GEQ(3,35,0)
  				kfree(res->sg);
 +#endif
  				usb_free_urb(res);

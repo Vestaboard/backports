@@ -7,7 +7,7 @@
 -	int err;
 +	int err = 0;
  
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,17,0)
++#if LINUX_VERSION_IS_GEQ(3,17,0)
  	err = wait_on_bit_timeout(&intel->flags, STATE_BOOTING,
  				  TASK_INTERRUPTIBLE,
  				  msecs_to_jiffies(1000));
@@ -52,7 +52,7 @@
 -	int err;
 +	int err = 0;
  
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,17,0)
++#if LINUX_VERSION_IS_GEQ(3,17,0)
  	err = wait_on_bit_timeout(&intel->flags, STATE_LPM_TRANSACTION,
  				  TASK_INTERRUPTIBLE,
  				  msecs_to_jiffies(1000));
@@ -90,7 +90,7 @@
  	 * and thus just timeout if that happens and fail the setup
  	 * of this device.
  	 */
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,17,0)
++#if LINUX_VERSION_IS_GEQ(3,17,0)
  	err = wait_on_bit_timeout(&intel->flags, STATE_DOWNLOADING,
  				  TASK_INTERRUPTIBLE,
  				  msecs_to_jiffies(5000));
@@ -132,7 +132,7 @@
  
  		if (test_and_clear_bit(STATE_DOWNLOADING, &intel->flags) &&
  		    test_bit(STATE_FIRMWARE_LOADED, &intel->flags)) {
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,17,0)
++#if LINUX_VERSION_IS_GEQ(3,17,0)
  			smp_mb__after_atomic();
  			wake_up_bit(&intel->flags, STATE_DOWNLOADING);
 +#else
@@ -145,7 +145,7 @@
  	} else if (skb->len == 9 && hdr->evt == 0xff && hdr->plen == 0x07 &&
  		   skb->data[2] == 0x02) {
  		if (test_and_clear_bit(STATE_BOOTING, &intel->flags)) {
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,17,0)
++#if LINUX_VERSION_IS_GEQ(3,17,0)
  			smp_mb__after_atomic();
  			wake_up_bit(&intel->flags, STATE_BOOTING);
 +#else
@@ -158,7 +158,7 @@
  	case LPM_OP_SUSPEND_ACK:
  		set_bit(STATE_SUSPENDED, &intel->flags);
  		if (test_and_clear_bit(STATE_LPM_TRANSACTION, &intel->flags)) {
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,17,0)
++#if LINUX_VERSION_IS_GEQ(3,17,0)
  			smp_mb__after_atomic();
  			wake_up_bit(&intel->flags, STATE_LPM_TRANSACTION);
 +#else
@@ -169,7 +169,7 @@
  	case LPM_OP_RESUME_ACK:
  		clear_bit(STATE_SUSPENDED, &intel->flags);
  		if (test_and_clear_bit(STATE_LPM_TRANSACTION, &intel->flags)) {
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,17,0)
++#if LINUX_VERSION_IS_GEQ(3,17,0)
  			smp_mb__after_atomic();
  			wake_up_bit(&intel->flags, STATE_LPM_TRANSACTION);
 +#else

@@ -4,7 +4,7 @@
  #include <linux/acpi.h>
  #include <linux/platform_device.h>
  #include <linux/clk.h>
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,13,0)
++#if LINUX_VERSION_IS_GEQ(3,13,0)
  #include <linux/gpio/consumer.h>
 +#endif
  #include <linux/tty.h>
@@ -14,7 +14,7 @@
  	if (powered && !IS_ERR(dev->clk) && !dev->clk_enabled)
  		clk_enable(dev->clk);
  
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,13,0)
++#if LINUX_VERSION_IS_GEQ(3,13,0)
  	gpiod_set_value(dev->shutdown, powered);
  	gpiod_set_value(dev->device_wakeup, powered);
 +#endif
@@ -25,7 +25,7 @@
  
  	/* Suspend the device */
  	if (bdev->device_wakeup) {
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,13,0)
++#if LINUX_VERSION_IS_GEQ(3,13,0)
  		gpiod_set_value(bdev->device_wakeup, false);
 +#endif
  		bt_dev_dbg(bdev, "suspend, delaying 15 ms");
@@ -35,7 +35,7 @@
  	bt_dev_dbg(bdev, "");
  
  	if (bdev->device_wakeup) {
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,13,0)
++#if LINUX_VERSION_IS_GEQ(3,13,0)
  		gpiod_set_value(bdev->device_wakeup, true);
 +#endif
  		bt_dev_dbg(bdev, "resume, delaying 15 ms");
@@ -45,7 +45,7 @@
  }
  #endif
  
-+#if defined(CONFIG_ACPI) && LINUX_VERSION_CODE >= KERNEL_VERSION(3,19,0)
++#if defined(CONFIG_ACPI) && LINUX_VERSION_IS_GEQ(3,19,0)
  static const struct acpi_gpio_params device_wakeup_gpios = { 0, 0, false };
  static const struct acpi_gpio_params shutdown_gpios = { 1, 0, false };
  static const struct acpi_gpio_params host_wakeup_gpios = { 2, 0, false };
@@ -62,7 +62,7 @@
  };
  
 -#ifdef CONFIG_ACPI
-+#if defined(CONFIG_ACPI) && LINUX_VERSION_CODE >= KERNEL_VERSION(3,19,0)
++#if defined(CONFIG_ACPI) && LINUX_VERSION_IS_GEQ(3,19,0)
  static const struct acpi_device_id bcm_acpi_match[] = {
  	{ "BCM2E1A", 0 },
  	{ "BCM2E39", 0 },
@@ -70,7 +70,7 @@
  	.remove = bcm_remove,
  	.driver = {
  		.name = "hci_bcm",
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,19,0)
++#if LINUX_VERSION_IS_GEQ(3,19,0)
  		.acpi_match_table = ACPI_PTR(bcm_acpi_match),
 +#endif
  		.pm = &bcm_pm_ops,

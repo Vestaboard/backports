@@ -6,7 +6,7 @@
 /* upstream now includes this here and some people rely on it */
 #include <linux/of_device.h>
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,4,0) && !defined(CONFIG_OF_DEVICE)
+#if LINUX_VERSION_IS_LESS(3,4,0) && !defined(CONFIG_OF_DEVICE)
 struct of_dev_auxdata;
 #define of_platform_populate LINUX_BACKPORT(of_platform_populate)
 static inline int of_platform_populate(struct device_node *root,
@@ -16,13 +16,13 @@ static inline int of_platform_populate(struct device_node *root,
 {
 	return -ENODEV;
 }
-#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,4,0) */
+#endif /* LINUX_VERSION_IS_LESS(3,4,0) */
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0) && !defined(CONFIG_OF_DEVICE)
+#if LINUX_VERSION_IS_LESS(3,11,0) && !defined(CONFIG_OF_DEVICE)
 extern const struct of_device_id of_default_bus_match_table[];
-#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0) */
+#endif /* LINUX_VERSION_IS_LESS(3,11,0) */
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(4,3,0) && !defined(CONFIG_OF_DEVICE)
+#if LINUX_VERSION_IS_LESS(4,3,0) && !defined(CONFIG_OF_DEVICE)
 struct of_dev_auxdata;
 #define of_platform_default_populate \
 	LINUX_BACKPORT(of_platform_default_populate)
@@ -33,6 +33,6 @@ of_platform_default_populate(struct device_node *root,
 {
 	return -ENODEV;
 }
-#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(4,3,0) */
+#endif /* LINUX_VERSION_IS_LESS(4,3,0) */
 
 #endif /* __BACKPORT_LINUX_OF_PLATFORM_H */

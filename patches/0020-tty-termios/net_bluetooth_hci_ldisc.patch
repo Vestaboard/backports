@@ -12,7 +12,7 @@
  
  	if (enable) {
  		/* Disable hardware flow control */
-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,7,0))
++#if LINUX_VERSION_IS_GEQ(3,7,0)
  		ktermios = tty->termios;
 +#else
 +		ktermios = *tty->termios;
@@ -24,7 +24,7 @@
  		BT_DBG("Setting RTS: %s", status ? "failed" : "success");
  
  		/* Re-enable hardware flow control */
-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,7,0))
++#if LINUX_VERSION_IS_GEQ(3,7,0)
  		ktermios = tty->termios;
 +#else
 +		ktermios = *tty->termios;
@@ -36,7 +36,7 @@
  	struct ktermios ktermios;
  
  	/* Bring the UART into a known 8 bits no parity hw fc state */
-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,7,0))
++#if LINUX_VERSION_IS_GEQ(3,7,0)
  	ktermios = tty->termios;
 +#else
 +	ktermios = *tty->termios;
@@ -48,7 +48,7 @@
  	struct tty_struct *tty = hu->tty;
  	struct ktermios ktermios;
  
-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,7,0))
++#if LINUX_VERSION_IS_GEQ(3,7,0)
  	ktermios = tty->termios;
 +#else
 +	ktermios = *tty->termios;

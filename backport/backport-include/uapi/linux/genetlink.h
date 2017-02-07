@@ -1,7 +1,7 @@
 #ifndef __BACKPORT_UAPI_LINUX_GENETLINK_H
 #define __BACKPORT_UAPI_LINUX_GENETLINK_H
 #include <linux/version.h>
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,7,0)
+#if LINUX_VERSION_IS_GEQ(3,7,0)
 #include_next <uapi/linux/genetlink.h>
 #else
 #include_next <linux/genetlink.h>

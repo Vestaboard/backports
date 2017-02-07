@@ -4,7 +4,7 @@
  
  static struct dentry *create_buf_file_handler(const char *filename,
  					      struct dentry *parent,
-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,3,0))
++#if LINUX_VERSION_IS_GEQ(3,3,0)
  					      umode_t mode,
 +#else
 +					      int mode,

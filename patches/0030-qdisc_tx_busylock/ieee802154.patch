@@ -4,7 +4,7 @@
  	.create	= lowpan_header_create,
  };
  
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,7,0)
++#if LINUX_VERSION_IS_GEQ(3,7,0)
  static struct lock_class_key lowpan_tx_busylock;
 +#endif
  static struct lock_class_key lowpan_netdev_xmit_lock_key;
@@ -14,7 +14,7 @@
  static int lowpan_dev_init(struct net_device *dev)
  {
  	netdev_for_each_tx_queue(dev, lowpan_set_lockdep_class_one, NULL);
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,7,0)
++#if LINUX_VERSION_IS_GEQ(3,7,0)
  	dev->qdisc_tx_busylock = &lowpan_tx_busylock;
 +#endif
  	return 0;

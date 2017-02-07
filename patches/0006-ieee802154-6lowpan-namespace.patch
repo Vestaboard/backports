@@ -8,7 +8,7 @@ idea yet.
  	struct net *net;
  
  	fq = container_of((struct inet_frag_queue *)data, struct frag_queue, q);
-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,15,0))
++#if LINUX_VERSION_IS_GEQ(3,15,0)
  	net = container_of(fq->q.net, struct net, ieee802154_lowpan.frags);
 +#else
 +	net = &init_net;
@@ -20,7 +20,7 @@ idea yet.
  static struct ctl_table lowpan_frags_ns_ctl_table[] = {
  	{
  		.procname	= "6lowpanfrag_high_thresh",
-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,15,0))
++#if LINUX_VERSION_IS_GEQ(3,15,0)
  		.data		= &init_net.ieee802154_lowpan.frags.high_thresh,
 +#else
 +		.data		= &ieee802154_lowpan.frags.high_thresh,
@@ -28,7 +28,7 @@ idea yet.
  		.maxlen		= sizeof(int),
  		.mode		= 0644,
  		.proc_handler	= proc_dointvec_minmax,
-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,15,0))
++#if LINUX_VERSION_IS_GEQ(3,15,0)
  		.extra1		= &init_net.ieee802154_lowpan.frags.low_thresh
 +#else
 +		.extra1		= &ieee802154_lowpan.frags.low_thresh
@@ -36,7 +36,7 @@ idea yet.
  	},
  	{
  		.procname	= "6lowpanfrag_low_thresh",
-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,15,0))
++#if LINUX_VERSION_IS_GEQ(3,15,0)
  		.data		= &init_net.ieee802154_lowpan.frags.low_thresh,
 +#else
 +		.data		= &ieee802154_lowpan.frags.low_thresh,
@@ -45,7 +45,7 @@ idea yet.
  		.mode		= 0644,
  		.proc_handler	= proc_dointvec_minmax,
  		.extra1		= &zero,
-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,15,0))
++#if LINUX_VERSION_IS_GEQ(3,15,0)
  		.extra2		= &init_net.ieee802154_lowpan.frags.high_thresh
 +#else
 +		.extra2		= &ieee802154_lowpan.frags.high_thresh
@@ -53,7 +53,7 @@ idea yet.
  	},
  	{
  		.procname	= "6lowpanfrag_time",
-+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,15,0))
++#if LINUX_VERSION_IS_GEQ(3,15,0)
  		.data		= &init_net.ieee802154_lowpan.frags.timeout,
 +#else
 +		.data		= &ieee802154_lowpan.frags.timeout,

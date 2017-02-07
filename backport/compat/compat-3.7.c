@@ -254,7 +254,7 @@ EXPORT_SYMBOL_GPL(pcie_capability_clear_and_set_dword);
 #endif
 
 #ifdef CONFIG_OF
-#if (LINUX_VERSION_CODE < KERNEL_VERSION(3,7,0))
+#if LINUX_VERSION_IS_LESS(3,7,0)
 /**
  *	of_get_child_by_name - Find the child node by name for a given parent
  *	@node:	parent node
@@ -277,7 +277,7 @@ struct device_node *of_get_child_by_name(const struct device_node *node,
 	return child;
 }
 EXPORT_SYMBOL_GPL(of_get_child_by_name);
-#endif /* (LINUX_VERSION_CODE < KERNEL_VERSION(3,7,0)) */
+#endif /* LINUX_VERSION_IS_LESS(3,7,0) */
 #endif /* CONFIG_OF */
 
 int sg_nents(struct scatterlist *sg)

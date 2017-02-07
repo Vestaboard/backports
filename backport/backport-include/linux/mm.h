@@ -22,19 +22,19 @@
 #define VM_DONTDUMP    VM_NODUMP
 #endif
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(3,15,0)
+#if LINUX_VERSION_IS_LESS(3,15,0)
 #define kvfree LINUX_BACKPORT(kvfree)
 void kvfree(const void *addr);
 #endif /* < 3.15 */
 
-#if (LINUX_VERSION_CODE < KERNEL_VERSION(3,20,0))
+#if LINUX_VERSION_IS_LESS(3,20,0)
 #define get_user_pages_locked LINUX_BACKPORT(get_user_pages_locked)
 long get_user_pages_locked(unsigned long start, unsigned long nr_pages,
 		    int write, int force, struct page **pages, int *locked);
 #define get_user_pages_unlocked LINUX_BACKPORT(get_user_pages_unlocked)
 long get_user_pages_unlocked(unsigned long start, unsigned long nr_pages,
 		    int write, int force, struct page **pages);
-#elif (LINUX_VERSION_CODE < KERNEL_VERSION(4,6,0))
+#elif LINUX_VERSION_IS_LESS(4,6,0)
 static inline
 long backport_get_user_pages_locked(unsigned long start, unsigned long nr_pages,
 		    int write, int force, struct page **pages, int *locked)
@@ -54,7 +54,7 @@ long backport_get_user_pages_unlocked(unsigned long start, unsigned long nr_page
 #define get_user_pages_unlocked LINUX_BACKPORT(get_user_pages_unlocked)
 #endif
 
-#if (LINUX_VERSION_CODE < KERNEL_VERSION(4,6,0))
+#if LINUX_VERSION_IS_LESS(4,6,0)
 static inline
 long backport_get_user_pages(unsigned long start, unsigned long nr_pages,
 			    int write, int force, struct page **pages,
@@ -114,8 +114,8 @@ static inline unsigned long *frame_vector_pfns(struct frame_vector *vec)
 }
 #endif
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(4,1,9) && \
-     LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0)
+#if LINUX_VERSION_IS_LESS(4,1,9) && \
+     LINUX_VERSION_IS_GEQ(3,6,0)
 #define page_is_pfmemalloc LINUX_BACKPORT(page_is_pfmemalloc)
 static inline bool page_is_pfmemalloc(struct page *page)
 {

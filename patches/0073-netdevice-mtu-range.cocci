@@ -73,7 +73,7 @@ func(...) {
 constant r1.e1,r1.e2;
 identifier r.OPS;
 @@
-+#if LINUX_VERSION_CODE < KERNEL_VERSION(4,10,0)
++#if LINUX_VERSION_IS_LESS(4,10,0)
 + static int __change_mtu(struct net_device *ndev, int new_mtu)
 + {
 + if (new_mtu < e1 || new_mtu > e2)
@@ -92,7 +92,7 @@ identifier OPS;
 @@
 
 struct net_device_ops OPS = {
-+#if LINUX_VERSION_CODE < KERNEL_VERSION(4,10,0)
++#if LINUX_VERSION_IS_LESS(4,10,0)
 +      .ndo_change_mtu = __change_mtu,
 +#endif
        ...

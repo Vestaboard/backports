@@ -9,17 +9,17 @@
 struct gpio_chip *chip;
 expression E1;
 @@
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4,5,0)
++#if LINUX_VERSION_IS_GEQ(4,5,0)
  chip->parent = E1;
 +#else
 +chip->dev = E1;
-+#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4,5,0) */
++#endif /* LINUX_VERSION_IS_GEQ(4,5,0) */
 @r2@
 struct gpio_chip chip;
 expression E2;
 @@
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4,5,0)
++#if LINUX_VERSION_IS_GEQ(4,5,0)
  chip.parent = E2;
 +#else
 +chip.dev = E2;
-+#endif /* LINUX_VERSION_CODE >= KERNEL_VERSION(4,5,0) */
++#endif /* LINUX_VERSION_IS_GEQ(4,5,0) */
