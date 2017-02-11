@@ -15,6 +15,17 @@
 
 #ifndef USB_CDC_MBIM_EXTENDED_TYPE
 #define USB_CDC_MBIM_EXTENDED_TYPE 0x1c
+
+/* "MBIM Extended Functional Descriptor" from CDC MBIM spec 1.0 errata-1 */
+struct usb_cdc_mbim_extended_desc {
+	__u8	bLength;
+	__u8	bDescriptorType;
+	__u8	bDescriptorSubType;
+
+	__le16	bcdMBIMExtendedVersion;
+	__u8	bMaxOutstandingCommandMessages;
+	__le16	wMTU;
+} __attribute__ ((packed));
 #endif
 
 /*
