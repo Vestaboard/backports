@@ -73,6 +73,14 @@
 #define U32_MAX		((u32)~0U)
 #endif
 
+#ifndef S32_MAX
+#define S32_MAX		((s32)(U32_MAX>>1))
+#endif
+
+#ifndef S32_MIN
+#define S32_MIN		((s32)(-S32_MAX - 1))
+#endif
+
 #ifndef __round_mask
 #define __round_mask(x, y) ((__typeof__(x))((y)-1))
 #define round_up(x, y) ((((x)-1) | __round_mask(x, y))+1)
