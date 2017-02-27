@@ -239,7 +239,8 @@ if __name__ == '__main__':
                                       branch, tree, kernelobjdir,
                                       branch_tmpdir, wgitdir, backport_rev,
                                       kernel_head, defconfig=defconfig,
-                                      env=backport_author_env)
+                                      env=backport_author_env,
+                                      add_changeid=add_changeid)
                         continue
                     if old_data['backport'] == backport_rev and old_data[tree] == kernel_head:
                         continue
@@ -249,7 +250,8 @@ if __name__ == '__main__':
                                       branch, tree, kernelobjdir,
                                       branch_tmpdir, wgitdir, backport_rev,
                                       kernel_head, defconfig=defconfig,
-                                      env=backport_author_env)
+                                      env=backport_author_env,
+                                      add_changeid=add_changeid)
                         continue
                     # update from old to new
                     if last_success in old_data:
