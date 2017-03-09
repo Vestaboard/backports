@@ -1,7 +1,7 @@
 --- a/compat/crypto-ccm.c
 +++ b/compat/crypto-ccm.c
-@@ -13,13 +13,44 @@
- #include <crypto/internal/aead.h>
+@@ -14,13 +14,44 @@
+ #include <crypto/internal/hash.h>
  #include <crypto/internal/skcipher.h>
  #include <crypto/scatterwalk.h>
 +#include <crypto/algapi.h>
@@ -46,7 +46,7 @@
  
  struct ccm_instance_ctx {
  	struct crypto_skcipher_spawn ctr;
-@@ -897,7 +928,7 @@ static struct crypto_template crypto_rfc
+@@ -1001,7 +1032,7 @@ static int cbcmac_create(struct crypto_template *tmpl, struct rtattr **tb)
  	.module = THIS_MODULE,
  };
  
@@ -55,7 +55,7 @@
  {
  	int err;
  
-@@ -923,18 +954,9 @@ out_undo_base:
+@@ -1033,19 +1064,10 @@ static int __init crypto_ccm_module_init(void)
  	goto out;
  }
  
@@ -65,6 +65,7 @@
  	crypto_unregister_template(&crypto_rfc4309_tmpl);
  	crypto_unregister_template(&crypto_ccm_tmpl);
  	crypto_unregister_template(&crypto_ccm_base_tmpl);
+ 	crypto_unregister_template(&crypto_cbcmac_tmpl);
  }
 -
 -module_init(crypto_ccm_module_init);
