@@ -320,4 +320,14 @@ static inline void netif_trans_update(struct net_device *dev)
 }
 #endif
 
+#if LINUX_VERSION_IS_LESS(4,13,0)
+#define netdev_set_priv_destructor(_dev, _destructor) \
+	(_dev)->destructor = __ ## _destructor
+#else
+#define netdev_set_priv_destructor(_dev, _destructor) \
+	(_dev)->needs_free_netdev = true; \
+	if ((_destructor) != free_netdev) \
+		(_dev)->priv_destructor = (_destructor);
+#endif
+
 #endif /* __BACKPORT_NETDEVICE_H */
