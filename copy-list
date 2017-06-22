@@ -113,8 +113,6 @@ include/uapi/linux/nfc.h
 drivers/nfc/
 include/linux/platform_data/nfcmrvl.h
 include/linux/platform_data/nxp-nci.h
-include/linux/platform_data/pn544.h
-include/linux/platform_data/st21nfca.h
 include/linux/platform_data/st-nci.h
 
 # MPLS labels, checked on skb->protocol on the
