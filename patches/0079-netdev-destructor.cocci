@@ -17,7 +17,7 @@ identifier r1.D, r1.C;
 fresh identifier E = "__" ## D;
 @@
 
-+#if LINUX_VERSION_IS_LESS(4,13,0)
++#if LINUX_VERSION_IS_LESS(4,12,0)
 +static void E(struct net_device *ndev)
 +{
 +	D(ndev);
@@ -40,7 +40,7 @@ T RET;
 RET = \(register_netdevice\|register_ndev\)(NDEV);
 if (<+... RET ...+>) {
 	<...
-+#if LINUX_VERSION_IS_LESS(4,13,0)
++#if LINUX_VERSION_IS_LESS(4,12,0)
 +	D(NDEV);
 +#endif
 	free_netdev(NDEV);
@@ -60,7 +60,7 @@ else
 	RET = register_netdev(NDEV);
 if (<+... RET ...+>) {
 	<...
-+#if LINUX_VERSION_IS_LESS(4,13,0)
++#if LINUX_VERSION_IS_LESS(4,12,0)
 +	D(NDEV);
 +#endif
 	free_netdev(NDEV);
@@ -73,7 +73,7 @@ identifier TRUE =~ "true";
 @@
 
 -NDEV->needs_free_netdev = TRUE;
-+netdev_set_priv_destructor(NDEV, free_netdev);
++netdev_set_def_destructor(NDEV);
 
 @r6@
 struct net_device *NDEV;
