@@ -112,16 +112,6 @@ NFC_MEI_PHY 4.10
 NFC_PN544_I2C 3.13
 NFC_FDP 3.13
 
-# can not backport ieee802154_ptr in struct net_device wich was added in
-# 98a18b6ffc7 "netdevice: add ieee802154_ptr to net_device"
-IEEE802154 3.19
-IEEE802154_MRF24J40 3.5
-IEEE802154_6LOWPAN 3.5
-# needs devm_regmap_init_spi()
-IEEE802154_AT86RF230 3.4
-# CC2520 needes devm_pinctrl_get_select_default()
-IEEE802154_CC2520 3.5
-
 IR_IMG 3.5
 
 # missing include/linux/mfd/syscon.h file
