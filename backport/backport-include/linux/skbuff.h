@@ -315,4 +315,30 @@ __u32 skb_get_hash_perturb(const struct sk_buff *skb, u32 perturb)
 
 #endif
 
+#if LINUX_VERSION_IS_LESS(4,13,0)
+static inline void *skb_put_zero(struct sk_buff *skb, unsigned int len)
+{
+	void *tmp = skb_put(skb, len);
+
+	memset(tmp, 0, len);
+
+	return tmp;
+}
+
+static inline void *skb_put_data(struct sk_buff *skb, const void *data,
+				 unsigned int len)
+{
+	void *tmp = skb_put(skb, len);
+
+	memcpy(tmp, data, len);
+
+	return tmp;
+}
+
+static inline void skb_put_u8(struct sk_buff *skb, u8 val)
+{
+	*(u8 *)skb_put(skb, 1) = val;
+}
+#endif
+
 #endif /* __BACKPORT_SKBUFF_H */
