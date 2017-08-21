@@ -143,3 +143,7 @@ LIBERTAS 4.3
 
 # some prototypes changed - might be fixable but I'm lazy
 NFC_WILINK 4.8
+
+# struct ethtool_link_ksettings is missing, I'm lazy
+USB_USBNET 4.6
+USB_NET_RNDIS_WLAN 4.6
