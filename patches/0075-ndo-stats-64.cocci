@@ -18,7 +18,7 @@ identifier r.stats64_fn;
 @@
 void stats64_fn(...) {...}
 +#if LINUX_VERSION_IS_LESS(4,11,0)
-+static struct rtnl_link_stats64 *
++struct rtnl_link_stats64 *
 +stats64_fn_wrap(struct net_device *dev,
 +		 struct rtnl_link_stats64 *stats)
 +{

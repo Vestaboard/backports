@@ -1,0 +1,26 @@
+diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
+index 095bcfd..6305c41 100644
+--- a/drivers/net/usb/usbnet.c
++++ b/drivers/net/usb/usbnet.c
+@@ -1014,6 +1014,7 @@
+ 	}
+ }
+ EXPORT_SYMBOL_GPL(usbnet_get_stats64);
++EXPORT_SYMBOL_GPL(bp_usbnet_get_stats64);
+ 
+ u32 usbnet_get_link (struct net_device *net)
+ {
+diff --git a/include/linux/usb/usbnet.h b/include/linux/usb/usbnet.h
+index 9711637..363f6b9 100644
+--- a/include/linux/usb/usbnet.h
++++ b/include/linux/usb/usbnet.h
+@@ -283,5 +283,9 @@ extern void usbnet_status_stop(struct usbnet *dev);
+ extern void usbnet_update_max_qlen(struct usbnet *dev);
+ extern void usbnet_get_stats64(struct net_device *dev,
+ 			       struct rtnl_link_stats64 *stats);
++#if LINUX_VERSION_IS_LESS(4,11,0)
++struct rtnl_link_stats64 *
++bp_usbnet_get_stats64(struct net_device *dev, struct rtnl_link_stats64 *stats);
++#endif
+ 
+ #endif /* __LINUX_USB_USBNET_H */
