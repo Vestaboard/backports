@@ -73,6 +73,7 @@ drivers/net/wireless/ralink/
 drivers/net/wireless/zydas/
 drivers/net/wireless/marvell/
 drivers/net/wireless/intersil/
+drivers/net/wireless/quantenna/
 drivers/net/wireless/realtek/
 drivers/net/wireless/ti/
 drivers/net/wireless/mediatek/
