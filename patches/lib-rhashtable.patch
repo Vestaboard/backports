@@ -27,6 +27,19 @@
  		if (!tbl->locks)
  			return -ENOMEM;
  		for (i = 0; i < size; i++)
--- 
-1.9.1
+@@ -226,10 +226,11 @@ static struct bucket_table *bucket_table_alloc(struct rhashtable *ht,
+ 	int i;
+ 
+ 	size = sizeof(*tbl) + nbuckets * sizeof(tbl->buckets[0]);
+-	if (gfp != GFP_KERNEL)
++	if (size <= (PAGE_SIZE << PAGE_ALLOC_COSTLY_ORDER) ||
++	    gfp != GFP_KERNEL)
+ 		tbl = kzalloc(size, gfp | __GFP_NOWARN | __GFP_NORETRY);
+-	else
+-		tbl = kvzalloc(size, gfp);
++	if (tbl == NULL && gfp == GFP_KERNEL)
++		tbl = vzalloc(size);
+ 
+ 	size = nbuckets;
+ 
 
