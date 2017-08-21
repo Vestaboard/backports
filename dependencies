@@ -58,11 +58,12 @@ NFC_PN544_I2C 3.17
 # this needs devm_gpiod_get_index() with 4 arguments.
 NFC_NXP_NCI_I2C 3.17
 
-# this needs device_property..() functions
-NFC_FDP_I2C 3.18
-NFC_ST21NFCA_I2C 3.18
-NFC_ST_NCI_I2C 3.18
-NFC_ST_NCI_SPI 3.18
+# this needs device_property..() functions and struct acpi_gpio_mapping
+NFC_FDP_I2C 3.19
+NFC_ST21NFCA_I2C 3.19
+NFC_ST_NCI_I2C 3.19
+NFC_ST_NCI_SPI 3.19
+NFC_PN544_I2C 3.19
 
 # for whoever wants to backport this: GPIOF_EXPORT was redefined via commit
 # 79a9becd on v3.13-rc1~120^2~15, before this it was redefined via commit
