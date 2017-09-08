@@ -67,6 +67,6 @@ static inline int devm_acpi_dev_add_driver_gpios(struct device *dev,
 {
 	return -ENXIO;
 }
-#endif /* LINUX_VERSION_IN_RANGE(4,19,0, 4,13,0) */
+#endif /* LINUX_VERSION_IN_RANGE(3,19,0, 4,13,0) */
 
 #endif /* __BACKPORT_LINUX_ACPI_H */
