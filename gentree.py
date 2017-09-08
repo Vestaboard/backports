@@ -590,7 +590,6 @@ def apply_patches(args, desc, source_dir, patch_src, target_dir, logwrite=lambda
             '--in-place',
             '--recursive-includes',
             '--relax-include-path',
-            '--use-coccigrep',
             '--timeout', '120',
             '-j', '%d' % cpu_count(),
             '--dir', os.path.abspath(target_dir) ]
