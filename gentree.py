@@ -5,7 +5,6 @@
 
 import argparse, sys, os, errno, shutil, re, subprocess
 import tarfile, gzip
-from multiprocessing import cpu_count
 
 # find self
 source_dir = os.path.abspath(os.path.dirname(__file__))
@@ -585,17 +584,13 @@ def apply_patches(args, desc, source_dir, patch_src, target_dir, logwrite=lambda
     prefix_len = len(os.path.join(source_dir, patch_src)) + 1
 
     for cocci_file in sempatches:
-        cmd = ['spatch',
-            '--sp-file', cocci_file,
-            '--in-place',
-            '--recursive-includes',
-            '--relax-include-path',
-            '--timeout', '120',
-            '-j', '%d' % cpu_count(),
-            '--dir', os.path.abspath(target_dir) ]
+        # Until Coccinelle picks this up
+        pycocci = os.path.join(source_dir, 'devel/pycocci')
+        cmd = [pycocci, cocci_file]
         extra_spatch_args = []
         if args.profile_cocci:
-            cmd.append('--profile')
+            cmd.append('--profile-cocci')
+        cmd.append(os.path.abspath(target_dir))
         print_name = cocci_file[prefix_len:]
         if args.verbose:
             logwrite("Applying SmPL patch %s" % print_name)
