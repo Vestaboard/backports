@@ -167,3 +167,10 @@ config BPAUTO_BUILD_FRAME_VECTOR
 	default n if FRAME_VECTOR
 	default y if BPAUTO_FRAME_VECTOR
 	#c-file mm/frame_vector.c
+
+config BPAUTO_REFCOUNT
+	bool
+	default y
+	depends on KERNEL_4_11
+	#h-file linux/refcount.h
+	#c-file lib/refcount.c
