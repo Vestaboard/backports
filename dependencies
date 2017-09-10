@@ -59,6 +59,9 @@ NFC_TRF7970A 3.17
 # this needs devm_gpiod_get_index() with 4 arguments.
 NFC_NXP_NCI_I2C 3.17
 
+# pci_error_handlers->reset_notify is missing
+MWIFIEX_PCIE 3.16
+
 # this needs device_property..() functions and struct acpi_gpio_mapping
 NFC_FDP_I2C 3.19
 NFC_ST21NFCA_I2C 3.19
