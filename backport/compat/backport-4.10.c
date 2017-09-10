@@ -36,6 +36,13 @@ static bool ethtool_convert_link_mode_to_legacy_u32(u32 *legacy_u32,
 	*legacy_u32 = src[0];
 	return retval;
 }
+
+static void ethtool_convert_legacy_u32_to_link_mode(unsigned long *dst,
+						    u32 legacy_u32)
+{
+	bitmap_zero(dst, __ETHTOOL_LINK_MODE_MASK_NBITS);
+	dst[0] = legacy_u32;
+}
 #endif
 
 static u32 mii_get_an(struct mii_if_info *mii, u16 addr)
