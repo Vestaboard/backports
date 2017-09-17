@@ -3,6 +3,14 @@
 #include <linux/version.h>
 #include_next <linux/uuid.h>
 
+#ifndef UUID_STRING_LEN
+/*
+ * The length of a UUID string ("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
+ * not including trailing NUL.
+ */
+#define	UUID_STRING_LEN		36
+#endif
+
 #if LINUX_VERSION_IS_LESS(4,13,0)
 #define guid_t uuid_le
 #define uuid_t uuid_be
