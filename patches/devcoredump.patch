@@ -1,6 +1,6 @@
 --- a/compat/drivers-base-devcoredump.c
 +++ b/compat/drivers-base-devcoredump.c
-@@ -30,6 +30,7 @@
+@@ -31,6 +31,7 @@
  #include <linux/slab.h>
  #include <linux/fs.h>
  #include <linux/workqueue.h>
@@ -8,7 +8,7 @@
  
  static struct class devcd_class;
  
-@@ -39,6 +40,10 @@ static bool devcd_disabled;
+@@ -40,6 +41,10 @@ static bool devcd_disabled;
  /* if data isn't read by userspace after 5 minutes then delete it */
  #define DEVCD_TIMEOUT	(HZ * 60 * 5)
  
@@ -18,8 +18,8 @@
 +
  struct devcd_entry {
  	struct device devcd_dev;
- 	const void *data;
-@@ -68,8 +73,7 @@ static void devcd_dev_release(struct dev
+ 	void *data;
+@@ -69,8 +74,7 @@ static void devcd_dev_release(struct dev
  	 * a struct device to know when it goes away?
  	 */
  	if (devcd->failing_dev->kobj.sd)
@@ -29,7 +29,7 @@
  
  	put_device(devcd->failing_dev);
  	kfree(devcd);
-@@ -81,6 +85,9 @@ static void devcd_del(struct work_struct
+@@ -82,6 +86,9 @@ static void devcd_del(struct work_struct
  
  	devcd = container_of(wk, struct devcd_entry, del_wk.work);
  
@@ -39,7 +39,7 @@
  	device_del(&devcd->devcd_dev);
  	put_device(&devcd->devcd_dev);
  }
-@@ -114,6 +121,7 @@ static struct bin_attribute devcd_attr_d
+@@ -115,6 +122,7 @@ static struct bin_attribute devcd_attr_d
  	.write = devcd_data_write,
  };
  
@@ -47,7 +47,7 @@
  static struct bin_attribute *devcd_dev_bin_attrs[] = {
  	&devcd_attr_data, NULL,
  };
-@@ -125,6 +133,7 @@ static const struct attribute_group devc
+@@ -126,6 +134,7 @@ static const struct attribute_group devc
  static const struct attribute_group *devcd_dev_groups[] = {
  	&devcd_dev_group, NULL,
  };
@@ -55,7 +55,7 @@
  
  static int devcd_free(struct device *dev, void *data)
  {
-@@ -169,7 +178,9 @@ static struct class devcd_class = {
+@@ -172,7 +181,9 @@ static struct class devcd_class = {
  	.name		= "devcoredump",
  	.owner		= THIS_MODULE,
  	.dev_release	= devcd_dev_release,
@@ -65,7 +65,7 @@
  	.class_groups	= devcd_class_groups,
  };
  
-@@ -270,6 +281,11 @@ void dev_coredumpm(struct device *dev, s
+@@ -316,6 +327,11 @@ void dev_coredumpm(struct device *dev, s
  	if (device_add(&devcd->devcd_dev))
  		goto put_device;
  
@@ -77,9 +77,9 @@
  	if (sysfs_create_link(&devcd->devcd_dev.kobj, &dev->kobj,
  			      "failing_device"))
  		/* nothing - symlink will be missing */;
-@@ -291,15 +307,13 @@ void dev_coredumpm(struct device *dev, s
+@@ -358,15 +374,13 @@ void dev_coredumpsg(struct device *dev,
  }
- EXPORT_SYMBOL_GPL(dev_coredumpm);
+ EXPORT_SYMBOL_GPL(dev_coredumpsg);
  
 -static int __init devcoredump_init(void)
 +int __init devcoredump_init(void)
@@ -97,18 +97,18 @@
 -__exitcall(devcoredump_exit);
 --- a/include/linux/backport-devcoredump.h
 +++ b/include/linux/backport-devcoredump.h
-@@ -66,7 +66,7 @@ static inline void _devcd_free_sgtable(struct scatterlist *tab
+@@ -66,7 +66,7 @@ static inline void _devcd_free_sgtable(s
  }
  
  
 -#ifdef CONFIG_DEV_COREDUMP
 +#ifdef CPTCFG_BPAUTO_WANT_DEV_COREDUMP
  void dev_coredumpv(struct device *dev, void *data, size_t datalen,
-                   gfp_t gfp);
+ 		   gfp_t gfp);
  
-@@ -100,6 +100,6 @@ static inline void dev_coredumpsg(struct device *dev, struct
+@@ -100,6 +100,6 @@ static inline void dev_coredumpsg(struct
  {
-        _devcd_free_sgtable(table);
+ 	_devcd_free_sgtable(table);
  }
 -#endif /* CONFIG_DEV_COREDUMP */
 +#endif /* CPTCFG_BPAUTO_WANT_DEV_COREDUMP */

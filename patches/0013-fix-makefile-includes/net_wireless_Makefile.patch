@@ -1,7 +1,7 @@
 --- a/net/wireless/Makefile
 +++ b/net/wireless/Makefile
-@@ -20,6 +20,6 @@ CFLAGS_trace.o := -I$(src)
- ccflags-y += -D__CHECK_ENDIAN__
+@@ -19,6 +19,6 @@ cfg80211-$(CONFIG_CFG80211_INTERNAL_REGD
+ CFLAGS_trace.o := -I$(src)
  
  $(obj)/regdb.c: $(src)/db.txt $(src)/genregdb.awk
 -	@$(AWK) -f $(srctree)/$(src)/genregdb.awk < $< > $@

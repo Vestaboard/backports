@@ -46,7 +46,7 @@
  
  struct ccm_instance_ctx {
  	struct crypto_skcipher_spawn ctr;
-@@ -1001,7 +1032,7 @@ static int cbcmac_create(struct crypto_template *tmpl, struct rtattr **tb)
+@@ -1001,7 +1032,7 @@ static struct crypto_template crypto_cbc
  	.module = THIS_MODULE,
  };
  
@@ -55,7 +55,7 @@
  {
  	int err;
  
-@@ -1033,19 +1064,10 @@ static int __init crypto_ccm_module_init(void)
+@@ -1033,19 +1064,10 @@ out_undo_cbcmac:
  	goto out;
  }
  

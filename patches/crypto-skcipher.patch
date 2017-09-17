@@ -1,8 +1,8 @@
 --- a/compat/crypto-skcipher.c
 +++ b/compat/crypto-skcipher.c
-@@ -18,7 +18,28 @@
- #include <linux/bug.h>
- #include <linux/module.h>
+@@ -26,7 +26,28 @@
+ #include <linux/seq_file.h>
+ #include <net/netlink.h>
  
 -#include "internal.h"
 +struct crypto_tfm *__crypto_alloc_tfm(struct crypto_alg *alg, u32 type,
@@ -28,5 +28,5 @@
 +	return req->base.flags;
 +}
  
- static unsigned int crypto_skcipher_extsize(struct crypto_alg *alg)
- {
+ enum {
+ 	SKCIPHER_WALK_PHYS = 1 << 0,

@@ -2,7 +2,7 @@ diff --git a/net/nfc/llcp_sock.c b/net/nfc/llcp_sock.c
 index 043c6d3..5b4e44c 100644
 --- a/net/nfc/llcp_sock.c
 +++ b/net/nfc/llcp_sock.c
-@@ -443,7 +443,11 @@ struct sock *nfc_llcp_accept_dequeue(struct sock *parent,
+@@ -443,7 +443,11 @@ struct sock *nfc_llcp_accept_dequeue(str
  }
  
  static int llcp_sock_accept(struct socket *sock, struct socket *newsock,

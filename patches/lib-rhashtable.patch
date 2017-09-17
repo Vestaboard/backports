@@ -1,6 +1,7 @@
+
 --- a/compat/lib-rhashtable.c
 +++ b/compat/lib-rhashtable.c
-@@ -86,11 +86,26 @@ static int alloc_bucket_locks(struct rhashtable *ht, struct bucket_table *tbl,
+@@ -86,11 +86,26 @@ static int alloc_bucket_locks(struct rha
  		size = min(size, 1U << tbl->nest);
  
  	if (sizeof(spinlock_t) != 0) {
@@ -27,7 +28,7 @@
  		if (!tbl->locks)
  			return -ENOMEM;
  		for (i = 0; i < size; i++)
-@@ -226,10 +226,11 @@ static struct bucket_table *bucket_table_alloc(struct rhashtable *ht,
+@@ -211,10 +226,11 @@ static struct bucket_table *bucket_table
  	int i;
  
  	size = sizeof(*tbl) + nbuckets * sizeof(tbl->buckets[0]);
@@ -42,4 +43,3 @@
  
  	size = nbuckets;
  
-

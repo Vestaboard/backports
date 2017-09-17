@@ -20,5 +20,5 @@
 +}
 +#endif
  
- static void bcma_of_fill_device(struct platform_device *parent,
+ static void bcma_of_fill_device(struct device *parent,
  				struct bcma_device *core)
