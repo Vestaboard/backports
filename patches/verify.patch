@@ -1,0 +1,86 @@
+--- a/compat/verification/pkcs7_trust.c
++++ b/compat/verification/pkcs7_trust.c
+@@ -115,7 +115,7 @@ static int pkcs7_validate_trust_one(struct pkcs7_message *pkcs7,
+ 	return -ENOKEY;
+ 
+ matched:
+-	ret = verify_signature(key, sig);
++	ret = public_key_verify_signature(key->public_key, sig);
+ 	key_put(key);
+ 	if (ret < 0) {
+ 		if (ret == -ENOMEM)
+--- a/compat/verification/x509_public_key.c
++++ b/compat/verification/x509_public_key.c
+@@ -13,11 +13,8 @@
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/slab.h>
+-#include <keys/asymmetric-subtype.h>
+-#include <keys/asymmetric-parser.h>
+ #include <keys/system_keyring.h>
+ #include <crypto/hash.h>
+-#include "asymmetric_keys.h"
+ #include "x509_parser.h"
+ 
+ /*
+@@ -159,6 +156,7 @@ not_self_signed:
+ 	return 0;
+ }
+ 
++#if 0
+ /*
+  * Attempt to parse a data blob for a key as an X509 certificate.
+  */
+@@ -276,3 +274,4 @@ module_exit(x509_key_exit);
+ 
+ MODULE_DESCRIPTION("X.509 certificate parser");
+ MODULE_LICENSE("GPL");
++#endif
+--- a/include/crypto/pkcs7.h
++++ b/include/crypto/pkcs7.h
+@@ -2,5 +2,10 @@
+ #ifndef CPTCFG_BPAUTO_PKCS7
+ #include_next <crypto/pkcs7.h>
+ #else
++#define pkcs7_verify LINUX_BACKPORT(pkcs7_verify)
++#define pkcs7_get_content_data LINUX_BACKPORT(pkcs7_get_content_data)
++#define pkcs7_parse_message LINUX_BACKPORT(pkcs7_parse_message)
++#define pkcs7_free_message LINUX_BACKPORT(pkcs7_free_message)
++#define pkcs7_validate_trust LINUX_BACKPORT(pkcs7_validate_trust)
+ #include <crypto/backport-pkcs7.h>
+ #endif /* CPTCFG_BPAUTO_PKCS7 */
+--- a/compat/verification/x509_parser.h
++++ b/compat/verification/x509_parser.h
+@@ -13,6 +13,10 @@
+ #include <crypto/public_key.h>
+ #include <keys/asymmetric-type.h>
+ 
++#define x509_decode_time LINUX_BACKPORT(x509_decode_time)
++#define x509_cert_parse LINUX_BACKPORT(x509_cert_parse)
++#define x509_free_certificate LINUX_BACKPORT(x509_free_certificate)
++
+ struct x509_certificate {
+ 	struct x509_certificate *next;
+ 	struct x509_certificate *signer;	/* Certificate that signed this one */
+--- a/net/wireless/Makefile
++++ b/net/wireless/Makefile
+@@ -22,7 +22,7 @@ ifneq ($(CPTCFG_CFG80211_EXTRA_REGDB_KEYDIR),)
+ cfg80211-y += extra-certs.o
+ endif
+ 
+-$(obj)/shipped-certs.c: $(wildcard $(srctree)/$(src)/certs/*.x509)
++$(obj)/shipped-certs.c: $(wildcard $(src)/certs/*.x509)
+ 	@echo "  GEN     $@"
+ 	@echo '#include "reg.h"' > $@
+ 	@echo 'const u8 shipped_regdb_certs[] = {' >> $@
+--- a/compat/verification/pkcs7_verify.c
++++ b/compat/verification/pkcs7_verify.c
+@@ -150,7 +150,7 @@
+ 		pr_devel("Sig %u: Found cert serial match X.509[%u]\n",
+ 			 sinfo->index, certix);
+ 
+-		if (x509->pub->pkey_algo != sinfo->sig->pkey_algo) {
++		if (strcmp(x509->pub->pkey_algo, sinfo->sig->pkey_algo)) {
+ 			pr_warn("Sig %u: X.509 algo and PKCS#7 sig algo don't match\n",
+ 				sinfo->index);
+ 			continue;
