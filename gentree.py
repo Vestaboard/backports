@@ -651,7 +651,7 @@ def _main():
                         help='Refresh patches as they are applied, the source dir will be modified!')
     parser.add_argument('--base-name', metavar='<name>', type=str, default='Linux',
                         help='name of base tree, default just "Linux"')
-    parser.add_argument('--gitdebug', const=True, default=False, action="store_const",
+    parser.add_argument('--gitdebug', '--git-debug', const=True, default=False, action="store_const",
                         help='Use git, in the output tree, to debug the various transformation steps ' +
                              'that the tree generation makes (apply patches, ...)')
     parser.add_argument('--verbose', const=True, default=False, action="store_const",
