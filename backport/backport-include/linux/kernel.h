@@ -213,6 +213,11 @@ static inline u32 reciprocal_scale(u32 val, u32 ep_ro)
 }
 #endif /* LINUX_VERSION_IS_LESS(3,14,0) */
 
+#if LINUX_VERSION_IS_LESS(3,18,0)
+#define bin2hex LINUX_BACKPORT(bin2hex)
+extern char *bin2hex(char *dst, const void *src, size_t count);
+#endif
+
 #endif /* __BACKPORT_KERNEL_H */
 
 /*
