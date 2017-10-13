@@ -62,17 +62,6 @@
  struct x509_certificate {
  	struct x509_certificate *next;
  	struct x509_certificate *signer;	/* Certificate that signed this one */
---- a/net/wireless/Makefile
-+++ b/net/wireless/Makefile
-@@ -22,7 +22,7 @@ ifneq ($(CPTCFG_CFG80211_EXTRA_REGDB_KEYDIR),)
- cfg80211-y += extra-certs.o
- endif
- 
--$(obj)/shipped-certs.c: $(wildcard $(srctree)/$(src)/certs/*.x509)
-+$(obj)/shipped-certs.c: $(wildcard $(src)/certs/*.x509)
- 	@echo "  GEN     $@"
- 	@echo '#include "reg.h"' > $@
- 	@echo 'const u8 shipped_regdb_certs[] = {' >> $@
 --- a/compat/verification/pkcs7_verify.c
 +++ b/compat/verification/pkcs7_verify.c
 @@ -150,7 +150,7 @@

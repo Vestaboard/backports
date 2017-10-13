@@ -1016,6 +1016,8 @@ def process(kerneldir, copy_list_file, git_revision=None,
             data = open(os.path.join(root, f), 'r').read()
             for r in regexes:
                 data = r.sub(r'' + bpid.full_prefix + '\\1', data)
+            # we have an absolue path in $(src) since we compile out of tree
+            data = re.sub(r'\$\(srctree\)/\$\(src\)', '$(src)', data)
             data = re.sub(r'\$\(srctree\)', '$(backport_srctree)', data)
             data = re.sub(r'-Idrivers', '-I$(backport_srctree)/drivers', data)
             if bpid.integrate:
