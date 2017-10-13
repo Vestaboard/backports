@@ -102,17 +102,6 @@ config BPAUTO_USERSEL_BUILD_ALL
 	  It's only really useful for compat testing, so
 	  you probably shouldn't enable it.
 
-config BPAUTO_CRYPTO_CCM
-	depends on CRYPTO_AEAD
-	depends on CRYPTO_CTR
-	bool
-
-config BPAUTO_BUILD_CRYPTO_CCM
-	bool
-	default n if CRYPTO_CCM
-	default y if BPAUTO_CRYPTO_CCM
-	#c-file crypto/ccm.c
-
 config BPAUTO_CRYPTO_SKCIPHER
 	tristate
 	depends on KERNEL_4_3
