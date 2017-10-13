@@ -18,6 +18,8 @@ SPACE_PER_KERNEL=101
 # ~13 MiB of both deb files
 SPACE_PER_KERNEL_DEB=13
 
+MIN_VERSION = (3, 10)
+
 GIT_TREES = [
     "git://git.kernel.org/pub/scm/linux/kernel/git/backports/backports.git",
     "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git",
@@ -81,6 +83,12 @@ class backport_kernel_updater:
             for sver in last[ver]:
                 while len(sver[0]) < n:
                     sver[0].append(0)
+
+        filtered = {}
+        for subvers in last:
+            if tuple(make_version_tuple(subvers[1:])) >= MIN_VERSION:
+                filtered[subvers] = last[subvers]
+        last = filtered
 
         result = []
         for subvers in last.values():
