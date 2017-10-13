@@ -159,6 +159,8 @@
 #endif /* rounddown */
 
 #if LINUX_VERSION_IS_LESS(3,2,0)
+#define hex_byte_pack pack_hex_byte
+
 /* kernels before 3.2 didn't have error checking for the function */
 #define hex2bin LINUX_BACKPORT(hex2bin)
 int __must_check hex2bin(u8 *dst, const char *src, size_t count);
