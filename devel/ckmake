@@ -410,7 +410,7 @@ class kernel_set():
                              curses.COLOR_RED,
                              curses.COLOR_BLACK)
             curses.init_pair(4,
-                             curses.COLOR_BLUE,
+                             curses.COLOR_WHITE,
                              curses.COLOR_BLACK)
 
     def baking(self, rel):
