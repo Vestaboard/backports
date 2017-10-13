@@ -159,3 +159,6 @@ NFC_WILINK 4.8
 # struct ethtool_link_ksettings is missing, I'm lazy
 USB_USBNET 4.6
 USB_NET_RNDIS_WLAN 4.6
+
+# depends on struct mmc_card::ocr
+RSI_SDIO 3.13
