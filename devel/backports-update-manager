@@ -52,7 +52,7 @@ class backport_kernel_updater:
 
     @classmethod
     def _get_ubuntu_ppa_mainline_kernels(cls):
-        base = 'http://kernel.ubuntu.com/~kernel-ppa/mainline/'
+        base = KPATH
         html = urlopen(base).read()
         builds = re.findall(b'href="([-v.0-9a-z]*)/"', html)
         builds = [b.decode('ascii') for b in builds]
