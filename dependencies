@@ -62,6 +62,9 @@ NFC_NXP_NCI_I2C 3.17
 # pci_error_handlers->reset_notify is missing
 MWIFIEX_PCIE 3.16
 
+# needs pcie_get_mps()
+QTNFMAC_PEARL_PCIE 3.13
+
 # needs pm_system_wakeup() which can't reall be
 # backported properly
 MWIFIEX 3.18
