@@ -25,7 +25,7 @@ struct bp_extack_genl_family {
 
 static const struct nla_policy extack_dummy_policy[1] = {};
 
-static struct bp_extack_genl_family *get_copy(const struct genl_ops *op)
+static struct bp_extack_genl_family *get_copy(__genl_const struct genl_ops *op)
 {
 	do {
 		op--;
@@ -34,23 +34,23 @@ static struct bp_extack_genl_family *get_copy(const struct genl_ops *op)
 	return container_of(op, struct bp_extack_genl_family, ops[0]);
 }
 
-static int extack_pre_doit(const struct genl_ops *ops,
+static int extack_pre_doit(__genl_const struct genl_ops *ops,
 			   struct sk_buff *skb,
 			   struct genl_info *info)
 {
 	struct netlink_ext_ack *extack = kzalloc(sizeof(*extack), GFP_KERNEL);
 	struct bp_extack_genl_family *copy = get_copy(ops);
-	const struct genl_ops *real_ops;
+	struct genl_ops *real_ops;
 	int err;
 
-	info->userhdr = extack;
+	__bp_genl_info_userhdr_set(info, extack);
 
 	if (!extack) {
-		info->userhdr = ERR_PTR(-ENOMEM);
+		__bp_genl_info_userhdr_set(info, ERR_PTR(-ENOMEM));
 		return -ENOMEM;
 	}
 
-	real_ops = &copy->real_family->ops[ops - &copy->ops[1]];
+	real_ops = (void *)&copy->real_family->ops[ops - &copy->ops[1]];
 	extack->__bp_genl_real_ops = real_ops;
 
 	if (copy->real_family->pre_doit)
@@ -59,7 +59,7 @@ static int extack_pre_doit(const struct genl_ops *ops,
 		err = 0;
 
 	if (err) {
-		info->userhdr = ERR_PTR(err);
+		__bp_genl_info_userhdr_set(info, ERR_PTR(err));
 		kfree(extack);
 	}
 
@@ -144,13 +144,13 @@ static void extack_netlink_ack(struct sk_buff *in_skb, struct nlmsghdr *nlh,
 
 static int extack_doit(struct sk_buff *skb, struct genl_info *info)
 {
-	const struct genl_ops *real_ops;
+	struct genl_ops *real_ops;
 	int err;
 
 	/* older kernels have a bug here */
-	if (IS_ERR(info->userhdr)) {
+	if (IS_ERR(__bp_genl_info_userhdr(info))) {
 		extack_netlink_ack(skb, info->nlhdr,
-				   PTR_ERR(info->userhdr),
+				   PTR_ERR(__bp_genl_info_userhdr(info)),
 				   genl_info_extack(info));
 		goto out;
 	}
@@ -171,11 +171,11 @@ out:
 	return 0;
 }
 
-static void extack_post_doit(const struct genl_ops *ops,
+static void extack_post_doit(__genl_const struct genl_ops *ops,
 			     struct sk_buff *skb,
 			     struct genl_info *info)
 {
-	void (*post_doit)(const struct genl_ops *ops,
+	void (*post_doit)(__genl_const struct genl_ops *ops,
 			  struct sk_buff *skb,
 			  struct genl_info *info);
 
@@ -183,7 +183,7 @@ static void extack_post_doit(const struct genl_ops *ops,
 
 	if (post_doit)
 		post_doit(ops, skb, info);
-	kfree(info->userhdr);
+	kfree(__bp_genl_info_userhdr(info));
 }
 
 int bp_extack_genl_register_family(struct genl_family *family)

@@ -3,6 +3,17 @@
 #include_next <net/genetlink.h>
 #include <linux/version.h>
 
+static inline void __bp_genl_info_userhdr_set(struct genl_info *info,
+					      void *userhdr)
+{
+	info->userhdr = userhdr;
+}
+
+static inline void *__bp_genl_info_userhdr(struct genl_info *info)
+{
+	return info->userhdr;
+}
+
 #if LINUX_VERSION_IS_LESS(4,12,0)
 #define GENL_SET_ERR_MSG(info, msg) do { } while (0)
 
