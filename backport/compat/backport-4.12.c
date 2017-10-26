@@ -19,9 +19,13 @@ enum nlmsgerr_attrs {
 struct bp_extack_genl_family {
 	struct genl_family family;
 	struct genl_family *real_family;
+	struct list_head list;
 
 	struct genl_ops ops[];
 };
+
+static LIST_HEAD(copies_list);
+static DEFINE_MUTEX(copies_mutex);
 
 static const struct nla_policy extack_dummy_policy[1] = {};
 
@@ -212,24 +216,38 @@ int bp_extack_genl_register_family(struct genl_family *family)
 	copy->family.pre_doit = extack_pre_doit;
 	copy->family.post_doit = extack_post_doit;
 
-	/*
-	 * store in attrbuf, so that even if we re-register the family
-	 * the data will be overwritten and we don't overwrite data
-	 * that's used again later...
-	 */
-	family->attrbuf = (void *)copy;
-
 	err = __real_bp_extack_genl_register_family(&copy->family);
-	if (err)
+	if (err) {
 		kfree(copy);
-	return err;
+		return err;
+	}
+
+	/* copy this since the family might access it directly */
+	family->attrbuf = copy->family.attrbuf;
+
+	mutex_lock(&copies_mutex);
+	list_add_tail(&copy->list, &copies_list);
+	mutex_unlock(&copies_mutex);
+
+	return 0;
 }
 EXPORT_SYMBOL_GPL(bp_extack_genl_register_family);
 
 int bp_extack_genl_unregister_family(struct genl_family *family)
 {
-	struct bp_extack_genl_family *copy = (void *)family->attrbuf;
+	struct bp_extack_genl_family *tmp, *copy = NULL;
 	int err;
+
+	mutex_lock(&copies_mutex);
+	list_for_each_entry(tmp, &copies_list, list) {
+		if (tmp->real_family == family) {
+			copy = tmp;
+			break;
+		}
+	}
+	if (copy)
+		list_del(&copy->list);
+	mutex_unlock(&copies_mutex);
 
 	if (!copy)
 		return -ENOENT;
