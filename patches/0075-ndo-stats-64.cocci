@@ -18,6 +18,10 @@ identifier r.stats64_fn;
 @@
 void stats64_fn(...) {...}
 +#if LINUX_VERSION_IS_LESS(4,11,0)
++/* Just declare it here to keep sparse happy */
++struct rtnl_link_stats64 *
++stats64_fn_wrap(struct net_device *dev,
++		 struct rtnl_link_stats64 *stats);
 +struct rtnl_link_stats64 *
 +stats64_fn_wrap(struct net_device *dev,
 +		 struct rtnl_link_stats64 *stats)
