@@ -306,14 +306,28 @@ static inline void skb_free_frag(void *data)
 	put_page(virt_to_head_page(data));
 }
 
-/* iwlwifi doesn't need this function, so it's safe to just return 0 */
-static inline
-__u32 skb_get_hash_perturb(const struct sk_buff *skb, u32 perturb)
+#if LINUX_VERSION_IS_LESS(3,3,0)
+
+static inline u32 skb_get_hash_perturb(struct sk_buff *skb, u32 key)
 {
 	return 0;
 }
 
-#endif
+#else
+#include <net/flow_keys.h>
+#include <linux/jhash.h>
+
+static inline u32 skb_get_hash_perturb(struct sk_buff *skb, u32 key)
+{
+	struct flow_keys keys;
+
+	skb_flow_dissect(skb, &keys);
+	return jhash_3words((__force u32)keys.dst,
+			    (__force u32)keys.src ^ keys.ip_proto,
+			    (__force u32)keys.ports, key);
+}
+#endif /* LINUX_VERSION_IS_LESS(3,3,0) */
+#endif /* LINUX_VERSION_IS_LESS(4,2,0) */
 
 #if LINUX_VERSION_IS_LESS(4,13,0)
 static inline void *backport_skb_put(struct sk_buff *skb, unsigned int len)
