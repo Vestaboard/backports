@@ -224,6 +224,7 @@ int bp_extack_genl_register_family(struct genl_family *family)
 
 	/* copy this since the family might access it directly */
 	family->attrbuf = copy->family.attrbuf;
+	family->mcgrp_offset = copy->family.mcgrp_offset;
 
 	mutex_lock(&copies_mutex);
 	list_add_tail(&copy->list, &copies_list);
