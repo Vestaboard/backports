@@ -62,14 +62,3 @@
  struct x509_certificate {
  	struct x509_certificate *next;
  	struct x509_certificate *signer;	/* Certificate that signed this one */
---- a/compat/verification/pkcs7_verify.c
-+++ b/compat/verification/pkcs7_verify.c
-@@ -150,7 +150,7 @@
- 		pr_devel("Sig %u: Found cert serial match X.509[%u]\n",
- 			 sinfo->index, certix);
- 
--		if (x509->pub->pkey_algo != sinfo->sig->pkey_algo) {
-+		if (strcmp(x509->pub->pkey_algo, sinfo->sig->pkey_algo)) {
- 			pr_warn("Sig %u: X.509 algo and PKCS#7 sig algo don't match\n",
- 				sinfo->index);
- 			continue;
