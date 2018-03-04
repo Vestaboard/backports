@@ -2,7 +2,7 @@ diff --git a/compat/lib-refcount.c b/compat/lib-refcount.c
 index 5d0582a..8d108f9 100644
 --- a/compat/lib-refcount.c
 +++ b/compat/lib-refcount.c
-@@ -36,6 +36,7 @@
+@@ -37,6 +37,7 @@
  
  #include <linux/refcount.h>
  #include <linux/bug.h>

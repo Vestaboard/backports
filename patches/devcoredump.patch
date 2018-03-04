@@ -1,6 +1,6 @@
 --- a/compat/drivers-base-devcoredump.c
 +++ b/compat/drivers-base-devcoredump.c
-@@ -31,6 +31,7 @@
+@@ -16,6 +16,7 @@
  #include <linux/slab.h>
  #include <linux/fs.h>
  #include <linux/workqueue.h>
@@ -8,7 +8,7 @@
  
  static struct class devcd_class;
  
-@@ -40,6 +41,10 @@ static bool devcd_disabled;
+@@ -25,6 +26,10 @@ static bool devcd_disabled;
  /* if data isn't read by userspace after 5 minutes then delete it */
  #define DEVCD_TIMEOUT	(HZ * 60 * 5)
  
@@ -19,7 +19,7 @@
  struct devcd_entry {
  	struct device devcd_dev;
  	void *data;
-@@ -69,8 +74,7 @@ static void devcd_dev_release(struct dev
+@@ -54,8 +59,7 @@ static void devcd_dev_release(struct dev
  	 * a struct device to know when it goes away?
  	 */
  	if (devcd->failing_dev->kobj.sd)
@@ -29,7 +29,7 @@
  
  	put_device(devcd->failing_dev);
  	kfree(devcd);
-@@ -82,6 +86,9 @@ static void devcd_del(struct work_struct
+@@ -67,6 +71,9 @@ static void devcd_del(struct work_struct
  
  	devcd = container_of(wk, struct devcd_entry, del_wk.work);
  
@@ -39,7 +39,7 @@
  	device_del(&devcd->devcd_dev);
  	put_device(&devcd->devcd_dev);
  }
-@@ -115,6 +122,7 @@ static struct bin_attribute devcd_attr_d
+@@ -100,6 +107,7 @@ static struct bin_attribute devcd_attr_d
  	.write = devcd_data_write,
  };
  
@@ -47,7 +47,7 @@
  static struct bin_attribute *devcd_dev_bin_attrs[] = {
  	&devcd_attr_data, NULL,
  };
-@@ -126,6 +134,7 @@ static const struct attribute_group devc
+@@ -111,6 +119,7 @@ static const struct attribute_group devc
  static const struct attribute_group *devcd_dev_groups[] = {
  	&devcd_dev_group, NULL,
  };
@@ -55,7 +55,7 @@
  
  static int devcd_free(struct device *dev, void *data)
  {
-@@ -172,7 +181,9 @@ static struct class devcd_class = {
+@@ -157,7 +166,9 @@ static struct class devcd_class = {
  	.name		= "devcoredump",
  	.owner		= THIS_MODULE,
  	.dev_release	= devcd_dev_release,
@@ -65,7 +65,7 @@
  	.class_groups	= devcd_class_groups,
  };
  
-@@ -316,6 +327,11 @@ void dev_coredumpm(struct device *dev, s
+@@ -301,6 +312,11 @@ void dev_coredumpm(struct device *dev, s
  	if (device_add(&devcd->devcd_dev))
  		goto put_device;
  
@@ -77,7 +77,7 @@
  	if (sysfs_create_link(&devcd->devcd_dev.kobj, &dev->kobj,
  			      "failing_device"))
  		/* nothing - symlink will be missing */;
-@@ -358,15 +374,13 @@ void dev_coredumpsg(struct device *dev,
+@@ -343,15 +359,13 @@ void dev_coredumpsg(struct device *dev,
  }
  EXPORT_SYMBOL_GPL(dev_coredumpsg);
  

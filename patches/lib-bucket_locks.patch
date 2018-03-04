@@ -2,7 +2,7 @@ diff --git a/compat/lib-bucket_locks.c b/compat/lib-bucket_locks.c
 index 266a97c5708b..405b52ca5708 100644
 --- a/compat/lib-bucket_locks.c
 +++ b/compat/lib-bucket_locks.c
-@@ -30,10 +30,24 @@ int alloc_bucket_spinlocks(spinlock_t **locks, unsigned int *locks_mask,
+@@ -30,10 +30,24 @@ int alloc_bucket_spinlocks(spinlock_t **
  	}
  
  	if (sizeof(spinlock_t) != 0) {

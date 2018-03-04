@@ -1,6 +1,6 @@
 --- a/compat/verification/pkcs7_trust.c
 +++ b/compat/verification/pkcs7_trust.c
-@@ -115,7 +115,7 @@ static int pkcs7_validate_trust_one(struct pkcs7_message *pkcs7,
+@@ -116,7 +116,7 @@ static int pkcs7_validate_trust_one(stru
  	return -ENOKEY;
  
  matched:
@@ -23,7 +23,7 @@
  #include "x509_parser.h"
  
  /*
-@@ -159,6 +156,7 @@ not_self_signed:
+@@ -155,6 +152,7 @@ not_self_signed:
  	return 0;
  }
  
@@ -31,9 +31,9 @@
  /*
   * Attempt to parse a data blob for a key as an X509 certificate.
   */
-@@ -276,3 +274,4 @@ module_exit(x509_key_exit);
- 
+@@ -273,3 +271,4 @@ module_exit(x509_key_exit);
  MODULE_DESCRIPTION("X.509 certificate parser");
+ MODULE_AUTHOR("Red Hat, Inc.");
  MODULE_LICENSE("GPL");
 +#endif
 --- a/include/crypto/pkcs7.h

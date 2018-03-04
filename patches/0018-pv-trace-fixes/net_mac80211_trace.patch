@@ -1,6 +1,6 @@
 --- a/net/mac80211/trace.c
 +++ b/net/mac80211/trace.c
-@@ -16,12 +16,16 @@ void __sdata_info(const char *fmt, ...)
+@@ -17,12 +17,16 @@ void __sdata_info(const char *fmt, ...)
  	struct va_format vaf = {
  		.fmt = fmt,
  	};
@@ -19,7 +19,7 @@
  	trace_mac80211_info(&vaf);
  	va_end(args);
  }
-@@ -34,10 +38,16 @@ void __sdata_dbg(bool print, const char
+@@ -35,10 +39,16 @@ void __sdata_dbg(bool print, const char
  	va_list args;
  
  	va_start(args, fmt);
@@ -38,7 +38,7 @@
  	trace_mac80211_dbg(&vaf);
  	va_end(args);
  }
-@@ -47,12 +57,16 @@ void __sdata_err(const char *fmt, ...)
+@@ -48,12 +58,16 @@ void __sdata_err(const char *fmt, ...)
  	struct va_format vaf = {
  		.fmt = fmt,
  	};
@@ -57,7 +57,7 @@
  	trace_mac80211_err(&vaf);
  	va_end(args);
  }
-@@ -65,10 +79,16 @@ void __wiphy_dbg(struct wiphy *wiphy, bo
+@@ -66,10 +80,16 @@ void __wiphy_dbg(struct wiphy *wiphy, bo
  	va_list args;
  
  	va_start(args, fmt);

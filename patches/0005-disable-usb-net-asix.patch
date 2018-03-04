@@ -1,6 +1,6 @@
 --- a/drivers/net/usb/Makefile
 +++ b/drivers/net/usb/Makefile
-@@ -10,7 +10,6 @@ obj-$(CONFIG_USB_RTL8152)	+= r8152.o
+@@ -11,7 +11,6 @@ obj-$(CONFIG_USB_RTL8152)	+= r8152.o
  obj-$(CONFIG_USB_HSO)		+= hso.o
  obj-$(CONFIG_USB_LAN78XX)	+= lan78xx.o
  obj-$(CONFIG_USB_NET_AX8817X)	+= asix.o
