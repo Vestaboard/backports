@@ -166,3 +166,7 @@ RSI_SDIO 3.13
 # depends on devm_led_classdev_register()
 MT76_CORE 4.1
 MT76x2E 4.1
+
+# select_queue_fallback_t is missing
+RTL8723BS 3.14
+R8188EU  3.14
