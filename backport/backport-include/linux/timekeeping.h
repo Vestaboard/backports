@@ -44,4 +44,11 @@ static inline time64_t ktime_get_real_seconds(void)
 }
 #endif
 
+#if LINUX_VERSION_IS_LESS(3,17,0)
+static inline void ktime_get_ts64(struct timespec64 *ts)
+{
+	ktime_get_ts(ts);
+}
+#endif
+
 #endif /* __BACKPORT_TIMEKEEPING_H */
