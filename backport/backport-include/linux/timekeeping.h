@@ -33,6 +33,15 @@ static inline time64_t ktime_get_seconds(void)
 
 	return t.tv_sec;
 }
+
+static inline time64_t ktime_get_real_seconds(void)
+{
+	struct timeval tv;
+
+	do_gettimeofday(&tv);
+
+	return tv.tv_sec;
+}
 #endif
 
 #endif /* __BACKPORT_TIMEKEEPING_H */
