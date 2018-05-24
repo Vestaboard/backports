@@ -225,6 +225,13 @@ int bp_extack_genl_register_family(struct genl_family *family)
 	/* copy this since the family might access it directly */
 	family->id = copy->family.id;
 	family->attrbuf = copy->family.attrbuf;
+
+	/* family ID from the original family struct will be used when building
+	 * genl messages (sent as nlmsg_type), so the new id should be updated
+	 * in the original (older kernel format) family struct too
+	 */
+	family->family.id = copy->family.id;
+
 #if LINUX_VERSION_IS_GEQ(3,13,0)
 	family->mcgrp_offset = copy->family.mcgrp_offset;
 #endif
