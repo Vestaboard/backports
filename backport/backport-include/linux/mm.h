@@ -3,6 +3,9 @@
 #include_next <linux/mm.h>
 #include <linux/page_ref.h>
 #include <linux/sched.h>
+#include <linux/overflow.h>
+#include <linux/vmalloc.h>
+#include <linux/slab.h>
 
 #ifndef VM_NODUMP
 /*
@@ -122,5 +125,37 @@ static inline bool page_is_pfmemalloc(struct page *page)
 	return page->pfmemalloc;
 }
 #endif /* < 4.2 */
+
+#if LINUX_VERSION_IS_LESS(4,12,0)
+#define kvmalloc LINUX_BACKPORT(kvmalloc)
+static inline void *kvmalloc(size_t size, gfp_t flags)
+{
+	gfp_t kmalloc_flags = flags;
+	void *ret;
+
+	if ((flags & GFP_KERNEL) != GFP_KERNEL)
+		return kmalloc(size, flags);
+
+	if (size > PAGE_SIZE)
+		kmalloc_flags |= __GFP_NOWARN | __GFP_NORETRY;
+
+	ret = kmalloc(size, flags);
+	if (ret || size < PAGE_SIZE)
+		return ret;
+
+	return vmalloc(size);
+}
+
+#define kvmalloc_array LINUX_BACKPORT(kvmalloc_array)
+static inline void *kvmalloc_array(size_t n, size_t size, gfp_t flags)
+{
+	size_t bytes;
+
+	if (unlikely(check_mul_overflow(n, size, &bytes)))
+		return NULL;
+
+	return kvmalloc(bytes, flags);
+}
+#endif
 
 #endif /* __BACKPORT_MM_H */
