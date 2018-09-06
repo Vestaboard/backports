@@ -19,6 +19,7 @@ include/linux/fixp-arith.h
 # This just defines some macros, simply take it
 include/linux/bitfield.h
 include/linux/average.h
+include/linux/overflow.h
 
 # crypto_memneq
 crypto/memneq.c -> compat/memneq.c
