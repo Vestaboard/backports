@@ -625,7 +625,7 @@ def _main():
     # Our binary requirements go here
     req = reqs.Req()
     req.require('git')
-    req.coccinelle('1.0.6')
+    req.coccinelle('1.0.7')
     if not req.reqs_match():
         sys.exit(1)
 
