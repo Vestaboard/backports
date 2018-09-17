@@ -112,6 +112,12 @@ static inline void *kvmalloc_array(size_t n, size_t size, gfp_t flags)
 
 	return kvmalloc(bytes, flags);
 }
+
+#define kvzalloc LINUX_BACKPORT(kvzalloc)
+static inline void *kvzalloc(size_t size, gfp_t flags)
+{
+	return kvmalloc(size, flags | __GFP_ZERO);
+}
 #endif
 
 #endif /* __BACKPORT_MM_H */
