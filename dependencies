@@ -72,8 +72,10 @@ RSI_SDIO 3.13
 RSI_COEX 4.17
 
 # depends on devm_led_classdev_register()
-MT76_CORE 4.1
+# (can't use MT76_CORE for this as it's selected)
+MT76x0U 4.1
 MT76x2E 4.1
+MT76x2U 4.1
 
 # select_queue_fallback_t is missing
 RTL8723BS 3.14
