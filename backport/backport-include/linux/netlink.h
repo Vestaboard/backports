@@ -20,7 +20,7 @@ struct netlink_ext_ack {
 	u8 cookie_len;
 
 	/* backport only field */
-	void *__bp_genl_real_ops;
+	void *__bp_doit;
 };
 
 #define NL_SET_ERR_MSG(extack, msg) do {	\
