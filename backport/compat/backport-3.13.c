@@ -16,6 +16,7 @@
 #include <linux/pci.h>
 #include <linux/device.h>
 #include <linux/hwmon.h>
+#include <linux/net.h>
 
 /************* generic netlink backport *****************/
 #if RHEL_RELEASE_CODE < RHEL_RELEASE_VERSION(7,0)
