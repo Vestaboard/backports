@@ -60,6 +60,14 @@ static inline void *genl_info_userhdr(struct genl_info *info)
 #endif
 
 #if LINUX_VERSION_IS_LESS(4,15,0)
+#define genlmsg_nlhdr LINUX_BACKPORT(genlmsg_nlhdr)
+static inline struct nlmsghdr *genlmsg_nlhdr(void *user_hdr)
+{
+	return (struct nlmsghdr *)((char *)user_hdr -
+				   GENL_HDRLEN -
+				   NLMSG_HDRLEN);
+}
+
 #ifndef genl_dump_check_consistent
 static inline
 void backport_genl_dump_check_consistent(struct netlink_callback *cb,
@@ -153,8 +161,6 @@ extern void genl_notify(struct sk_buff *skb, struct net *net, u32 pid,
 		    (_fam)->mcgrps[_group].id, _info->nlhdr, _flags)
 #define genlmsg_put(_skb, _pid, _seq, _fam, _flags, _cmd)		\
 	genlmsg_put(_skb, _pid, _seq, &(_fam)->family, _flags, _cmd)
-#define genlmsg_nlhdr(_hdr, _fam)					\
-	genlmsg_nlhdr(_hdr, &(_fam)->family)
 
 #ifndef genlmsg_put_reply /* might already be there from _info override above */
 #define genlmsg_put_reply(_skb, _info, _fam, _flags, _cmd)		\
