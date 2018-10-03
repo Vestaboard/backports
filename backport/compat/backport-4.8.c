@@ -9,6 +9,7 @@
  */
 #include <linux/usb.h>
 #include <linux/usb/cdc.h>
+#include <linux/pci.h>
 
 int cdc_parse_cdc_header(struct usb_cdc_parsed_header *hdr,
 			 struct usb_interface *intf,
@@ -144,3 +145,25 @@ next_desc:
 	return cnt;
 }
 EXPORT_SYMBOL_GPL(cdc_parse_cdc_header);
+
+int pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
+		unsigned int max_vecs, unsigned int flags)
+{
+	int res;
+	int msi_nvect = max_vecs;
+
+	if (max_vecs < min_vecs)
+		return -ERANGE;
+
+#if LINUX_VERSION_IS_LESS(3,15,0)
+	res = pci_enable_msi_block(dev, msi_nvect);
+	if (res == 0) {
+		return msi_nvect;
+	}
+#else
+	res = pci_enable_msi_range(dev, msi_nvect, msi_nvect);
+	return msi_nvect;
+#endif /*LINUX_VERSION_IS_LESS(3,15,0)*/
+	return -ENOSPC;
+}
+EXPORT_SYMBOL_GPL(pci_alloc_irq_vectors);

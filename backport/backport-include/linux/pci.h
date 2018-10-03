@@ -134,6 +134,25 @@ static inline int pci_vfs_assigned(struct pci_dev *dev)
 
 #endif /* LINUX_VERSION_IS_LESS(3,10,0) */
 
+#if LINUX_VERSION_IS_LESS(4,8,0)
+#define pci_alloc_irq_vectors LINUX_BACKPORT(pci_alloc_irq_vectors)
+#ifdef CONFIG_PCI_MSI
+int pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
+		unsigned int max_vecs, unsigned int flags);
+#else
+static inline int pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
+		unsigned int max_vecs, unsigned int flags)
+{ return -ENOSYS; }
+#endif
+#endif
+
+#if LINUX_VERSION_IS_LESS(4,8,0)
+#define pci_free_irq_vectors LINUX_BACKPORT(pci_free_irq_vectors)
+static inline void pci_free_irq_vectors(struct pci_dev *dev)
+{
+}
+#endif
+
 #if LINUX_VERSION_IS_LESS(3,14,0)
 #define pci_enable_msi_range LINUX_BACKPORT(pci_enable_msi_range)
 #ifdef CONFIG_PCI_MSI
