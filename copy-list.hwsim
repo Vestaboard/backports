@@ -11,6 +11,8 @@
 #
 
 COPYING
+LICENSES/
+Documentation/process/license-rules.rst
 MAINTAINERS
 include/linux/unaligned/
 include/linux/hashtable.h
