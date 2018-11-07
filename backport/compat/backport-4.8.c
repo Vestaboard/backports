@@ -146,6 +146,8 @@ next_desc:
 }
 EXPORT_SYMBOL_GPL(cdc_parse_cdc_header);
 
+#ifdef CONFIG_PCI
+#ifdef CONFIG_PCI_MSI
 int pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
 		unsigned int max_vecs, unsigned int flags)
 {
@@ -167,3 +169,5 @@ int pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
 	return -ENOSPC;
 }
 EXPORT_SYMBOL_GPL(pci_alloc_irq_vectors);
+#endif /* CONFIG_PCI_MSI */
+#endif /* CONFIG_PCI */
