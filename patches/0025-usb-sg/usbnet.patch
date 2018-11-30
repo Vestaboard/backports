@@ -58,10 +58,10 @@
 +#if LINUX_VERSION_IS_GEQ(3,35,0)
  			kfree(entry->urb->sg);
 +#endif
+ 			/* fall through */
  		case rx_cleanup:
  			usb_free_urb (entry->urb);
- 			dev_kfree_skb (skb);
-@@ -1893,7 +1911,9 @@ int usbnet_resume (struct usb_interface
+@@ -1894,7 +1912,9 @@ int usbnet_resume (struct usb_interface
  			retval = usb_submit_urb(res, GFP_ATOMIC);
  			if (retval < 0) {
  				dev_kfree_skb_any(skb);
