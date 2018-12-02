@@ -60,6 +60,7 @@ IPW2100 4.3
 IPW2200 4.3
 HOSTAP 4.3
 LIBERTAS 4.3
+R8188EU 4.3
 
 # struct ethtool_link_ksettings is missing, I'm lazy
 USB_USBNET 4.6
