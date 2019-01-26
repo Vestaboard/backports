@@ -25,7 +25,7 @@ AIRO_CS 3.9
 MWIFIEX_PCIE 3.16
 
 # needs pcie_get_mps()
-QTNFMAC_PEARL_PCIE 3.13
+QTNFMAC_PCIE 3.13
 
 # needs pm_system_wakeup() which can't reall be
 # backported properly
