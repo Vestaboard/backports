@@ -1,18 +1,18 @@
 diff --git a/drivers/net/wireless/intel/iwlwifi/pcie/trans.c b/drivers/net/wireless/intel/iwlwifi/pcie/trans.c
-index cc8c53dc0ab6..68296b65a680 100644
+index f74281508197..3b11bd68f261 100644
 --- a/drivers/net/wireless/intel/iwlwifi/pcie/trans.c
 +++ b/drivers/net/wireless/intel/iwlwifi/pcie/trans.c
-@@ -1968,6 +1968,9 @@ static void iwl_trans_pcie_removal_wk(st
+@@ -1964,6 +1964,9 @@ static void iwl_trans_pcie_removal_wk(struct work_struct *wk)
  	struct iwl_trans_pcie_removal *removal =
  		container_of(wk, struct iwl_trans_pcie_removal, work);
  	struct pci_dev *pdev = removal->pdev;
 +#if LINUX_VERSION_IS_LESS(3,14,0)
 +	dev_err(&pdev->dev, "Device gone - can't remove on old kernels.\n");
 +#else
- 	char *prop[] = {"EVENT=INACCESSIBLE", NULL};
+ 	static char *prop[] = {"EVENT=INACCESSIBLE", NULL};
  
  	dev_err(&pdev->dev, "Device gone - attempting removal\n");
-@@ -1976,6 +1979,7 @@ static void iwl_trans_pcie_removal_wk(st
+@@ -1972,6 +1975,7 @@ static void iwl_trans_pcie_removal_wk(struct work_struct *wk)
  	pci_dev_put(pdev);
  	pci_stop_and_remove_bus_device(pdev);
  	pci_unlock_rescan_remove();
