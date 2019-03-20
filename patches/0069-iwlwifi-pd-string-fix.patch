@@ -1,6 +1,6 @@
 --- a/drivers/net/wireless/intel/iwlwifi/dvm/debugfs.c
 +++ b/drivers/net/wireless/intel/iwlwifi/dvm/debugfs.c
-@@ -2414,12 +2414,23 @@ int iwl_dbgfs_register(struct iwl_priv *
+@@ -2386,12 +2386,23 @@ void iwl_dbgfs_register(struct iwl_priv
  	 */
  	if (priv->mac80211_registered) {
  		char buf[100];
@@ -22,11 +22,11 @@
 +			 dev_dir->d_name.name);
 +#endif
  
- 		if (!debugfs_create_symlink("iwlwifi", mac80211_dir, buf))
- 			goto err;
+ 		debugfs_create_symlink("iwlwifi", mac80211_dir, buf);
+ 	}
 --- a/drivers/net/wireless/intel/iwlwifi/mvm/debugfs-vif.c
 +++ b/drivers/net/wireless/intel/iwlwifi/mvm/debugfs-vif.c
-@@ -1484,8 +1484,13 @@ void iwl_mvm_vif_dbgfs_register(struct i
+@@ -776,8 +776,13 @@ void iwl_mvm_vif_dbgfs_register(struct i
  	mvmvif->dbgfs_dir = debugfs_create_dir("iwlmvm", dbgfs_dir);
  
  	if (!mvmvif->dbgfs_dir) {
@@ -40,7 +40,7 @@
  		return;
  	}
  
-@@ -1531,15 +1536,28 @@ void iwl_mvm_vif_dbgfs_register(struct i
+@@ -806,15 +811,28 @@ void iwl_mvm_vif_dbgfs_register(struct i
  	 * find
  	 * netdev:wlan0 -> ../../../ieee80211/phy0/netdev:wlan0/iwlmvm/
  	 */
@@ -71,7 +71,7 @@
  	IWL_ERR(mvm, "Can't create debugfs entity\n");
 --- a/drivers/net/wireless/intel/iwlwifi/mvm/debugfs.c
 +++ b/drivers/net/wireless/intel/iwlwifi/mvm/debugfs.c
-@@ -2078,7 +2078,13 @@ int iwl_mvm_dbgfs_register(struct iwl_mv
+@@ -2211,7 +2211,13 @@ int iwl_mvm_dbgfs_register(struct iwl_mv
  	 * Create a symlink with mac80211. It will be removed when mac80211
  	 * exists (before the opmode exists which removes the target.)
  	 */

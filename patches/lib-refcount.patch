@@ -2,7 +2,7 @@ diff --git a/compat/lib-refcount.c b/compat/lib-refcount.c
 index 5d0582a..8d108f9 100644
 --- a/compat/lib-refcount.c
 +++ b/compat/lib-refcount.c
-@@ -39,6 +39,7 @@
+@@ -42,6 +42,7 @@
  #include <linux/refcount.h>
  #include <linux/spinlock.h>
  #include <linux/bug.h>

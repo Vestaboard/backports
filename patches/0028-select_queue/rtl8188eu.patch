@@ -14,5 +14,5 @@
 +			    select_queue_fallback_t fallback)
 +#endif
  {
- 	struct adapter	*padapter = rtw_netdev_priv(dev);
+ 	struct adapter *padapter = rtw_netdev_priv(dev);
  	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;

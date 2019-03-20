@@ -1,6 +1,6 @@
 --- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/p2p.c
 +++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/p2p.c
-@@ -2215,7 +2215,9 @@ struct wireless_dev *brcmf_p2p_add_vif(s
+@@ -2230,7 +2230,9 @@ struct wireless_dev *brcmf_p2p_add_vif(s
  	}
  
  	strncpy(ifp->ndev->name, name, sizeof(ifp->ndev->name) - 1);
@@ -9,4 +9,4 @@
 +#endif /* >= 3.17.0 */
  	err = brcmf_net_attach(ifp, true);
  	if (err) {
- 		brcmf_err("Registering netdevice failed\n");
+ 		bphy_err(drvr, "Registering netdevice failed\n");
