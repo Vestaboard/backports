@@ -62,6 +62,11 @@ config BP_MODULES
 	This symbol is necessary for the newer kconf tool, it looks
 	for the "option modules" to control the 'm' state.
 
+config BPAUTO_BUILD_NLATTR
+	def_bool y
+	depends on KERNEL_5_2
+	#c-file lib/nlattr.c
+
 config BPAUTO_BUILD_CORDIC
 	tristate
 	depends on !CORDIC

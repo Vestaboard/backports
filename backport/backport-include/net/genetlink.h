@@ -91,12 +91,71 @@ void backport_genl_dump_check_consistent(struct netlink_callback *cb,
 #endif
 #endif /* LINUX_VERSION_IS_LESS(4,15,0) */
 
-#if LINUX_VERSION_IS_LESS(4,20,0)
+#if LINUX_VERSION_IS_LESS(5,2,0)
+enum genl_validate_flags {
+	GENL_DONT_VALIDATE_STRICT		= BIT(0),
+	GENL_DONT_VALIDATE_DUMP			= BIT(1),
+	GENL_DONT_VALIDATE_DUMP_STRICT		= BIT(2),
+};
+
+#if LINUX_VERSION_IS_GEQ(3,13,0)
+struct backport_genl_ops {
+	void			*__dummy_was_policy_must_be_null;
+	int		       (*doit)(struct sk_buff *skb,
+				       struct genl_info *info);
+#if LINUX_VERSION_IS_GEQ(4,5,0) || \
+    LINUX_VERSION_IN_RANGE(4,4,104, 4,5,0) || \
+    LINUX_VERSION_IN_RANGE(4,1,48, 4,2,0) || \
+    LINUX_VERSION_IN_RANGE(3,18,86, 3,19,0)
+	int		       (*start)(struct netlink_callback *cb);
+#endif
+	int		       (*dumpit)(struct sk_buff *skb,
+					 struct netlink_callback *cb);
+	int		       (*done)(struct netlink_callback *cb);
+	u8			cmd;
+	u8			internal_flags;
+	u8			flags;
+	u8			validate;
+};
+#else
+struct backport_genl_ops {
+	u8			cmd;
+	u8			internal_flags;
+	unsigned int		flags;
+	void			*__dummy_was_policy_must_be_null;
+	int		       (*doit)(struct sk_buff *skb,
+				       struct genl_info *info);
+	int		       (*dumpit)(struct sk_buff *skb,
+					 struct netlink_callback *cb);
+	int		       (*done)(struct netlink_callback *cb);
+	struct list_head	ops_list;
+	u8			validate;
+};
+#endif
+
 static inline int
 __real_backport_genl_register_family(struct genl_family *family)
 {
+#define OPS_VALIDATE(f) \
+	BUILD_BUG_ON(offsetof(struct genl_ops, f) != \
+		     offsetof(struct backport_genl_ops, f))
+	OPS_VALIDATE(doit);
+#if LINUX_VERSION_IS_GEQ(4,5,0) || \
+    LINUX_VERSION_IN_RANGE(4,4,104, 4,5,0) || \
+    LINUX_VERSION_IN_RANGE(4,1,48, 4,2,0) || \
+    LINUX_VERSION_IN_RANGE(3,18,86, 3,19,0)
+	OPS_VALIDATE(start);
+#endif
+	OPS_VALIDATE(dumpit);
+	OPS_VALIDATE(done);
+	OPS_VALIDATE(cmd);
+	OPS_VALIDATE(internal_flags);
+	OPS_VALIDATE(flags);
+
 	return genl_register_family(family);
 }
+#define genl_ops backport_genl_ops
+
 static inline int
 __real_backport_genl_unregister_family(struct genl_family *family)
 {
@@ -115,6 +174,7 @@ struct backport_genl_family {
 	unsigned int		maxattr;
 	bool			netnsok;
 	bool			parallel_ops;
+	const struct nla_policy *policy;
 	int			(*pre_doit)(__genl_const struct genl_ops *ops,
 					    struct sk_buff *skb,
 					    struct genl_info *info);

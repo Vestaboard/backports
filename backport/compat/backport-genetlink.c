@@ -167,8 +167,15 @@ static int backport_pre_doit(__genl_const struct genl_ops *ops,
 	struct netlink_ext_ack *extack = info->extack;
 #endif
 
-	err = nlmsg_validate(info->nlhdr, GENL_HDRLEN + family->hdrsize,
-			     family->maxattr, ops->policy, extack);
+	if (ops->validate & GENL_DONT_VALIDATE_STRICT)
+		err = nlmsg_validate_deprecated(info->nlhdr,
+						GENL_HDRLEN + family->hdrsize,
+						family->maxattr, family->policy,
+						extack);
+	else
+		err = nlmsg_validate(info->nlhdr, GENL_HDRLEN + family->hdrsize,
+				     family->maxattr, family->policy, extack);
+
 	if (!err && family->pre_doit)
 		err = family->pre_doit(ops, skb, info);
 
@@ -230,11 +237,15 @@ int backport_genl_register_family(struct genl_family *family)
 	 * memory layout isn't compatible with the old version
 	 */
 	for (i = 0; i < family->n_ops; i++) {
-		ops[i].policy = NULL;
 #if LINUX_VERSION_IS_LESS(4,12,0)
 		if (ops[i].doit)
 			ops[i].doit = extack_doit;
 #endif
+/*
+ * TODO: add dumpit redirect (like extack_doit) that will
+ *       make this code honor !GENL_DONT_VALIDATE_DUMP and
+ *       actually validate in this case ...
+ */
 	}
 	/* keep doit/dumpit NULL - that's invalid */
 	ops[family->n_ops].done = (void *)family;
@@ -248,12 +259,13 @@ int backport_genl_register_family(struct genl_family *family)
 #if LINUX_VERSION_IS_GEQ(3,10,0)
 	COPY(parallel_ops);
 #endif
-	family->family.pre_doit = backport_pre_doit;
-	family->family.post_doit = backport_post_doit;
+	/* The casts are OK - we checked everything is the same offset in genl_ops */
+	family->family.pre_doit = (void *)backport_pre_doit;
+	family->family.post_doit = (void *)backport_post_doit;
 	/* attrbuf is output only */
-	family->copy_ops = ops;
+	family->copy_ops = (void *)ops;
 #if LINUX_VERSION_IS_GEQ(3,13,0)
-	family->family.ops = ops;
+	family->family.ops = (void *)ops;
 	COPY(mcgrps);
 	COPY(n_ops);
 	COPY(n_mcgrps);
