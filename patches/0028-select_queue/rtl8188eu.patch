@@ -1,13 +1,16 @@
 --- a/drivers/staging/rtl8188eu/os_dep/os_intfs.c
 +++ b/drivers/staging/rtl8188eu/os_dep/os_intfs.c
-@@ -244,9 +244,15 @@ static unsigned int rtw_classify8021d(st
+@@ -244,8 +244,18 @@ static unsigned int rtw_classify8021d(st
  	return dscp >> 5;
  }
  
-+#if LINUX_VERSION_IS_GEQ(4,19,0)
++#if LINUX_VERSION_IS_GEQ(5,2,0)
  static u16 rtw_select_queue(struct net_device *dev, struct sk_buff *skb,
- 			    struct net_device *sb_dev,
- 			    select_queue_fallback_t fallback)
+ 			    struct net_device *sb_dev)
++#elif LINUX_VERSION_IS_GEQ(4,19,0)
++static u16 rtw_select_queue(struct net_device *dev, struct sk_buff *skb,
++			    struct net_device *sb_dev,
++			    select_queue_fallback_t fallback)
 +#else
 +static u16 rtw_select_queue(struct net_device *dev, struct sk_buff *skb,
 +			    void *accel_priv,
