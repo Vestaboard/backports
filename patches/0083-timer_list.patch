@@ -1,6 +1,6 @@
 --- a/drivers/net/wireless/atmel/at76c50x-usb.c
 +++ b/drivers/net/wireless/atmel/at76c50x-usb.c
-@@ -518,11 +518,19 @@ exit:
+@@ -513,11 +513,19 @@ exit:
  
  /* LED trigger */
  static int tx_activity;

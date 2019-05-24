@@ -2,7 +2,7 @@ diff --git a/drivers/net/wireless/mediatek/mt7601u/trace.h b/drivers/net/wireles
 index 2898973..7fa1b96 100644
 --- a/drivers/net/wireless/mediatek/mt7601u/trace.h
 +++ b/drivers/net/wireless/mediatek/mt7601u/trace.h
-@@ -252,6 +252,7 @@ TRACE_EVENT(freq_cal_offset,
+@@ -244,6 +244,7 @@ TRACE_EVENT(freq_cal_offset,
  		  DEV_PR_ARG, __entry->phy_mode, __entry->freq_off)
  );
  
@@ -10,7 +10,7 @@ index 2898973..7fa1b96 100644
  TRACE_EVENT(mt_rx,
  	TP_PROTO(struct mt7601u_dev *dev, struct mt7601u_rxwi *rxwi, u32 f),
  	TP_ARGS(dev, rxwi, f),
-@@ -306,6 +307,20 @@ TRACE_EVENT(mt_tx,
+@@ -298,6 +299,20 @@ TRACE_EVENT(mt_tx,
  		  __entry->h.ack_ctl, __entry->h.wcid,
  		  le16_to_cpu(__entry->h.len_ctl))
  );

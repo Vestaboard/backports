@@ -69,7 +69,7 @@ config BPAUTO_BUILD_CORDIC
 	default m if BPAUTO_CORDIC
 	default m if BPAUTO_USERSEL_BUILD_ALL
 	#module-name cordic
-	#c-file lib/cordic.c
+	#c-file lib/math/cordic.c
 
 config BPAUTO_CORDIC
 	bool

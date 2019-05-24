@@ -121,7 +121,6 @@ drivers/net/usb/usbnet.c
 
 drivers/staging/Makefile
 drivers/staging/Kconfig
-drivers/staging/rtlwifi/
 drivers/staging/rtl8188eu/
 drivers/staging/rtl8723bs/
 

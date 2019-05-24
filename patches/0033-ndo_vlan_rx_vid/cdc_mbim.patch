@@ -1,6 +1,6 @@
 --- a/drivers/net/usb/cdc_mbim.c
 +++ b/drivers/net/usb/cdc_mbim.c
-@@ -70,7 +70,13 @@ static int cdc_mbim_wdm_manage_power(str
+@@ -68,7 +68,13 @@ static int cdc_mbim_wdm_manage_power(str
  	return cdc_mbim_manage_power(dev, status);
  }
  
@@ -14,7 +14,7 @@
  {
  	struct usbnet *dev = netdev_priv(netdev);
  	struct cdc_mbim_state *info = (void *)&dev->data;
-@@ -78,13 +84,21 @@ static int cdc_mbim_rx_add_vid(struct ne
+@@ -76,13 +82,21 @@ static int cdc_mbim_rx_add_vid(struct ne
  	/* creation of this VLAN is a request to tag IP session 0 */
  	if (vid == MBIM_IPS0_VID)
  		info->flags |= FLAG_IPS0_VLAN;
@@ -36,7 +36,7 @@
  {
  	struct usbnet *dev = netdev_priv(netdev);
  	struct cdc_mbim_state *info = (void *)&dev->data;
-@@ -92,7 +106,9 @@ static int cdc_mbim_rx_kill_vid(struct n
+@@ -90,7 +104,9 @@ static int cdc_mbim_rx_kill_vid(struct n
  	/* this is a request for an untagged IP session 0 */
  	if (vid == MBIM_IPS0_VID)
  		info->flags &= ~FLAG_IPS0_VLAN;

@@ -97,7 +97,7 @@
 -__exitcall(devcoredump_exit);
 --- a/include/linux/backport-devcoredump.h
 +++ b/include/linux/backport-devcoredump.h
-@@ -66,7 +66,7 @@ static inline void _devcd_free_sgtable(s
+@@ -51,7 +51,7 @@ static inline void _devcd_free_sgtable(s
  }
  
  
@@ -106,7 +106,7 @@
  void dev_coredumpv(struct device *dev, void *data, size_t datalen,
  		   gfp_t gfp);
  
-@@ -100,6 +100,6 @@ static inline void dev_coredumpsg(struct
+@@ -85,6 +85,6 @@ static inline void dev_coredumpsg(struct
  {
  	_devcd_free_sgtable(table);
  }

@@ -1,6 +1,6 @@
 --- a/drivers/net/wireless/intel/iwlwifi/dvm/debugfs.c
 +++ b/drivers/net/wireless/intel/iwlwifi/dvm/debugfs.c
-@@ -2386,12 +2386,23 @@ void iwl_dbgfs_register(struct iwl_priv
+@@ -2373,12 +2373,23 @@ void iwl_dbgfs_register(struct iwl_priv
  	 */
  	if (priv->mac80211_registered) {
  		char buf[100];
@@ -26,10 +26,10 @@
  	}
 --- a/drivers/net/wireless/intel/iwlwifi/mvm/debugfs-vif.c
 +++ b/drivers/net/wireless/intel/iwlwifi/mvm/debugfs-vif.c
-@@ -776,8 +776,13 @@ void iwl_mvm_vif_dbgfs_register(struct i
- 	mvmvif->dbgfs_dir = debugfs_create_dir("iwlmvm", dbgfs_dir);
+@@ -774,8 +774,13 @@ void iwl_mvm_vif_dbgfs_register(struct i
  
- 	if (!mvmvif->dbgfs_dir) {
+ 	mvmvif->dbgfs_dir = debugfs_create_dir("iwlmvm", dbgfs_dir);
+ 	if (IS_ERR_OR_NULL(mvmvif->dbgfs_dir)) {
 +#if LINUX_VERSION_IS_GEQ(3,12,0)
  		IWL_ERR(mvm, "Failed to create debugfs directory under %pd\n",
  			dbgfs_dir);
@@ -40,7 +40,7 @@
  		return;
  	}
  
-@@ -806,15 +811,28 @@ void iwl_mvm_vif_dbgfs_register(struct i
+@@ -804,9 +809,17 @@ void iwl_mvm_vif_dbgfs_register(struct i
  	 * find
  	 * netdev:wlan0 -> ../../../ieee80211/phy0/netdev:wlan0/iwlmvm/
  	 */
@@ -58,20 +58,9 @@
  
  	mvmvif->dbgfs_slink = debugfs_create_symlink(dbgfs_dir->d_name.name,
  						     mvm->debugfs_dir, buf);
- 	if (!mvmvif->dbgfs_slink)
-+#if LINUX_VERSION_IS_GEQ(3,12,0)
- 		IWL_ERR(mvm, "Can't create debugfs symbolic link under %pd\n",
- 			dbgfs_dir);
-+#else
-+		IWL_ERR(mvm, "Can't create debugfs symbolic link under %s\n",
-+			dbgfs_dir->d_name.name);
-+#endif
- 	return;
- err:
- 	IWL_ERR(mvm, "Can't create debugfs entity\n");
 --- a/drivers/net/wireless/intel/iwlwifi/mvm/debugfs.c
 +++ b/drivers/net/wireless/intel/iwlwifi/mvm/debugfs.c
-@@ -2211,7 +2211,13 @@ int iwl_mvm_dbgfs_register(struct iwl_mv
+@@ -2131,6 +2131,12 @@ void iwl_mvm_dbgfs_register(struct iwl_m
  	 * Create a symlink with mac80211. It will be removed when mac80211
  	 * exists (before the opmode exists which removes the target.)
  	 */
@@ -82,6 +71,5 @@
 +		 dbgfs_dir->d_parent->d_parent->d_name.name,
 +		 dbgfs_dir->d_parent->d_name.name);
 +#endif
- 	if (!debugfs_create_symlink("iwlwifi", mvm->hw->wiphy->debugfsdir, buf))
- 		goto err;
- 
+ 	debugfs_create_symlink("iwlwifi", mvm->hw->wiphy->debugfsdir, buf);
+ }

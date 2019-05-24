@@ -1,6 +1,6 @@
 --- a/drivers/net/wireless/st/cw1200/cw1200_sdio.c
 +++ b/drivers/net/wireless/st/cw1200/cw1200_sdio.c
-@@ -254,6 +254,12 @@ static size_t cw1200_sdio_align_size(str
+@@ -251,6 +251,12 @@ static size_t cw1200_sdio_align_size(str
  	else
  		size = sdio_align_size(self->func, size);
  

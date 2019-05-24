@@ -1,6 +1,6 @@
 --- a/net/mac80211/ieee80211_i.h
 +++ b/net/mac80211/ieee80211_i.h
-@@ -1309,6 +1309,7 @@ struct ieee80211_local {
+@@ -1306,6 +1306,7 @@ struct ieee80211_local {
  	struct mutex chanctx_mtx;
  
  #ifdef CONFIG_MAC80211_LEDS
@@ -10,7 +10,7 @@
  	atomic_t tx_led_active, rx_led_active, assoc_led_active;
 --- a/net/mac80211/led.h
 +++ b/net/mac80211/led.h
-@@ -16,22 +16,36 @@
+@@ -13,22 +13,36 @@
  static inline void ieee80211_led_rx(struct ieee80211_local *local)
  {
  #ifdef CONFIG_MAC80211_LEDS

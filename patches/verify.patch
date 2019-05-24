@@ -1,6 +1,6 @@
 --- a/compat/verification/pkcs7_trust.c
 +++ b/compat/verification/pkcs7_trust.c
-@@ -116,7 +116,7 @@ static int pkcs7_validate_trust_one(stru
+@@ -112,7 +112,7 @@ static int pkcs7_validate_trust_one(stru
  	return -ENOKEY;
  
  matched:
@@ -11,7 +11,7 @@
  		if (ret == -ENOMEM)
 --- a/compat/verification/x509_public_key.c
 +++ b/compat/verification/x509_public_key.c
-@@ -13,11 +13,8 @@
+@@ -9,11 +9,8 @@
  #include <linux/module.h>
  #include <linux/kernel.h>
  #include <linux/slab.h>
@@ -23,7 +23,7 @@
  #include "x509_parser.h"
  
  /*
-@@ -155,6 +152,7 @@ not_self_signed:
+@@ -150,6 +147,7 @@ not_self_signed:
  	return 0;
  }
  
@@ -31,7 +31,7 @@
  /*
   * Attempt to parse a data blob for a key as an X509 certificate.
   */
-@@ -273,3 +271,4 @@ module_exit(x509_key_exit);
+@@ -268,3 +266,4 @@ module_exit(x509_key_exit);
  MODULE_DESCRIPTION("X.509 certificate parser");
  MODULE_AUTHOR("Red Hat, Inc.");
  MODULE_LICENSE("GPL");
@@ -51,7 +51,7 @@
  #endif /* CPTCFG_BPAUTO_PKCS7 */
 --- a/compat/verification/x509_parser.h
 +++ b/compat/verification/x509_parser.h
-@@ -13,6 +13,10 @@
+@@ -9,6 +9,10 @@
  #include <crypto/public_key.h>
  #include <keys/asymmetric-type.h>
  
