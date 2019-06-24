@@ -76,6 +76,7 @@ MT76x0E 4.2
 MT76x2E 4.2
 MT76x2U 4.2
 MT7603E 4.2
+MT7615E 4.2
 
 # select_queue_fallback_t is missing
 RTL8723BS 3.14
