@@ -1,0 +1,40 @@
+--- a/drivers/net/wireless/realtek/rtw88/main.c
++++ b/drivers/net/wireless/realtek/rtw88/main.c
+@@ -12,6 +12,7 @@
+ #include "reg.h"
+ #include "efuse.h"
+ #include "debug.h"
++#include <linux/module.h>
+ 
+ static bool rtw_fw_support_lps;
+ unsigned int rtw_debug_mask;
+--- a/drivers/net/wireless/realtek/rtw88/rtw8822b.c
++++ b/drivers/net/wireless/realtek/rtw88/rtw8822b.c
+@@ -12,6 +12,7 @@
+ #include "mac.h"
+ #include "reg.h"
+ #include "debug.h"
++#include <linux/module.h>
+ 
+ static void rtw8822b_config_trx_mode(struct rtw_dev *rtwdev, u8 tx_path,
+ 				     u8 rx_path, bool is_tx2_path);
+--- a/drivers/net/wireless/realtek/rtw88/rtw8822c.c
++++ b/drivers/net/wireless/realtek/rtw88/rtw8822c.c
+@@ -12,6 +12,7 @@
+ #include "mac.h"
+ #include "reg.h"
+ #include "debug.h"
++#include <linux/module.h>
+ 
+ static void rtw8822c_config_trx_mode(struct rtw_dev *rtwdev, u8 tx_path,
+ 				     u8 rx_path, bool is_tx2_path);
+--- a/drivers/net/wireless/realtek/rtw88/pci.c
++++ b/drivers/net/wireless/realtek/rtw88/pci.c
+@@ -9,6 +9,7 @@
+ #include "tx.h"
+ #include "rx.h"
+ #include "debug.h"
++#include <linux/interrupt.h>
+ 
+ static u32 rtw_pci_tx_queue_idx_addr[] = {
+ 	[RTW_TX_QUEUE_BK]	= RTK_PCI_TXBD_IDX_BKQ,
