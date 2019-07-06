@@ -1,6 +1,6 @@
 --- a/drivers/net/usb/usbnet.c
 +++ b/drivers/net/usb/usbnet.c
-@@ -1313,6 +1313,7 @@ EXPORT_SYMBOL_GPL(usbnet_tx_timeout);
+@@ -1314,6 +1314,7 @@ EXPORT_SYMBOL_GPL(usbnet_tx_timeout);
  
  /*-------------------------------------------------------------------------*/
  
@@ -8,7 +8,7 @@
  static int build_dma_sg(const struct sk_buff *skb, struct urb *urb)
  {
  	unsigned num_sgs, total_len = 0;
-@@ -1345,6 +1346,12 @@ static int build_dma_sg(const struct sk_
+@@ -1346,6 +1347,12 @@ static int build_dma_sg(const struct sk_
  
  	return 1;
  }
@@ -21,7 +21,7 @@
  
  netdev_tx_t usbnet_start_xmit (struct sk_buff *skb,
  				     struct net_device *net)
-@@ -1401,12 +1408,19 @@ netdev_tx_t usbnet_start_xmit (struct sk
+@@ -1402,12 +1409,19 @@ netdev_tx_t usbnet_start_xmit (struct sk
  		if (!(info->flags & FLAG_SEND_ZLP)) {
  			if (!(info->flags & FLAG_MULTI_PACKET)) {
  				length++;
@@ -41,7 +41,7 @@
  			}
  		} else
  			urb->transfer_flags |= URB_ZERO_PACKET;
-@@ -1473,7 +1487,9 @@ not_drop:
+@@ -1479,7 +1493,9 @@ not_drop:
  		if (skb)
  			dev_kfree_skb_any (skb);
  		if (urb) {
@@ -51,7 +51,7 @@
  			usb_free_urb(urb);
  		}
  	} else
-@@ -1526,7 +1542,9 @@ static void usbnet_bh (struct timer_list
+@@ -1532,7 +1548,9 @@ static void usbnet_bh (struct timer_list
  			rx_process (dev, skb);
  			continue;
  		case tx_done:
@@ -61,7 +61,7 @@
  			/* fall through */
  		case rx_cleanup:
  			usb_free_urb (entry->urb);
-@@ -1894,7 +1912,9 @@ int usbnet_resume (struct usb_interface
+@@ -1900,7 +1918,9 @@ int usbnet_resume (struct usb_interface
  			retval = usb_submit_urb(res, GFP_ATOMIC);
  			if (retval < 0) {
  				dev_kfree_skb_any(skb);
