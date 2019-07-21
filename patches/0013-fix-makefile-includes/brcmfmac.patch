@@ -3,7 +3,7 @@ was not declared here when compiling against kernele 4.8 and older.
 
 --- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bus.h
 +++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bus.h
-@@ -17,6 +17,7 @@
+@@ -6,6 +6,7 @@
  #ifndef BRCMFMAC_BUS_H
  #define BRCMFMAC_BUS_H
  
