@@ -1,0 +1,16 @@
+cfg80211.h uses struct nla_policy in two places, but does not include 
+net/netlink.h directly. Because of this missing include the rename to 
+struct nla_backport_policy is not applied and this results in type 
+mismatch errors when compiling backports. With this additional include 
+the type is renamed.
+
+--- a/include/net/cfg80211.h
++++ b/include/net/cfg80211.h
+@@ -21,6 +21,7 @@
+ #include <linux/ieee80211.h>
+ #include <linux/net.h>
+ #include <net/regulatory.h>
++#include <net/netlink.h>
+ 
+ /**
+  * DOC: Introduction
