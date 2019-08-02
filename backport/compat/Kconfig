@@ -168,3 +168,13 @@ config BPAUTO_ASN1_DECODER
 config BPAUTO_PKCS7
 	bool
 	#h-file crypto/pkcs7.h
+
+config BPAUTO_CRYPTO_LIB_ARC4
+	bool
+
+config BPAUTO_BUILD_CRYPTO_LIB_ARC4
+	bool
+	default y if BPAUTO_CRYPTO_LIB_ARC4
+	depends on KERNEL_4_20 || !CRYPTO_LIB_ARC4
+	#h-file crypto/arc4.h
+	#c-file lib/crypto/arc4.c
