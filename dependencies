@@ -81,3 +81,7 @@ MT7615E 4.2
 # select_queue_fallback_t is missing
 RTL8723BS 3.14
 R8188EU  3.14
+
+# depends on crypto_sync_skcipher()
+AIRO 4.20
+AIRO_CS 4.20
