@@ -52,6 +52,9 @@ ATH_TRACEPOINTS 3.1
 # missigng add_hwgenerator_randomness()
 ATH9K_HWRNG 3.17
 
+# missing pci_lock_rescan_remove()
+ATH9K_PCI_NO_EEPROM 3.14
+
 # This driver needs mmc_hw_reset() which was added in kernel version 3.2
 MWIFIEX_SDIO 3.2
 
