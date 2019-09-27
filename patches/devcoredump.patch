@@ -65,7 +65,7 @@
  	.class_groups	= devcd_class_groups,
  };
  
-@@ -301,6 +312,11 @@ void dev_coredumpm(struct device *dev, s
+@@ -292,6 +303,11 @@ void dev_coredumpm(struct device *dev, s
  	if (device_add(&devcd->devcd_dev))
  		goto put_device;
  
@@ -77,7 +77,7 @@
  	if (sysfs_create_link(&devcd->devcd_dev.kobj, &dev->kobj,
  			      "failing_device"))
  		/* nothing - symlink will be missing */;
-@@ -343,15 +359,13 @@ void dev_coredumpsg(struct device *dev,
+@@ -334,15 +350,13 @@ void dev_coredumpsg(struct device *dev,
  }
  EXPORT_SYMBOL_GPL(dev_coredumpsg);
  
