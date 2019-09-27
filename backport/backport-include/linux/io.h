@@ -11,4 +11,12 @@
 void __ioread32_copy(void *to, const void __iomem *from, size_t count);
 #endif
 
+#ifndef writel_relaxed
+#define writel_relaxed writel_relaxed
+static inline void writel_relaxed(u32 value, volatile void __iomem *addr)
+{
+	__raw_writel(__cpu_to_le32(value), addr);
+}
+#endif
+
 #endif /* __BP_LINUX_IO_H */
