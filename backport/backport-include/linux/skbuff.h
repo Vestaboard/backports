@@ -380,4 +380,16 @@ static inline struct sk_buff *__skb_peek(const struct sk_buff_head *list_)
 }
 #endif
 
+#if LINUX_VERSION_IS_LESS(5,4,0)
+/**
+ * skb_frag_off() - Returns the offset of a skb fragment
+ * @frag: the paged fragment
+ */
+#define skb_frag_off LINUX_BACKPORT(skb_frag_off)
+static inline unsigned int skb_frag_off(const skb_frag_t *frag)
+{
+	return frag->page_offset;
+}
+#endif
+
 #endif /* __BACKPORT_SKBUFF_H */
