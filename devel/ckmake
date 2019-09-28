@@ -152,8 +152,8 @@ def process_kernel(num, kset, cmdline_args):
                  work_dir,
                  ignore=ignore_patterns('.tmp*', ".git"))
         build = '%s/build/' % rel['full_path']
-        jobs = '-j%d' % kset.build_jobs
-        load = '-l%d' % 50
+        jobs = '-j%d' % (kset.build_jobs / 2)
+        load = '-l%d' % kset.build_jobs
         make_args = ['KLIB=%s' % build,
                      'KLIB_BUILD=%s' % build]
         nice = ['ionice', '-c', '3', 'nice', '-n', '20']
