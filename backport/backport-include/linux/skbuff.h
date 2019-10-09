@@ -398,6 +398,12 @@ static inline unsigned int skb_frag_off(const skb_frag_t *frag)
 {
 	return frag->page_offset;
 }
+
+#define nf_reset_ct LINUX_BACKPORT(nf_reset_ct)
+static inline void nf_reset_ct(struct sk_buff *skb)
+{
+	nf_reset(skb);
+}
 #endif
 
 #endif /* __BACKPORT_SKBUFF_H */
