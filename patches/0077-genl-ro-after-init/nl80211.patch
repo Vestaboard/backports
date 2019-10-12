@@ -1,6 +1,6 @@
 --- a/net/wireless/nl80211.c
 +++ b/net/wireless/nl80211.c
-@@ -13930,7 +13930,7 @@ static const struct genl_ops nl80211_ops
+@@ -13970,7 +13970,7 @@ static const struct genl_ops nl80211_ops
  	},
  };
  
