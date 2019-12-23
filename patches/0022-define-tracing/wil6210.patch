@@ -1,6 +1,6 @@
 --- a/drivers/net/wireless/ath/wil6210/trace.c
 +++ b/drivers/net/wireless/ath/wil6210/trace.c
-@@ -15,6 +15,9 @@
+@@ -4,6 +4,9 @@
   */
  
  #include <linux/module.h>
