@@ -357,3 +357,28 @@ def diff(tree=None, extra_args=None):
     _check(process)
 
     return stdout
+
+class CatFile(object):
+    def __init__(self, tree=None):
+        self.tree = tree
+        self.p = None
+
+    def __enter__(self):
+        self.p = subprocess.Popen(['git', 'cat-file', '--batch'], cwd=self.tree,
+                                  stdout=subprocess.PIPE, stdin=subprocess.PIPE)
+        return self
+
+    def get_blob(self, sha, outf):
+        self.p.stdin.write(sha + '\n')
+        hdr = self.p.stdout.readline().split()
+        assert len(hdr) == 3
+        assert hdr[1] == 'blob'
+        size = int(hdr[2])
+        outf.write(self.p.stdout.read(size))
+        assert self.p.stdout.readline() == '\n'
+
+    def __exit__(self, type, value, traceback):
+        self.p.stdin.close()
+        self.p.wait()
+        _check(self.p)
+        self.p = None

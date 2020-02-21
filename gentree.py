@@ -213,17 +213,18 @@ def copy_git_files(srcpath, copy_list, rev, outdir):
     "Copy" files from a git repository. This really means listing them with
     ls-tree and then using git show to obtain all the blobs.
     """
-    for srcitem, tgtitem in copy_list:
-        for m, t, h, f in git.ls_tree(rev=rev, files=(srcitem,), tree=srcpath):
-            assert t == 'blob'
-            f = os.path.join(outdir, f.replace(srcitem, tgtitem))
-            d = os.path.dirname(f)
-            if not os.path.exists(d):
-                os.makedirs(d)
-            outf = open(f, 'w')
-            git.get_blob(h, outf, tree=srcpath)
-            outf.close()
-            os.chmod(f, int(m, 8))
+    with git.CatFile(tree=srcpath) as cf:
+        for srcitem, tgtitem in copy_list:
+            for m, t, h, f in git.ls_tree(rev=rev, files=(srcitem,), tree=srcpath):
+                assert t == 'blob'
+                f = os.path.join(outdir, f.replace(srcitem, tgtitem))
+                d = os.path.dirname(f)
+                if not os.path.exists(d):
+                    os.makedirs(d)
+                outf = open(f, 'w')
+                cf.get_blob(h, outf)
+                outf.close()
+                os.chmod(f, int(m, 8))
 
 def automatic_backport_mangle_c_file(name):
     return name.replace('/', '-')
