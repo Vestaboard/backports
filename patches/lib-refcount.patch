@@ -10,3 +10,21 @@ index 5d0582a..8d108f9 100644
  
  /**
   * refcount_add_not_zero_checked - add a value to a refcount unless it is 0
+@@ -153,6 +153,8 @@ bool refcount_dec_and_lock(refcount_t *r, spinlock_t *lock)
+ 		return false;
+ 	}
+ 
++	__release(lock);
++
+ 	return true;
+ }
+ EXPORT_SYMBOL(refcount_dec_and_lock);
+@@ -182,6 +184,8 @@ bool refcount_dec_and_lock_irqsave(refcount_t *r, spinlock_t *lock,
+ 		return false;
+ 	}
+ 
++	__release(lock);
++
+ 	return true;
+ }
+ EXPORT_SYMBOL(refcount_dec_and_lock_irqsave);
