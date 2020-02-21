@@ -54,6 +54,16 @@ def update_cache_objects(gittree, objdir, input):
         git.set_origin(gittree, objdir)
         git.remote_update(objdir, env=env)
 
+def add_changeid_to_message(msg):
+    have_changeid = False
+    for line in msg.split('\n'):
+        if line.lower().startswith('change-id: I'):
+            have_changeid = True
+            break
+    if not have_changeid:
+        msg += 'Change-Id: I%s\n' % hashlib.sha1(msg).hexdigest()
+    return msg
+
 def handle_commit(args, msg, branch, treename, kernelobjdir, tmpdir, wgitdir, backport_rev, kernel_rev,
                   prev_kernel_rev=None, defconfig=None, env={}, commit_failure=True,
                   append_shortlog=None, add_changeid=False):
@@ -129,13 +139,7 @@ def handle_commit(args, msg, branch, treename, kernelobjdir, tmpdir, wgitdir, ba
           }
 
             if add_changeid:
-                have_changeid = False
-                for line in msg.split('\n'):
-                    if line.lower().startswith('change-id: I'):
-                        have_changeid = True
-                        break
-                if not have_changeid:
-                    msg += 'Change-Id: I%s\n' % hashlib.sha1(msg).hexdigest()
+                msg = add_changeid_to_message(msg)
 
             treeid = git.write_tree(tree=wdir)
             git.commit_tree(treeid, msg, parents, tree=wdir, env=env)
