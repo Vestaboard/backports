@@ -649,6 +649,8 @@ def _main():
                              'and we use git ls-tree to get the files.')
     parser.add_argument('--clean', const=True, default=False, action="store_const",
                         help='Clean output directory instead of erroring if it isn\'t empty')
+    parser.add_argument('--list-files', const=True, default=False, action="store_const",
+                        help='Only list files to copy')
     parser.add_argument('--integrate', const=True, default=False, action="store_const",
                         help='Integrate a future backported kernel solution into ' +
                              'an older kernel tree source directory.')
@@ -715,7 +717,7 @@ def _main():
         sys.stdout.write('\n')
         sys.stdout.flush()
 
-    return process(args.kerneldir, args.copy_list,
+    retv = process(args.kerneldir, args.copy_list,
                    git_revision=args.git_revision,
                    bpid=bpid,
                    clean=args.clean,
@@ -726,7 +728,12 @@ def _main():
                    kup_test=args.kup_test,
                    test_cocci=args.test_cocci,
                    profile_cocci=args.profile_cocci,
-                   logwrite=logwrite)
+                   logwrite=logwrite,
+                   list_files=args.list_files)
+    if args.list_files:
+        print('\n'.join(retv))
+    else:
+        return retv
 
 def process(kerneldir, copy_list_file, git_revision=None,
             bpid=None,
@@ -736,14 +743,15 @@ def process(kerneldir, copy_list_file, git_revision=None,
             test_cocci=None,
             profile_cocci=None,
             logwrite=lambda x:None,
-            git_tracked_version=False):
+            git_tracked_version=False,
+            list_files=False):
     class Args(object):
         def __init__(self, kerneldir, copy_list_file,
                      git_revision, bpid, clean, refresh, base_name,
                      gitdebug, verbose, extra_driver, kup,
                      kup_test,
                      test_cocci,
-                     profile_cocci):
+                     profile_cocci, list_files):
             self.kerneldir = kerneldir
             self.copy_list = copy_list_file
             self.git_revision = git_revision
@@ -760,6 +768,7 @@ def process(kerneldir, copy_list_file, git_revision=None,
             self.profile_cocci = profile_cocci
             if self.test_cocci or self.profile_cocci:
                 self.gitdebug = True
+            self.list_files = list_files
     def git_paranoia(tree=None, logwrite=lambda x:None):
         data = git.paranoia(tree)
         if (data['r'] != 0):
@@ -772,7 +781,7 @@ def process(kerneldir, copy_list_file, git_revision=None,
     args = Args(kerneldir, copy_list_file,
                 git_revision, bpid, clean, refresh, base_name,
                 gitdebug, verbose, extra_driver, kup, kup_test,
-                test_cocci, profile_cocci)
+                test_cocci, profile_cocci, list_files)
     rel_prep = None
 
     if bpid.integrate:
@@ -810,9 +819,6 @@ def process(kerneldir, copy_list_file, git_revision=None,
     copy_list = read_copy_list(args.copy_list)
     deplist = read_dependencies(os.path.join(source_dir, 'dependencies'))
 
-    # validate output directory
-    check_output_dir(bpid.target_dir, args.clean)
-
     # do the copy
     backport_integrate_files = [
             ('Makefile.kernel', 'Makefile'),
@@ -841,6 +847,20 @@ def process(kerneldir, copy_list_file, git_revision=None,
         backport_files += backport_package_files
     else:
         backport_files += backport_integrate_files
+
+    if args.list_files:
+        ret = []
+        for f in copy_list:
+            # FIXME: make these exclusions configurable
+            if f[0] in ['COPYING', 'MAINTAINERS']:
+                continue
+            if f[0].startswith('scripts/'):
+                continue
+            ret.append(f[0])
+        return ret
+
+    # validate output directory
+    check_output_dir(bpid.target_dir, args.clean)
 
     if not args.git_revision:
         logwrite('Copy original source files ...')
