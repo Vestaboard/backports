@@ -4,7 +4,7 @@
 #
 
 import argparse, sys, os, errno, shutil, re, subprocess
-import tarfile, gzip
+import tarfile, gzip, time
 
 # find self
 source_dir = os.path.abspath(os.path.dirname(__file__))
@@ -305,12 +305,17 @@ def git_debug_init(args):
     git.commit_all("Copied backport", tree=args.bpid.project_dir)
 
 
+prevtime = None
 def git_debug_snapshot(args, name):
     """
     Take a git snapshot for the debugging.
     """
     if not args.gitdebug:
         return
+    global prevtime
+    if prevtime is not None:
+        name += "\n\n(took %.2f seconds)\n" % (time.time() - prevtime)
+    prevtime = time.time()
     git.commit_all(name, tree=args.bpid.project_dir)
 
 def get_rel_spec_stable(rel):
