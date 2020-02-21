@@ -104,6 +104,7 @@ def handle_commit(args, msg, branch, treename, kernelobjdir, tmpdir, wgitdir, ba
         else:
             git.reset(opts=['-q'], tree=wdir)
 
+        parents = [git.rev_parse('HEAD', tree=wdir)]
         if not failure or commit_failure:
             if append_shortlog:
                 files = []
@@ -136,7 +137,8 @@ def handle_commit(args, msg, branch, treename, kernelobjdir, tmpdir, wgitdir, ba
                 if not have_changeid:
                     msg += 'Change-Id: I%s\n' % hashlib.sha1(msg).hexdigest()
 
-            git.commit(msg, tree=wdir, env=env, opts=['-q', '--allow-empty'])
+            treeid = git.write_tree(tree=wdir)
+            git.commit_tree(treeid, msg, parents, tree=wdir, env=env)
             git.push(opts=['-f', '-q', 'origin', branch], tree=wdir)
         os.rename(os.path.join(wdir, '.git'), wgitdir)
     finally:

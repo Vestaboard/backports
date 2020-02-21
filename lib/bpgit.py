@@ -255,6 +255,40 @@ def add(fn, tree=None):
     process.wait()
     _check(process)
 
+def write_tree(tree=None):
+    process = subprocess.Popen(['git', 'write-tree'], stdout=subprocess.PIPE,
+                               close_fds=True, universal_newlines=True, cwd=tree)
+    stdout = process.communicate()[0]
+    process.wait()
+    _check(process)
+    sha = stdout.strip()
+    if not _sha_re.match(sha):
+        raise SHAError()
+    return sha
+
+def commit_tree(treeid, msg, parents, env=None, tree=None):
+    if env is None:
+        env = {}
+    opts = []
+    for p in parents:
+        opts.extend(['-p', p])
+    stdin = tempfile.NamedTemporaryFile(mode='wr')
+    stdin.write(msg)
+    stdin.seek(0)
+    process = subprocess.Popen(['git', 'commit-tree', '-F-', treeid] + opts,
+                               stdin=stdin.file, universal_newlines=True,
+                               stdout=subprocess.PIPE, env=env, cwd=tree)
+    stdout = process.communicate()[0]
+    process.wait()
+    _check(process)
+    sha = stdout.strip()
+    if not _sha_re.match(sha):
+        raise SHAError()
+    process = subprocess.Popen(['git', 'update-ref', 'HEAD', sha], cwd=tree)
+    process.wait()
+    _check(process)
+    return sha
+
 def commit(msg, tree=None, env = {}, opts=[]):
     stdin = tempfile.NamedTemporaryFile(mode='wr')
     stdin.write(msg)
