@@ -23,6 +23,7 @@ include/linux/crc32poly.h
 include/linux/bitfield.h
 include/linux/average.h
 include/linux/overflow.h
+include/linux/units.h
 
 # crypto_memneq
 crypto/memneq.c -> compat/memneq.c
