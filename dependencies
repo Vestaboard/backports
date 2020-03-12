@@ -24,8 +24,9 @@ AIRO_CS 3.9
 # pci_error_handlers->reset_notify is missing
 MWIFIEX_PCIE 3.16
 
-# needs pcie_get_mps()
-QTNFMAC_PCIE 3.13
+# needs .ndo_get_port_parent_id
+QTNFMAC 5.1
+QTNFMAC_PCIE 5.1
 
 # needs pm_system_wakeup() which can't reall be
 # backported properly
