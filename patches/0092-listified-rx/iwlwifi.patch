@@ -3,7 +3,7 @@ commit 323ebb61e32b ("net: use listified RX for handling GRO_NORMAL skbs")
 
 --- a/drivers/net/wireless/intel/iwlwifi/pcie/rx.c
 +++ b/drivers/net/wireless/intel/iwlwifi/pcie/rx.c
-@@ -1531,11 +1531,13 @@ out:
+@@ -1581,11 +1581,13 @@ out:
  	if (napi->poll) {
  		napi_gro_flush(napi, false);
  

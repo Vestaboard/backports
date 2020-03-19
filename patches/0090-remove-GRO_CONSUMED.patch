@@ -4,7 +4,7 @@ older kernel versions.
 
 --- a/drivers/net/wireless/ath/wil6210/txrx.c
 +++ b/drivers/net/wireless/ath/wil6210/txrx.c
-@@ -913,7 +913,9 @@ void wil_netif_rx(struct sk_buff *skb, s
+@@ -914,7 +914,9 @@ void wil_netif_rx(struct sk_buff *skb, s
  		[GRO_HELD]		= "GRO_HELD",
  		[GRO_NORMAL]		= "GRO_NORMAL",
  		[GRO_DROP]		= "GRO_DROP",
