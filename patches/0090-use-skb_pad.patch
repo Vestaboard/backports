@@ -1,6 +1,6 @@
 --- a/drivers/net/wireless/mediatek/mt76/usb.c
 +++ b/drivers/net/wireless/mediatek/mt76/usb.c
-@@ -536,7 +536,7 @@ int mt76u_skb_dma_info(struct sk_buff *s
+@@ -542,7 +542,7 @@ int mt76u_skb_dma_info(struct sk_buff *s
  	}
  
  	if (unlikely(pad)) {
