@@ -1,5 +1,5 @@
 @@
-expression ndevexp;
+struct net_device *ndevexp;
 expression E;
 identifier func;
 @@
@@ -12,7 +12,7 @@ func(...) {
 }
 
 @@
-expression ndevexp;
+struct net_device *ndevexp;
 expression E;
 identifier func;
 @@

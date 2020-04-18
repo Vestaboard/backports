@@ -4,7 +4,7 @@
 first_ops = 0
 
 @both@
-expression ndevexp;
+struct net_device *ndevexp;
 constant e1, e2;
 identifier func;
 position p;
@@ -17,7 +17,7 @@ func(...) {
 }
 
 @@
-expression ndevexp;
+struct net_device *ndevexp;
 constant MAX;
 identifier func;
 position p != both.p;
@@ -58,7 +58,7 @@ if not(first_ops == ln):
   cocci.include_match(False)
 
 @r1 exists@
-expression ndevexp;
+struct net_device *ndevexp;
 constant e1, e2;
 identifier func;
 @@
