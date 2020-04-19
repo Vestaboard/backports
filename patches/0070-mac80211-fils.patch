@@ -42,7 +42,7 @@
  #endif /* FILS_AEAD_H */
 --- a/net/mac80211/main.c
 +++ b/net/mac80211/main.c
-@@ -571,7 +571,9 @@ struct ieee80211_hw *ieee80211_alloc_hw_
+@@ -586,7 +586,9 @@ struct ieee80211_hw *ieee80211_alloc_hw_
  			   NL80211_FEATURE_MAC_ON_CREATE |
  			   NL80211_FEATURE_USERSPACE_MPM |
  			   NL80211_FEATURE_FULL_AP_CLIENT_STATE;
@@ -51,4 +51,4 @@
 +#endif
  	wiphy_ext_feature_set(wiphy,
  			      NL80211_EXT_FEATURE_CONTROL_PORT_OVER_NL80211);
- 
+ 	wiphy_ext_feature_set(wiphy,
