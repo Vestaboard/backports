@@ -8,23 +8,3 @@
  
  unsigned int rtw_fw_lps_deep_mode;
  EXPORT_SYMBOL(rtw_fw_lps_deep_mode);
---- a/drivers/net/wireless/realtek/rtw88/rtw8822b.c
-+++ b/drivers/net/wireless/realtek/rtw88/rtw8822b.c
-@@ -14,6 +14,7 @@
- #include "reg.h"
- #include "debug.h"
- #include "bf.h"
-+#include <linux/module.h>
- 
- static void rtw8822b_config_trx_mode(struct rtw_dev *rtwdev, u8 tx_path,
- 				     u8 rx_path, bool is_tx2_path);
---- a/drivers/net/wireless/realtek/rtw88/rtw8822c.c
-+++ b/drivers/net/wireless/realtek/rtw88/rtw8822c.c
-@@ -15,6 +15,7 @@
- #include "debug.h"
- #include "util.h"
- #include "bf.h"
-+#include <linux/module.h>
- 
- static void rtw8822c_config_trx_mode(struct rtw_dev *rtwdev, u8 tx_path,
- 				     u8 rx_path, bool is_tx2_path);
