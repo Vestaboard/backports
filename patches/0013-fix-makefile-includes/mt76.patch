@@ -1,0 +1,12 @@
+additional include needed for kernel 4.2, 4.11, 4.12 and 4.13
+
+--- a/drivers/net/wireless/mediatek/mt76/mt7615/mcu.c
++++ b/drivers/net/wireless/mediatek/mt76/mt7615/mcu.c
+@@ -6,6 +6,7 @@
+  */
+ 
+ #include <linux/firmware.h>
++#include <linux/module.h>
+ #include "mt7615.h"
+ #include "mcu.h"
+ #include "mac.h"
