@@ -10,7 +10,7 @@
  #endif				/* _ISL_GEN_H */
 --- a/drivers/net/wireless/intersil/prism54/islpci_eth.c
 +++ b/drivers/net/wireless/intersil/prism54/islpci_eth.c
-@@ -491,3 +491,10 @@ islpci_eth_tx_timeout(struct net_device
+@@ -487,3 +487,10 @@ islpci_eth_tx_timeout(struct net_device
  			"%s: tx_timeout, waiting for reset", ndev->name);
  	}
  }
