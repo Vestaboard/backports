@@ -104,6 +104,7 @@ drivers/net/wireless/intel/
 drivers/net/wireless/ralink/
 drivers/net/wireless/zydas/
 drivers/net/wireless/marvell/
+drivers/net/wireless/microchip/
 drivers/net/wireless/intersil/
 drivers/net/wireless/quantenna/
 drivers/net/wireless/realtek/
