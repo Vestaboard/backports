@@ -37,6 +37,21 @@ def make_version_tuple(ver):
             sver.append(-1)
     return sver
 
+def parse_ubuntu_ppa_page(version, baseurl):
+    html = urlopen(baseurl).read()
+    if b'Build for amd64 failed' in html:
+        return None
+    pkgs = re.findall(b'href="linux-headers-[^"]*-generic_[^"]*\.deb"', html)
+    if not pkgs:
+        return None
+    pkgs = re.findall(b'href="linux-headers-[^"]*_all\.deb"', html)
+    if not pkgs:
+        return None
+    pkgs = [p[6:-1] for p in pkgs]
+    pkgs.sort()
+    pkg = pkgs[-1].decode('ascii')
+    return (version, baseurl + pkg)
+
 class backport_kernel_updater:
     """
     This is the Linux kernel backports kernel updater. It ensures you
@@ -53,7 +68,7 @@ class backport_kernel_updater:
         sys.exit(1)
 
     @classmethod
-    def _get_ubuntu_ppa_mainline_kernels(cls):
+    def _get_ubuntu_ppa_mainline_kernels(cls, pkg_arch):
         base = KPATH
         html = urlopen(base).read()
         builds = re.findall(b'href="([-v.0-9a-z]*)/"', html)
@@ -96,17 +111,16 @@ class backport_kernel_updater:
             for version in subvers:
                 version = version[1]
 
-                html = urlopen(base + version + '/').read()
-                if b'Build for amd64 failed' in html:
-                    continue
-                pkgs = re.findall(b'href="linux-headers-[^"]*_all\.deb"', html)
-                if not pkgs:
-                    continue
-                pkgs = [p[6:-1] for p in pkgs]
-                pkgs.sort()
-                pkg = pkgs[-1].decode('ascii')
-                result.append((version, base + version + '/' + pkg))
-                break
+                baseurl = base + version + '/'
+                pkgs = parse_ubuntu_ppa_page(version, baseurl)
+                if pkgs:
+                    result.append(pkgs)
+                    break
+                baseurl = base + version + '/' + pkg_arch + '/'
+                pkgs = parse_ubuntu_ppa_page(version, baseurl)
+                if pkgs:
+                    result.append(pkgs)
+                    break
 
         result.sort(key = lambda x: make_version_tuple(x[0][1:]))
         return [x[1] for x in result]
@@ -116,7 +130,9 @@ class backport_kernel_updater:
                  reference=None):
         self.ksrc_base = ""
         self.ksrc_prefix = ""
-        self.kernel_urls = self._get_ubuntu_ppa_mainline_kernels()
+        sysname, nodename, release, version, self.machine = os.uname()
+        self.pkg_arch = self.pkg_arch(self.machine)
+        self.kernel_urls = self._get_ubuntu_ppa_mainline_kernels(self.pkg_arch)
         self.num_kernels = len(self.kernel_urls)
         self.git_trees = GIT_TREES
         self.git_trees_missing = list()
@@ -134,8 +150,6 @@ class backport_kernel_updater:
         self.reference = reference
         self.reference_git = None
         self.cwd = os.getcwd()
-        sysname, nodename, release, version, self.machine = os.uname()
-        self.pkg_arch = self.pkg_arch(self.machine)
         if self.root:
             self.ksrc_base = self.cwd + "/"
             self.ksrc_prefix = self.ksrc_base + BACKPORTS_KSRC_DIR
