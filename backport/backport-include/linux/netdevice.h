@@ -372,6 +372,18 @@ static inline int _bp_netdev_upper_dev_link(struct net_device *dev,
 	macro_dispatcher(netdev_upper_dev_link, __VA_ARGS__)(__VA_ARGS__)
 #endif
 
+#if LINUX_VERSION_IS_LESS(4,19,0)
+static inline void netif_receive_skb_list(struct sk_buff_head *head)
+{
+	struct sk_buff *skb, *next;
+
+	skb_queue_walk_safe(head, skb, next) {
+		__skb_unlink(skb, head);
+		netif_receive_skb(skb);
+	}
+}
+#endif
+
 #if LINUX_VERSION_IS_LESS(5,0,0)
 static inline int backport_dev_open(struct net_device *dev, struct netlink_ext_ack *extack)
 {
