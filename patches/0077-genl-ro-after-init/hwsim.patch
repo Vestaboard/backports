@@ -1,6 +1,6 @@
 --- a/drivers/net/wireless/mac80211_hwsim.c
 +++ b/drivers/net/wireless/mac80211_hwsim.c
-@@ -3923,7 +3923,7 @@ static const struct genl_ops hwsim_ops[]
+@@ -4001,7 +4001,7 @@ static const struct genl_small_ops hwsim
  	},
  };
  

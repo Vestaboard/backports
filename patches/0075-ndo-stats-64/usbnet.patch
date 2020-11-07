@@ -1,7 +1,7 @@
 --- a/drivers/net/usb/usbnet.c
 +++ b/drivers/net/usb/usbnet.c
-@@ -1013,6 +1013,9 @@ void usbnet_get_stats64(struct net_devic
- 	}
+@@ -988,6 +988,9 @@ void usbnet_get_stats64(struct net_devic
+ 	dev_fetch_sw_netstats(stats, dev->stats64);
  }
  EXPORT_SYMBOL_GPL(usbnet_get_stats64);
 +#if LINUX_VERSION_IS_LESS(4,11,0)

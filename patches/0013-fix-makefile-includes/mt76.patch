@@ -39,6 +39,6 @@ linux/kthread.h include needed against kernel 4.19.
  #include <linux/bitops.h>
  #include <linux/bitfield.h>
 +#include <linux/kthread.h>
+ #include <net/mac80211.h>
  
- #define MT76_INCR(_var, _size) \
- 	(_var = (((_var) + 1) % (_size)))
+ struct mt76_worker

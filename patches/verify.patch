@@ -23,7 +23,7 @@
  #include "x509_parser.h"
  
  /*
-@@ -150,6 +147,7 @@ not_self_signed:
+@@ -153,6 +150,7 @@ not_self_signed:
  	return 0;
  }
  
@@ -31,7 +31,7 @@
  /*
   * Attempt to parse a data blob for a key as an X509 certificate.
   */
-@@ -268,3 +266,4 @@ module_exit(x509_key_exit);
+@@ -271,3 +269,4 @@ module_exit(x509_key_exit);
  MODULE_DESCRIPTION("X.509 certificate parser");
  MODULE_AUTHOR("Red Hat, Inc.");
  MODULE_LICENSE("GPL");
@@ -64,7 +64,7 @@
  	struct x509_certificate *signer;	/* Certificate that signed this one */
 --- a/include/crypto/backport-public_key.h
 +++ b/include/crypto/backport-public_key.h
-@@ -50,34 +50,6 @@ extern void public_key_signature_free(st
+@@ -53,34 +53,6 @@ extern void public_key_signature_free(st
  
  extern struct asymmetric_key_subtype public_key_subtype;
  
