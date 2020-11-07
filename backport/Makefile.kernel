@@ -4,7 +4,7 @@ ifeq ($(CONFIG_BACKPORT_INTEGRATE),)
 backport-cc-disable-warning = $(call try-run,\
 	$(CC) $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS) -W$(strip $(1)) -c -x c /dev/null -o "$$TMP",-Wno-$(strip $(1)))
 
-NOSTDINC_FLAGS := \
+NOSTDINC_FLAGS += \
 	-I$(M)/backport-include/ \
 	-I$(M)/backport-include/uapi \
 	-I$(M)/include/ \
@@ -21,7 +21,7 @@ export backport_srctree = $(M)
 else
 export BACKPORT_DIR = backports/
 export backport_srctree = $(BACKPORT_DIR)
-NOSTDINC_FLAGS := \
+NOSTDINC_FLAGS += \
 	-I$(BACKPORT_DIR)/backport-include/ \
 	-I$(BACKPORT_DIR)/backport-include/uapi \
 	-I$(BACKPORT_DIR)/include/ \
