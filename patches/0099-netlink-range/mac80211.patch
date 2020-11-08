@@ -1,0 +1,57 @@
+--- a/net/wireless/nl80211.c
++++ b/net/wireless/nl80211.c
+@@ -387,9 +387,11 @@ static const struct nla_policy
+ nl80211_fils_discovery_policy[NL80211_FILS_DISCOVERY_ATTR_MAX + 1] = {
+ 	[NL80211_FILS_DISCOVERY_ATTR_INT_MIN] = NLA_POLICY_MAX(NLA_U32, 10000),
+ 	[NL80211_FILS_DISCOVERY_ATTR_INT_MAX] = NLA_POLICY_MAX(NLA_U32, 10000),
++#if LINUX_VERSION_IS_GEQ(5,10,0)
+ 	NLA_POLICY_RANGE(NLA_BINARY,
+ 			 NL80211_FILS_DISCOVERY_TMPL_MIN_LEN,
+ 			 IEEE80211_MAX_DATA_LEN),
++#endif
+ };
+ 
+ static const struct nla_policy
+@@ -617,16 +619,26 @@ static const struct nla_policy nl80211_p
+ 	 * The value of the Length field of the Supported Operating
+ 	 * Classes element is between 2 and 253.
+ 	 */
++#if LINUX_VERSION_IS_GEQ(5,10,0)
+ 	[NL80211_ATTR_STA_SUPPORTED_OPER_CLASSES] =
+ 		NLA_POLICY_RANGE(NLA_BINARY, 2, 253),
++#else
++	[NL80211_ATTR_STA_SUPPORTED_OPER_CLASSES] =
++		{ .type = NLA_BINARY },
++#endif
+ 	[NL80211_ATTR_HANDLE_DFS] = { .type = NLA_FLAG },
+ 	[NL80211_ATTR_OPMODE_NOTIF] = { .type = NLA_U8 },
+ 	[NL80211_ATTR_VENDOR_ID] = { .type = NLA_U32 },
+ 	[NL80211_ATTR_VENDOR_SUBCMD] = { .type = NLA_U32 },
+ 	[NL80211_ATTR_VENDOR_DATA] = { .type = NLA_BINARY },
++#if LINUX_VERSION_IS_GEQ(5,10,0)
+ 	[NL80211_ATTR_QOS_MAP] = NLA_POLICY_RANGE(NLA_BINARY,
+ 						  IEEE80211_QOS_MAP_LEN_MIN,
+ 						  IEEE80211_QOS_MAP_LEN_MAX),
++#else
++	[NL80211_ATTR_QOS_MAP] = { .type = NLA_BINARY,
++				   .len = IEEE80211_QOS_MAP_LEN_MAX },
++#endif
+ 	[NL80211_ATTR_MAC_HINT] = NLA_POLICY_EXACT_LEN_WARN(ETH_ALEN),
+ 	[NL80211_ATTR_WIPHY_FREQ_HINT] = { .type = NLA_U32 },
+ 	[NL80211_ATTR_TDLS_PEER_CAPABILITY] = { .type = NLA_U32 },
+@@ -681,10 +693,15 @@ static const struct nla_policy nl80211_p
+ 	[NL80211_ATTR_TXQ_LIMIT] = { .type = NLA_U32 },
+ 	[NL80211_ATTR_TXQ_MEMORY_LIMIT] = { .type = NLA_U32 },
+ 	[NL80211_ATTR_TXQ_QUANTUM] = { .type = NLA_U32 },
++#if LINUX_VERSION_IS_GEQ(5,10,0)
+ 	[NL80211_ATTR_HE_CAPABILITY] =
+ 		NLA_POLICY_RANGE(NLA_BINARY,
+ 				 NL80211_HE_MIN_CAPABILITY_LEN,
+ 				 NL80211_HE_MAX_CAPABILITY_LEN),
++#else
++	[NL80211_ATTR_HE_CAPABILITY] = { .type = NLA_BINARY,
++					 .len = NL80211_HE_MAX_CAPABILITY_LEN },
++#endif
+ 	[NL80211_ATTR_FTM_RESPONDER] =
+ 		NLA_POLICY_NESTED(nl80211_ftm_responder_policy),
+ 	[NL80211_ATTR_TIMEOUT] = NLA_POLICY_MIN(NLA_U32, 1),

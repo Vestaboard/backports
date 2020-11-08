@@ -719,4 +719,10 @@ static inline void *nla_memdup(const struct nlattr *src, gfp_t gfp)
 }
 #endif /* < 4.9 */
 
+#ifndef NLA_POLICY_MIN_LEN
+#define NLA_POLICY_MIN_LEN(_len) {		\
+	.type = NLA_BINARY			\
+}
+#endif
+
 #endif /* __BACKPORT_NET_NETLINK_H */
