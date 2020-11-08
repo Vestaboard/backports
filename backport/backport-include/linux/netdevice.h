@@ -401,6 +401,10 @@ static inline bool netif_is_bridge_port(const struct net_device *dev)
 #endif
 
 #if LINUX_VERSION_IS_LESS(5,10,0)
+#define dev_fetch_sw_netstats LINUX_BACKPORT(dev_fetch_sw_netstats)
+void dev_fetch_sw_netstats(struct rtnl_link_stats64 *s,
+			   const struct pcpu_sw_netstats __percpu *netstats);
+
 #define netif_rx_any_context LINUX_BACKPORT(netif_rx_any_context)
 int netif_rx_any_context(struct sk_buff *skb);
 #endif /* < 5.10 */
