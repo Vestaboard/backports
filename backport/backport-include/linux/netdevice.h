@@ -400,4 +400,9 @@ static inline bool netif_is_bridge_port(const struct net_device *dev)
 }
 #endif
 
+#if LINUX_VERSION_IS_LESS(5,10,0)
+#define netif_rx_any_context LINUX_BACKPORT(netif_rx_any_context)
+int netif_rx_any_context(struct sk_buff *skb);
+#endif /* < 5.10 */
+
 #endif /* __BACKPORT_NETDEVICE_H */
