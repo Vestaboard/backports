@@ -64,7 +64,15 @@
  	struct x509_certificate *signer;	/* Certificate that signed this one */
 --- a/include/crypto/backport-public_key.h
 +++ b/include/crypto/backport-public_key.h
-@@ -53,34 +53,6 @@ extern void public_key_signature_free(st
+@@ -12,7 +12,6 @@
+ 
+ #include <linux/keyctl.h>
+ #include <linux/oid_registry.h>
+-#include <crypto/akcipher.h>
+ 
+ /*
+  * Cryptographic data for the public-key subtype of the asymmetric key type.
+@@ -53,34 +52,6 @@ extern void public_key_signature_free(st
  
  extern struct asymmetric_key_subtype public_key_subtype;
  
