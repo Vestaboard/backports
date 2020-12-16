@@ -45,6 +45,17 @@ static int gpiod_configure_flags(struct gpio_desc *desc, const char *con_id,
 }
 
 #undef gpiochip_request_own_desc
+
+/* In kernels older than 5.4, these function declarations are inside a
+ * CONFIG_GPIOLIB ifdef, so we need to declare them here.
+ */
+#ifndef CONFIG_GPIOLIB
+extern struct gpio_desc *gpiochip_request_own_desc(struct gpio_chip *chip,
+						   u16 hwnum,
+						   const char *label);
+void gpiochip_free_own_desc(struct gpio_desc *desc);
+#endif /* CONFIG_GPIOLIB */
+
 struct gpio_desc *backport_gpiochip_request_own_desc(struct gpio_chip *gc,
 					    unsigned int hwnum,
 					    const char *label,
