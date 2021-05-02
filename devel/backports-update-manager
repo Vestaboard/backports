@@ -38,7 +38,11 @@ def make_version_tuple(ver):
     return sver
 
 def parse_ubuntu_ppa_page(version, baseurl):
-    html = urlopen(baseurl).read()
+    try:
+       html = urlopen(baseurl).read()
+    except:
+        return None
+
     if b'Build for amd64 failed' in html:
         return None
     pkgs = re.findall(b'href="linux-headers-[^"]*-generic_[^"]*\.deb"', html)
