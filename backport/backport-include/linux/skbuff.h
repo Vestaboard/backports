@@ -427,4 +427,24 @@ static inline void nf_reset_ct(struct sk_buff *skb)
 	     (skb) = (next_skb), (next_skb) = (skb) ? (skb)->next : NULL)
 #endif
 
+#if LINUX_VERSION_IS_LESS(5,6,0) &&			\
+	!LINUX_VERSION_IN_RANGE(5,4,69, 5,5,0) &&	\
+	!LINUX_VERSION_IN_RANGE(4,19,149, 4,20,0) &&	\
+	!LINUX_VERSION_IN_RANGE(4,14,200, 4,15,0) &&	\
+	!LINUX_VERSION_IN_RANGE(4,9,238, 4,10,0) &&	\
+	!LINUX_VERSION_IN_RANGE(4,4,238, 4,5,0)
+/**
+ *	skb_queue_len_lockless	- get queue length
+ *	@list_: list to measure
+ *
+ *	Return the length of an &sk_buff queue.
+ *	This variant can be used in lockless contexts.
+ */
+#define skb_queue_len_lockless LINUX_BACKPORT(skb_queue_len_lockless)
+static inline __u32 skb_queue_len_lockless(const struct sk_buff_head *list_)
+{
+	return READ_ONCE(list_->qlen);
+}
+#endif /* < 5.6.0 */
+
 #endif /* __BACKPORT_SKBUFF_H */
