@@ -410,7 +410,7 @@ def create_tar_and_gz(tar_name, dir_to_tar):
     tar.add(dir_to_tar, basename)
     tar.close()
 
-    tar_file = open(tar_name, "r")
+    tar_file = open(tar_name, "rb")
 
     gz_file = gzip.GzipFile(tar_name + ".gz", 'wb')
     gz_file.write(tar_file.read())
