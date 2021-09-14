@@ -37,7 +37,7 @@ the older kernel instead. The list attributes where also backported to
  	struct ieee80211_sub_if_data *sdata;
 --- a/net/mac80211/rx.c
 +++ b/net/mac80211/rx.c
-@@ -2605,7 +2605,11 @@ static void ieee80211_deliver_skb_to_loc
+@@ -2602,7 +2602,11 @@ static void ieee80211_deliver_skb_to_loc
  
  		/* deliver to local stack */
  		if (rx->list)
@@ -49,7 +49,7 @@ the older kernel instead. The list attributes where also backported to
  		else
  			netif_receive_skb(skb);
  	}
-@@ -4545,7 +4549,11 @@ static bool ieee80211_invoke_fast_rx(str
+@@ -4542,7 +4546,11 @@ static bool ieee80211_invoke_fast_rx(str
  	skb->protocol = eth_type_trans(skb, fast_rx->dev);
  	memset(skb->cb, 0, sizeof(skb->cb));
  	if (rx->list)
@@ -61,7 +61,7 @@ the older kernel instead. The list attributes where also backported to
  	else
  		netif_receive_skb(skb);
  
-@@ -4612,7 +4620,11 @@ static bool ieee80211_prepare_and_rx_han
+@@ -4609,7 +4617,11 @@ static bool ieee80211_prepare_and_rx_han
  static void __ieee80211_rx_handle_packet(struct ieee80211_hw *hw,
  					 struct ieee80211_sta *pubsta,
  					 struct sk_buff *skb,
@@ -73,7 +73,7 @@ the older kernel instead. The list attributes where also backported to
  {
  	struct ieee80211_local *local = hw_to_local(hw);
  	struct ieee80211_sub_if_data *sdata;
-@@ -4737,7 +4749,11 @@ static void __ieee80211_rx_handle_packet
+@@ -4734,7 +4746,11 @@ static void __ieee80211_rx_handle_packet
   * 802.11 MPDU is received from the hardware.
   */
  void ieee80211_rx_list(struct ieee80211_hw *hw, struct ieee80211_sta *pubsta,
@@ -85,7 +85,7 @@ the older kernel instead. The list attributes where also backported to
  {
  	struct ieee80211_local *local = hw_to_local(hw);
  	struct ieee80211_rate *rate = NULL;
-@@ -4854,7 +4870,13 @@ void ieee80211_rx_napi(struct ieee80211_
+@@ -4851,7 +4867,13 @@ void ieee80211_rx_napi(struct ieee80211_
  		       struct sk_buff *skb, struct napi_struct *napi)
  {
  	struct sk_buff *tmp;
@@ -99,7 +99,7 @@ the older kernel instead. The list attributes where also backported to
  
  
  	/*
-@@ -4871,8 +4893,13 @@ void ieee80211_rx_napi(struct ieee80211_
+@@ -4868,8 +4890,13 @@ void ieee80211_rx_napi(struct ieee80211_
  		return;
  	}
  

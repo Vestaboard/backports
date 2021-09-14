@@ -12,7 +12,7 @@
  {
 --- a/include/linux/usb/usbnet.h
 +++ b/include/linux/usb/usbnet.h
-@@ -287,5 +287,9 @@ extern void usbnet_status_stop(struct us
+@@ -289,5 +289,9 @@ extern void usbnet_status_stop(struct us
  extern void usbnet_update_max_qlen(struct usbnet *dev);
  extern void usbnet_get_stats64(struct net_device *dev,
  			       struct rtnl_link_stats64 *stats);
