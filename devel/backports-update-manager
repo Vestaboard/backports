@@ -5,6 +5,7 @@ from urllib.request import urlopen
 from urllib.parse import urljoin
 import tarfile, tempfile
 import fileinput, subprocess
+from pyzstd import ZstdFile
 source_dir = os.path.abspath(os.path.dirname(__file__))
 sys.path.append(source_dir + '/../')
 from lib import bpar as ar
@@ -541,8 +542,14 @@ class backport_kernel_updater:
                 sys.stdout.write("%s - extracting new %s ...\n" % (kver.get('ver'), target))
                 data, dpath = tempfile.mkstemp(prefix=tmp_prefix)
                 ar.print_data(target, data)
-                tar = tarfile.open(name=dpath, mode='r')
-                tar.extractall(path=tmpdir_path, members=bk_tar_members(tar))
+                try:
+                   tar = tarfile.open(name=dpath, mode='r')
+                   tar.extractall(path=tmpdir_path, members=bk_tar_members(tar))
+                except (tarfile.ReadError):
+                   zstd_file = ZstdFile(dpath)
+                   tar = tarfile.open(fileobj=zstd_file, mode='r')
+                   tar.extractall(path=tmpdir_path, members=bk_tar_members(tar))
+                   zstd_file.close()
                 os.unlink(dpath)
 
                 self.sanitize_and_install_kernel_dirs(tmpdir_path)
