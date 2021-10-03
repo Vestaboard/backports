@@ -17,7 +17,7 @@
 #include <net/netlink.h>
 #include <net/sock.h>
 
-static const struct genl_family *find_family_real_ops(__genl_const struct genl_ops **ops)
+static const struct genl_family *find_family_real_ops(const struct genl_ops **ops)
 {
 	const struct genl_family *family;
 	const struct genl_ops *tmp_ops = *ops;
@@ -148,7 +148,7 @@ static int extack_doit(struct sk_buff *skb, struct genl_info *info)
 }
 #endif /* LINUX_VERSION_IS_LESS(4,12,0) */
 
-static int backport_pre_doit(__genl_const struct genl_ops *ops,
+static int backport_pre_doit(const struct genl_ops *ops,
 			     struct sk_buff *skb,
 			     struct genl_info *info)
 {
@@ -198,7 +198,7 @@ static int backport_pre_doit(__genl_const struct genl_ops *ops,
 	return err;
 }
 
-static void backport_post_doit(__genl_const struct genl_ops *ops,
+static void backport_post_doit(const struct genl_ops *ops,
 			       struct sk_buff *skb,
 			       struct genl_info *info)
 {

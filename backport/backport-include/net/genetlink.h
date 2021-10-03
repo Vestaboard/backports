@@ -50,11 +50,6 @@ static inline void *genl_info_userhdr(struct genl_info *info)
 	return (u8 *)info->genlhdr + GENL_HDRLEN;
 }
 
-/* this is for patches we apply */
-#define genl_info_snd_portid(__genl_info) (__genl_info->snd_portid)
-
-#define __genl_const const
-
 #if LINUX_VERSION_IS_LESS(4,10,0)
 #define __genl_ro_after_init
 #else
@@ -151,10 +146,10 @@ struct backport_genl_family {
 	bool			netnsok;
 	bool			parallel_ops;
 	const struct nla_policy *policy;
-	int			(*pre_doit)(__genl_const struct genl_ops *ops,
+	int			(*pre_doit)(const struct genl_ops *ops,
 					    struct sk_buff *skb,
 					    struct genl_info *info);
-	void			(*post_doit)(__genl_const struct genl_ops *ops,
+	void			(*post_doit)(const struct genl_ops *ops,
 					     struct sk_buff *skb,
 					     struct genl_info *info);
 /*
@@ -163,8 +158,8 @@ struct backport_genl_family {
 	void			(*mcast_unbind)(struct net *net, int group);
  */
 	struct nlattr **	attrbuf;	/* private */
-	__genl_const struct genl_ops *	ops;
-	__genl_const struct genl_multicast_group *mcgrps;
+	const struct genl_ops *	ops;
+	const struct genl_multicast_group *mcgrps;
 	unsigned int		n_ops;
 	unsigned int		n_mcgrps;
 	struct module		*module;
