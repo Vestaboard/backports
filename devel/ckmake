@@ -20,7 +20,7 @@ import subprocess
 import sys
 import signal
 
-from Queue import Queue
+from queue import Queue
 from threading import Thread, Lock
 from shutil import copytree, ignore_patterns, rmtree, copyfileobj
 from time import sleep
@@ -232,7 +232,6 @@ def cpu_info_build_jobs():
 
 def kill_curses():
     curses.endwin()
-    sys.stdout = os.fdopen(0, 'w', 0)
 
 
 def sig_handler(signal, frame):
@@ -643,10 +642,10 @@ if __name__ == "__main__":
             target_kranges.append(krange)
 
     if not os.path.exists(modules):
-        print "%s does not exist" % (modules)
+        print ("%s does not exist" % (modules))
         sys.exit(1)
     if not os.path.exists(my_cwd + '/Makefile'):
-        print "%s does not exist" % (my_cwd + '/Makefile')
+        print ("%s does not exist" % (my_cwd + '/Makefile'))
         sys.exit(1)
     if os.path.exists(ckmake_log):
         os.remove(ckmake_log)
