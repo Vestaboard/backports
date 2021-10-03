@@ -3,8 +3,6 @@
 #include_next <linux/leds.h>
 #include <linux/version.h>
 
-#include <backport/leds-disabled.h>
-
 #if LINUX_VERSION_IS_LESS(4,2,0)
 /*
  * There is no LINUX_BACKPORT() guard here because we want it to point to

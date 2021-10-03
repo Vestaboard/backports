@@ -70,22 +70,6 @@ config BPAUTO_BUILD_NLATTR
 config BPAUTO_MII
 	bool
 
-config BPAUTO_BUILD_LEDS
-	bool
-	depends on !NEW_LEDS || LEDS_CLASS=n || !LEDS_TRIGGERS
-	default y if BPAUTO_NEW_LEDS
-	default y if BPAUTO_LEDS_CLASS
-	default y if BPAUTO_LEDS_TRIGGERS
-
-config BPAUTO_NEW_LEDS
-	bool
-
-config BPAUTO_LEDS_CLASS
-	bool
-
-config BPAUTO_LEDS_TRIGGERS
-	bool
-
 config BPAUTO_USERSEL_BUILD_ALL
 	bool "Build all compat code"
 	help
