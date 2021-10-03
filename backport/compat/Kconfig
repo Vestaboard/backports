@@ -67,9 +67,6 @@ config BPAUTO_BUILD_NLATTR
 	depends on KERNEL_5_2
 	#c-file lib/nlattr.c
 
-config BPAUTO_MII
-	bool
-
 config BPAUTO_USERSEL_BUILD_ALL
 	bool "Build all compat code"
 	help
