@@ -146,14 +146,6 @@ overflow1:
 }
 EXPORT_SYMBOL_GPL(hex_dump_to_buffer);
 
-#if LINUX_VERSION_IS_LESS(3,17,0)
-static inline unsigned char *
-trace_seq_buffer_ptr(struct trace_seq *s)
-{
-	return s->buffer + s->len;
-}
-#endif
-
 const char *
 ftrace_print_array_seq(struct trace_seq *p, const void *buf, int buf_len,
 		       size_t el_size)

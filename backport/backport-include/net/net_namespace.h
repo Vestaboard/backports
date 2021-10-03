@@ -3,16 +3,6 @@
 
 #include_next <net/net_namespace.h>
 
-#if LINUX_VERSION_IS_LESS(3,20,0)
-/*
- * In older kernels we simply fail this function.
- */
-#define get_net_ns_by_fd	LINUX_BACKPORT(get_net_ns_by_fd)
-static inline struct net *get_net_ns_by_fd(int fd)
-{
-	return ERR_PTR(-EINVAL);
-}
-#endif
 
 #if LINUX_VERSION_IS_LESS(4,1,0)
 typedef struct {

@@ -20,7 +20,6 @@
 #include <linux/of.h>
 
 #ifdef CONFIG_THERMAL
-#if LINUX_VERSION_IS_GEQ(3,8,0)
 struct backport_thermal_ops_wrapper {
 	old_thermal_zone_device_ops_t ops;
 	struct thermal_zone_device_ops *driver_ops;
@@ -100,7 +99,6 @@ static int backport_thermal_get_crit_temp(struct thermal_zone_device *dev,
 	return ret;
 }
 
-#if LINUX_VERSION_IS_GEQ(3, 19, 0)
 static int backport_thermal_set_emul_temp(struct thermal_zone_device *dev,
 					  unsigned long temp)
 {
@@ -109,7 +107,6 @@ static int backport_thermal_set_emul_temp(struct thermal_zone_device *dev,
 
 	return wrapper->driver_ops->set_emul_temp(dev, (int)temp);
 }
-#endif /* LINUX_VERSION_IS_GEQ(3, 19, 0) */
 
 struct thermal_zone_device *backport_thermal_zone_device_register(
 	const char *type, int trips, int mask, void *devdata,
@@ -150,9 +147,7 @@ struct thermal_zone_device *backport_thermal_zone_device_register(
 	assign_ops(get_trip_hyst);
 	assign_ops(set_trip_hyst);
 	assign_ops(get_crit_temp);
-#if LINUX_VERSION_IS_GEQ(3, 19, 0)
 	assign_ops(set_emul_temp);
-#endif /* LINUX_VERSION_IS_GEQ(3, 19, 0) */
 #undef assign_ops
 
 	ret = old_thermal_zone_device_register(type, trips, mask, devdata,
@@ -174,7 +169,6 @@ void backport_thermal_zone_device_unregister(struct thermal_zone_device *dev)
 }
 EXPORT_SYMBOL_GPL(backport_thermal_zone_device_unregister);
 
-#endif /* >= 3.8.0 */
 #endif /* CONFIG_THERMAL */
 
 static void seq_set_overflow(struct seq_file *m)
@@ -253,11 +247,7 @@ static void *device_get_mac_addr(struct device *dev,
 				 const char *name, char *addr,
 				 int alen)
 {
-#if LINUX_VERSION_IS_GEQ(3,18,0)
 	int ret = device_property_read_u8_array(dev, name, addr, alen);
-#else
-	int ret = of_property_read_u8_array(dev->of_node, name, addr, alen);
-#endif
 
 	if (ret == 0 && alen == ETH_ALEN && is_valid_ether_addr(addr))
 		return addr;

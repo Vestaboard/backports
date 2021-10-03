@@ -256,23 +256,17 @@ int backport_genl_register_family(struct genl_family *family)
 	COPY(version);
 	COPY(maxattr);
 	COPY(netnsok);
-#if LINUX_VERSION_IS_GEQ(3,10,0)
 	COPY(parallel_ops);
-#endif
 	/* The casts are OK - we checked everything is the same offset in genl_ops */
 	family->family.pre_doit = (void *)backport_pre_doit;
 	family->family.post_doit = (void *)backport_post_doit;
 	/* attrbuf is output only */
 	family->copy_ops = (void *)ops;
-#if LINUX_VERSION_IS_GEQ(3,13,0)
 	family->family.ops = (void *)ops;
 	COPY(mcgrps);
 	COPY(n_ops);
 	COPY(n_mcgrps);
-#endif
-#if LINUX_VERSION_IS_GEQ(3,11,0)
 	COPY(module);
-#endif
 
 	err = __real_backport_genl_register_family(&family->family);
 
@@ -282,27 +276,7 @@ int backport_genl_register_family(struct genl_family *family)
 	if (err)
 		return err;
 
-#if LINUX_VERSION_IS_GEQ(3,13,0) || RHEL_RELEASE_CODE >= RHEL_RELEASE_VERSION(7,0)
 	return 0;
-#else
-	for (i = 0; i < family->n_ops; i++) {
-		err = genl_register_ops(&family->family, ops + i);
-		if (err < 0)
-			goto error;
-	}
-
-	for (i = 0; i < family->n_mcgrps; i++) {
-		err = genl_register_mc_group(&family->family,
-					     &family->mcgrps[i]);
-		if (err)
-			goto error;
-	}
-
-	return 0;
- error:
-	genl_unregister_family(family);
-	return err;
-#endif /* LINUX_VERSION_IS_GEQ(3,13,0) || RHEL_RELEASE_CODE >= RHEL_RELEASE_VERSION(7,0) */
 }
 EXPORT_SYMBOL_GPL(backport_genl_register_family);
 
@@ -319,11 +293,7 @@ static u32 __backport_genl_group(const struct genl_family *family,
 {
 	if (WARN_ON_ONCE(group >= family->n_mcgrps))
 		return INVALID_GROUP;
-#if LINUX_VERSION_IS_LESS(3,13,0)
-	return family->mcgrps[group].id;
-#else
 	return family->family.mcgrp_offset + group;
-#endif
 }
 
 void genl_notify(const struct genl_family *family, struct sk_buff *skb,

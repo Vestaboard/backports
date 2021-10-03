@@ -4,41 +4,6 @@
 #include <linux/version.h>
 
 #ifdef CONFIG_THERMAL
-#if LINUX_VERSION_IS_LESS(3,8,0)
-#include <linux/errno.h>
-
-struct thermal_bind_params {
-	struct thermal_cooling_device *cdev;
-	int weight;
-	int trip_mask;
-	int (*match)(struct thermal_zone_device *tz,
-		     struct thermal_cooling_device *cdev);
-};
-
-struct thermal_zone_params {
-	int num_tbps;
-	struct thermal_bind_params *tbp;
-};
-
-static inline struct thermal_zone_device *
-backport_thermal_zone_device_register(const char *type, int trips, int mask,
-				      void *devdata,
-				      struct thermal_zone_device_ops *ops,
-				      const struct thermal_zone_params *tzp,
-				      int passive_delay, int polling_delay)
-{
-	return ERR_PTR(-EOPNOTSUPP);
-}
-#define thermal_zone_device_register backport_thermal_zone_device_register
-
-static inline void thermal_notify_framework(struct thermal_zone_device *tz,
-	int trip)
-{ }
-#else /* < 3.8.0 */
-
-#if LINUX_VERSION_IS_LESS(3,10,0)
-#define thermal_notify_framework notify_thermal_framework
-#endif /* LINUX_VERSION_IS_LESS(3,10,0) */
 
 #if LINUX_VERSION_IS_LESS(4,3,0)
 
@@ -110,7 +75,6 @@ void backport_thermal_zone_device_unregister(struct thermal_zone_device *);
 	LINUX_BACKPORT(thermal_zone_device_unregister)
 
 #endif /* LINUX_VERSION_IS_LESS(4,3,0) */
-#endif /* ! < 3.8.0 */
 #endif /* CONFIG_THERMAL */
 
 #if LINUX_VERSION_IS_LESS(5,9,0)

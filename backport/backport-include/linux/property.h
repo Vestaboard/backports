@@ -1,9 +1,7 @@
 #ifndef __BACKPORT_LINUX_PROPERTY_H_
 #define __BACKPORT_LINUX_PROPERTY_H_
 #include <linux/version.h>
-#if LINUX_VERSION_IS_GEQ(3,18,17)
 #include_next <linux/property.h>
-#endif
 
 #if LINUX_VERSION_IS_LESS(4,3,0)
 

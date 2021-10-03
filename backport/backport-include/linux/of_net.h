@@ -3,15 +3,6 @@
 #include_next <linux/of_net.h>
 #include <linux/version.h>
 
-#ifndef CONFIG_OF
-#if LINUX_VERSION_IS_LESS(3,10,0)
-static inline const void *of_get_mac_address(struct device_node *np)
-{
-	return NULL;
-}
-#endif
-#endif
-
 /* The behavior of of_get_mac_address() changed in kernel 5.2, it now
  * returns an error code and not NULL in case of an error.
  */

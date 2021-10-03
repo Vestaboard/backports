@@ -67,18 +67,6 @@ config BPAUTO_BUILD_NLATTR
 	depends on KERNEL_5_2
 	#c-file lib/nlattr.c
 
-config BPAUTO_BUILD_CORDIC
-	tristate
-	depends on !CORDIC
-	depends on KERNEL_3_1
-	default m if BPAUTO_CORDIC
-	default m if BPAUTO_USERSEL_BUILD_ALL
-	#module-name cordic
-	#c-file lib/math/cordic.c
-
-config BPAUTO_CORDIC
-	bool
-
 config BPAUTO_MII
 	bool
 
@@ -150,7 +138,6 @@ config BPAUTO_BUILD_SYSTEM_DATA_VERIFICATION
 	bool
 	default y if BPAUTO_SYSTEM_DATA_VERIFICATION
 	depends on (KERNEL_4_7 || !SYSTEM_DATA_VERIFICATION) && CRYPTO_HASH_INFO
-	depends on !KERNEL_3_13
 	select BPAUTO_ASN1_DECODER
 	select BPAUTO_PUBLIC_KEY
 	select BPAUTO_PKCS7

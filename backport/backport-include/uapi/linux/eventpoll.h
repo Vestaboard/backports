@@ -1,6 +1,6 @@
 #ifndef __BACKPORT_LINUX_EVENTPOLL_H
 #define __BACKPORT_LINUX_EVENTPOLL_H
-#include_next <linux/eventpoll.h>
+#include_next <uapi/linux/eventpoll.h>
 
 #ifndef EPOLLIN
 #define EPOLLIN		0x00000001

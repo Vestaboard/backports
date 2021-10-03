@@ -6,8 +6,7 @@
 /* We only need to add our wrapper inside the range from 3.18 until
  * 4.6, outside that we can let our BPAUTO mechanism handle it.
  */
-#if (LINUX_VERSION_IS_GEQ(3,18,0) &&	\
-     LINUX_VERSION_IS_LESS(4,7,0))
+#if LINUX_VERSION_IS_LESS(4,7,0)
 static inline
 void backport_dev_coredumpm(struct device *dev, struct module *owner,
 			    void *data, size_t datalen, gfp_t gfp,
@@ -26,7 +25,6 @@ void backport_dev_coredumpm(struct device *dev, struct module *owner,
 void dev_coredumpsg(struct device *dev, struct scatterlist *table,
 		    size_t datalen, gfp_t gfp);
 
-#endif /* (LINUX_VERSION_IS_GEQ(3,18,0) &&	\
-	   LINUX_VERSION_IS_LESS(4,7,0)) */
+#endif /* LINUX_VERSION_IS_LESS(4,7,0) */
 
 #endif /* __BACKPORT_LINUX_DEVCOREDUMP_H */
