@@ -1,12 +1,7 @@
 # List the minimum kernel version required for each
 # of the listed Kconfig symbols
 
-# depends on -EPROBE_DEFER and others now
-WL1251_SPI 3.5
-
-WL1251_SDIO 3.15
 WL1251_SDIO kconfig: CONFIG_WILINK_PLATFORM_DATA
-WLCORE_SDIO 3.15
 
 # This needs linux/pm_wakeirq.h
 WLCORE 4.2
@@ -17,58 +12,19 @@ WL18XX 4.2
 HOSTAP 4.18
 ATMEL 4.18
 
-# This driver uses the remove_proc_subtree() function.
-AIRO 3.9
-AIRO_CS 3.9
-
-# pci_error_handlers->reset_notify is missing
-MWIFIEX_PCIE 3.16
-
 # needs .ndo_get_port_parent_id
 QTNFMAC 5.1
 QTNFMAC_PCIE 5.1
 
-# needs pm_system_wakeup() which can't reall be
-# backported properly
-MWIFIEX 3.18
-
-BCMA_DRIVER_MIPS 3.3
-SSB_DRIVER_MIPS 3.3
 # needs GPIO stuff we didn't backport
 SSB_DRIVER_GPIO 4.5
-
-# the irq handler in the gpio driver uses
-# irq_set_chip_and_handler_name() which gets exported starting with
-# kernel 3.7. This code is only compiled if BCMA_DRIVER_GPIO and
-# BCMA_HOST_SOC are set.
-BCMA_HOST_SOC 3.7
 
 # Uses gpiochip_get_data()
 BCMA_DRIVER_GPIO 4.5
 
-# tracing results in compile errors
-ATH10K_TRACING 3.4
-ATH_TRACEPOINTS 3.1
-
-# missigng add_hwgenerator_randomness()
-ATH9K_HWRNG 3.17
-
-# missing pci_lock_rescan_remove()
-ATH9K_PCI_NO_EEPROM 3.14
-
-# This driver needs mmc_hw_reset() which was added in kernel version 3.2
-MWIFIEX_SDIO 3.2
-
-# DRIVER_ATTR_RW is not compiling in kernel 3.10
-IPW2100 3.11
-IPW2200 3.11
-
 # struct ethtool_link_ksettings is missing, I'm lazy
 USB_USBNET 4.6
 USB_NET_RNDIS_WLAN 4.6
-
-# depends on struct mmc_card::ocr
-RSI_SDIO 3.13
 
 # For Coexsitence the BT driver has to export rsi_bt_ops
 RSI_COEX 4.17
@@ -86,13 +42,6 @@ MT7663S 4.2
 MT7915E 4.2
 MT7622_WMAC 4.2
 
-# select_queue_fallback_t is missing
-RTL8723BS 3.14
-R8188EU  3.14
-
 # depends on crypto_sync_skcipher()
 AIRO 4.20
 AIRO_CS 4.20
-
-# needs BPAUTO_BUILD_SYSTEM_DATA_VERIFICATION
-CFG80211_REQUIRE_SIGNED_REGDB 3_13
