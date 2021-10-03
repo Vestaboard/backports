@@ -1,5 +1,6 @@
 #ifndef __BACKPORT_LINUX_DEVCOREDUMP_H
 #define __BACKPORT_LINUX_DEVCOREDUMP_H
+#include_next <linux/devcoredump.h>
 #include <linux/version.h>
 #include <linux/scatterlist.h>
 
@@ -15,10 +16,9 @@ void backport_dev_coredumpm(struct device *dev, struct module *owner,
 					    size_t datalen),
 			    void (*free_fn)(void *data))
 {
-	return dev_coredumpm(dev, owner, (const void *)data, datalen, gfp,
-			     (void *)read_fn, (void *)free_fn);
+	dev_coredumpm(dev, owner, (const void *)data, datalen, gfp,
+		      (void *)read_fn, (void *)free_fn);
 }
-
 #define dev_coredumpm LINUX_BACKPORT(dev_coredumpm)
 
 #define dev_coredumpsg LINUX_BACKPORT(dev_coredumpsg)

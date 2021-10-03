@@ -79,14 +79,6 @@ config BPAUTO_USERSEL_BUILD_ALL
 config BPAUTO_WANT_DEV_COREDUMP
 	bool
 
-config BPAUTO_BUILD_WANT_DEV_COREDUMP
-	bool
-	default n if DEV_COREDUMP
-	default n if DISABLE_DEV_COREDUMP
-	default y if BPAUTO_WANT_DEV_COREDUMP
-	#h-file linux/devcoredump.h
-	#c-file drivers/base/devcoredump.c
-
 config BPAUTO_RHASHTABLE
 	bool
 	# current API of rhashtable was introduced in version 4.9
