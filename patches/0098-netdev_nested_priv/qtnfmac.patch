@@ -1,6 +1,6 @@
 --- a/drivers/net/wireless/quantenna/qtnfmac/core.c
 +++ b/drivers/net/wireless/quantenna/qtnfmac/core.c
-@@ -649,10 +649,16 @@ bool qtnf_netdev_is_qtn(const struct net
+@@ -643,10 +643,16 @@ bool qtnf_netdev_is_qtn(const struct net
  	return ndev->netdev_ops == &qtnf_netdev_ops;
  }
  
@@ -17,7 +17,7 @@
  
  	if (dev != ndev && netdev_port_same_parent_id(dev, ndev))
  		return -ENOTSUPP;
-@@ -665,9 +671,11 @@ static int qtnf_core_netdevice_event(str
+@@ -659,9 +665,11 @@ static int qtnf_core_netdevice_event(str
  {
  	struct net_device *ndev = netdev_notifier_info_to_dev(ptr);
  	const struct netdev_notifier_changeupper_info *info;
@@ -29,7 +29,7 @@
  	struct net_device *brdev;
  	struct qtnf_vif *vif;
  	struct qtnf_bus *bus;
-@@ -707,7 +715,11 @@ static int qtnf_core_netdevice_event(str
+@@ -701,7 +709,11 @@ static int qtnf_core_netdevice_event(str
  		} else {
  			ret = netdev_walk_all_lower_dev(brdev,
  							qtnf_check_br_ports,

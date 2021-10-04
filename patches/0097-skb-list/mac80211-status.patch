@@ -7,7 +7,7 @@ kernel versions.
 
 --- a/include/net/mac80211.h
 +++ b/include/net/mac80211.h
-@@ -1132,7 +1132,11 @@ struct ieee80211_tx_status {
+@@ -1135,7 +1135,11 @@ struct ieee80211_tx_status {
  	struct ieee80211_tx_info *info;
  	struct sk_buff *skb;
  	struct rate_info *rate;
