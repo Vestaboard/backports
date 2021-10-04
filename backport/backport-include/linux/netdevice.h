@@ -113,4 +113,14 @@ void dev_fetch_sw_netstats(struct rtnl_link_stats64 *s,
 int netif_rx_any_context(struct sk_buff *skb);
 #endif /* < 5.10 */
 
+#if LINUX_VERSION_IS_LESS(5,11,0)
+#define dev_get_tstats64 LINUX_BACKPORT(dev_get_tstats64)
+void dev_get_tstats64(struct net_device *dev, struct rtnl_link_stats64 *s);
+#endif /* < 5.11 */
+
+#if LINUX_VERSION_IS_LESS(4,11,0)
+struct rtnl_link_stats64 *
+bp_dev_get_tstats64(struct net_device *dev, struct rtnl_link_stats64 *s);
+#endif /* < 4.11 */
+
 #endif /* __BACKPORT_NETDEVICE_H */
