@@ -24,6 +24,9 @@ USB_NET_RNDIS_WLAN 4.6
 # For Coexsitence the BT driver has to export rsi_bt_ops
 RSI_COEX 4.17
 
+# needs napi_consume_skb()
+MT7915E 4.6
+
 # depends on crypto_sync_skcipher()
 AIRO 4.20
 AIRO_CS 4.20
