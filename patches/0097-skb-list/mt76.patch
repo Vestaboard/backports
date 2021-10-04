@@ -1,0 +1,76 @@
+--- a/drivers/net/wireless/mediatek/mt76/mac80211.c
++++ b/drivers/net/wireless/mediatek/mt76/mac80211.c
+@@ -922,7 +922,13 @@ void mt76_rx_complete(struct mt76_dev *d
+ 	struct ieee80211_sta *sta;
+ 	struct ieee80211_hw *hw;
+ 	struct sk_buff *skb, *tmp;
++#if LINUX_VERSION_IS_GEQ(4,19,0)
+ 	LIST_HEAD(list);
++#else
++	struct sk_buff_head list;
++
++	__skb_queue_head_init(&list);
++#endif
+ 
+ 	spin_lock(&dev->rx_lock);
+ 	while ((skb = __skb_dequeue(frames)) != NULL) {
+@@ -941,8 +947,13 @@ void mt76_rx_complete(struct mt76_dev *d
+ 		return;
+ 	}
+ 
++#if LINUX_VERSION_IS_GEQ(4,19,0)
+ 	list_for_each_entry_safe(skb, tmp, &list, list) {
+ 		skb_list_del_init(skb);
++#else
++	skb_queue_walk_safe(&list, skb, tmp) {
++		__skb_unlink(skb, &list);
++#endif
+ 		napi_gro_receive(napi, skb);
+ 	}
+ }
+--- a/drivers/net/wireless/mediatek/mt76/mt7915/mac.c
++++ b/drivers/net/wireless/mediatek/mt76/mt7915/mac.c
+@@ -1030,7 +1030,11 @@ mt7915_tx_check_aggr(struct ieee80211_st
+ static void
+ mt7915_tx_complete_status(struct mt76_dev *mdev, struct sk_buff *skb,
+ 			  struct ieee80211_sta *sta, u8 stat,
++#if LINUX_VERSION_IS_GEQ(4,19,0)
+ 			  struct list_head *free_list)
++#else
++			  struct sk_buff_head *free_list)
++#endif
+ {
+ 	struct ieee80211_tx_info *info = IEEE80211_SKB_CB(skb);
+ 	struct ieee80211_tx_status status = {
+@@ -1094,10 +1098,16 @@ void mt7915_mac_tx_free(struct mt7915_de
+ 	struct mt76_phy *mphy_ext = mdev->phy2;
+ 	struct mt76_txwi_cache *txwi;
+ 	struct ieee80211_sta *sta = NULL;
+-	LIST_HEAD(free_list);
+ 	struct sk_buff *tmp;
+ 	u8 i, count;
+ 	bool wake = false;
++#if LINUX_VERSION_IS_GEQ(4,19,0)
++	LIST_HEAD(free_list);
++#else
++	struct sk_buff_head free_list;
++
++	__skb_queue_head_init(&free_list);
++#endif
+ 
+ 	/* clean DMA queues and unmap buffers first */
+ 	mt76_queue_tx_cleanup(dev, dev->mphy.q_tx[MT_TXQ_PSD], false);
+@@ -1196,8 +1206,13 @@ void mt7915_mac_tx_free(struct mt7915_de
+ 
+ 	napi_consume_skb(skb, 1);
+ 
++#if LINUX_VERSION_IS_GEQ(4,19,0)
+ 	list_for_each_entry_safe(skb, tmp, &free_list, list) {
+ 		skb_list_del_init(skb);
++#else
++	skb_queue_walk_safe(&free_list, skb, tmp) {
++		__skb_unlink(skb, &free_list);
++#endif
+ 		napi_consume_skb(skb, 1);
+ 	}
+ }
