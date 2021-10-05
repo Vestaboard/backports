@@ -1,7 +1,7 @@
 --- a/include/net/cfg80211.h
 +++ b/include/net/cfg80211.h
-@@ -4936,6 +4936,9 @@ struct wiphy_iftype_akm_suites {
- struct wiphy {
+@@ -4947,6 +4947,9 @@ struct wiphy {
+ 
  	/* assign these fields before you register the wiphy */
  
 +#define WIPHY_COMPAT_PAD_SIZE	2048

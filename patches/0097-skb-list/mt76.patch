@@ -30,7 +30,7 @@
  }
 --- a/drivers/net/wireless/mediatek/mt76/mt7915/mac.c
 +++ b/drivers/net/wireless/mediatek/mt76/mt7915/mac.c
-@@ -1030,7 +1030,11 @@ mt7915_tx_check_aggr(struct ieee80211_st
+@@ -1053,7 +1053,11 @@ mt7915_tx_check_aggr(struct ieee80211_st
  static void
  mt7915_tx_complete_status(struct mt76_dev *mdev, struct sk_buff *skb,
  			  struct ieee80211_sta *sta, u8 stat,
@@ -42,7 +42,7 @@
  {
  	struct ieee80211_tx_info *info = IEEE80211_SKB_CB(skb);
  	struct ieee80211_tx_status status = {
-@@ -1094,10 +1098,16 @@ void mt7915_mac_tx_free(struct mt7915_de
+@@ -1116,10 +1120,16 @@ void mt7915_mac_tx_free(struct mt7915_de
  	struct mt76_phy *mphy_ext = mdev->phy2;
  	struct mt76_txwi_cache *txwi;
  	struct ieee80211_sta *sta = NULL;
@@ -60,7 +60,7 @@
  
  	/* clean DMA queues and unmap buffers first */
  	mt76_queue_tx_cleanup(dev, dev->mphy.q_tx[MT_TXQ_PSD], false);
-@@ -1196,8 +1206,13 @@ void mt7915_mac_tx_free(struct mt7915_de
+@@ -1218,8 +1228,13 @@ void mt7915_mac_tx_free(struct mt7915_de
  
  	napi_consume_skb(skb, 1);
  

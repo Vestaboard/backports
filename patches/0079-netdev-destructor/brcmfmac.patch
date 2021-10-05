@@ -21,7 +21,7 @@
 +}
 +#endif
 +
- int brcmf_net_attach(struct brcmf_if *ifp, bool rtnl_locked)
+ int brcmf_net_attach(struct brcmf_if *ifp, bool locked)
  {
  	struct brcmf_pub *drvr = ifp->drvr;
 @@ -883,7 +900,11 @@ struct brcmf_if *brcmf_add_if(struct brc
