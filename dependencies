@@ -26,6 +26,7 @@ RSI_COEX 4.17
 
 # needs napi_consume_skb()
 MT7915E 4.6
+MT7921E 4.6
 
 # depends on crypto_sync_skcipher()
 AIRO 4.20
