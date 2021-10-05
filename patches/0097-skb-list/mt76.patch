@@ -74,3 +74,49 @@
  		napi_consume_skb(skb, 1);
  	}
  }
+--- a/drivers/net/wireless/mediatek/mt76/mt7921/mac.c
++++ b/drivers/net/wireless/mediatek/mt76/mt7921/mac.c
+@@ -866,7 +866,11 @@ mt7921_tx_check_aggr(struct ieee80211_st
+ static void
+ mt7921_tx_complete_status(struct mt76_dev *mdev, struct sk_buff *skb,
+ 			  struct ieee80211_sta *sta, u8 stat,
++#if LINUX_VERSION_IS_GEQ(4,19,0)
+ 			  struct list_head *free_list)
++#else
++			  struct sk_buff_head *free_list)
++#endif
+ {
+ 	struct ieee80211_tx_info *info = IEEE80211_SKB_CB(skb);
+ 	struct ieee80211_tx_status status = {
+@@ -936,10 +940,16 @@ void mt7921_mac_tx_free(struct mt7921_de
+ 	struct mt76_dev *mdev = &dev->mt76;
+ 	struct mt76_txwi_cache *txwi;
+ 	struct ieee80211_sta *sta = NULL;
+-	LIST_HEAD(free_list);
+ 	struct sk_buff *tmp;
+ 	bool wake = false;
+ 	u8 i, count;
++#if LINUX_VERSION_IS_GEQ(4,19,0)
++	LIST_HEAD(free_list);
++#else
++	struct sk_buff_head free_list;
++
++	__skb_queue_head_init(&free_list);
++#endif
+ 
+ 	/* clean DMA queues and unmap buffers first */
+ 	mt76_queue_tx_cleanup(dev, dev->mphy.q_tx[MT_TXQ_PSD], false);
+@@ -1028,8 +1038,13 @@ void mt7921_mac_tx_free(struct mt7921_de
+ 
+ 	napi_consume_skb(skb, 1);
+ 
++#if LINUX_VERSION_IS_GEQ(4,19,0)
+ 	list_for_each_entry_safe(skb, tmp, &free_list, list) {
+ 		skb_list_del_init(skb);
++#else
++	skb_queue_walk_safe(&free_list, skb, tmp) {
++		__skb_unlink(skb, &free_list);
++#endif
+ 		napi_consume_skb(skb, 1);
+ 	}
+ 
