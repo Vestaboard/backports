@@ -31,3 +31,6 @@ MT7921E 4.6
 # depends on crypto_sync_skcipher()
 AIRO 4.20
 AIRO_CS 4.20
+
+# mt7915 testmode uses skb_copy_header()
+NL80211_TESTMODE 4.18
