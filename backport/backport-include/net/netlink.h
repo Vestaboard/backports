@@ -435,28 +435,6 @@ static inline int _nla_parse_nested4(struct nlattr *tb[], int maxtype,
 	macro_dispatcher(_nla_parse_nested, __VA_ARGS__)(__VA_ARGS__)
 #endif /* LINUX_VERSION_IS_LESS(4,12,0) */
 
-#if LINUX_VERSION_IS_LESS(4,4,0)
-/**
- * nla_get_le32 - return payload of __le32 attribute
- * @nla: __le32 netlink attribute
- */
-#define nla_get_le32 LINUX_BACKPORT(nla_get_le32)
-static inline __le32 nla_get_le32(const struct nlattr *nla)
-{
-	return *(__le32 *) nla_data(nla);
-}
-
-/**
- * nla_get_le64 - return payload of __le64 attribute
- * @nla: __le64 netlink attribute
- */
-#define nla_get_le64 LINUX_BACKPORT(nla_get_le64)
-static inline __le64 nla_get_le64(const struct nlattr *nla)
-{
-	return *(__le64 *) nla_data(nla);
-}
-#endif /* < 4.4 */
-
 #if LINUX_VERSION_IS_LESS(4,7,0)
 /**
  * nla_need_padding_for_64bit - test 64-bit alignment of the next attribute
