@@ -2,10 +2,7 @@
 #define __BACKPORT_LINUX_MEI_CL_BUS_H
 #include_next <linux/mei_cl_bus.h>
 
-#if LINUX_VERSION_IS_LESS(4,3,0)
-#define mei_cldev_register_event_cb(cldev, event_mask, read_cb, context) \
-	mei_cl_register_event_cb(cldev, read_cb, context)
-#elif LINUX_VERSION_IS_LESS(4,4,0)
+#if LINUX_VERSION_IS_LESS(4,4,0)
 #define mei_cldev_register_event_cb(cldev, event_mask, read_cb, context) \
 	mei_cl_register_event_cb(cldev, event_mask, read_cb, context)
 #endif

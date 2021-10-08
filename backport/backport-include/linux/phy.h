@@ -33,12 +33,7 @@ static inline int backport_mdiobus_register(struct mii_bus *bus)
 
 	memset(bus->irq, PHY_POLL, sizeof(int) * PHY_MAX_ADDR);
 
-/* in kernel 4.3 a #define for mdiobus_register is added to the kernel. */
-#ifndef mdiobus_register
-	return mdiobus_register(bus);
-#else
 	return __mdiobus_register(bus, THIS_MODULE);
-#endif
 }
 #ifdef mdiobus_register
 #undef mdiobus_register

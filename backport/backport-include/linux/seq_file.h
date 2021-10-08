@@ -3,12 +3,6 @@
 #include_next <linux/seq_file.h>
 #include <linux/version.h>
 
-#if LINUX_VERSION_IS_LESS(4,3,0)
-#define seq_hex_dump LINUX_BACKPORT(seq_hex_dump)
-void seq_hex_dump(struct seq_file *m, const char *prefix_str, int prefix_type,
-		  int rowsize, int groupsize, const void *buf, size_t len,
-		  bool ascii);
-#endif
 
 #ifndef DEFINE_SHOW_ATTRIBUTE
 #define DEFINE_SHOW_ATTRIBUTE(__name)					\

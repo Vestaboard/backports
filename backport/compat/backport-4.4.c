@@ -21,42 +21,6 @@
 #include <asm/unaligned.h>
 
 #ifdef CONFIG_DEBUG_FS
-#if LINUX_VERSION_IS_LESS(4,3,0)
-static ssize_t debugfs_read_file_bool(struct file *file, char __user *user_buf,
-				      size_t count, loff_t *ppos)
-{
-	char buf[3];
-	bool *val = file->private_data;
-
-	if (*val)
-		buf[0] = 'Y';
-	else
-		buf[0] = 'N';
-	buf[1] = '\n';
-	buf[2] = 0x00;
-	return simple_read_from_buffer(user_buf, count, ppos, buf, 2);
-}
-
-static ssize_t debugfs_write_file_bool(struct file *file,
-				       const char __user *user_buf,
-				       size_t count, loff_t *ppos)
-{
-	char buf[32];
-	size_t buf_size;
-	bool bv;
-	bool *val = file->private_data;
-
-	buf_size = min(count, (sizeof(buf)-1));
-	if (copy_from_user(buf, user_buf, buf_size))
-		return -EFAULT;
-
-	buf[buf_size] = '\0';
-	if (strtobool(buf, &bv) == 0)
-		*val = bv;
-
-	return count;
-}
-#endif /* < 4.3.0 */
 
 static const struct file_operations fops_bool = {
 	.read =		debugfs_read_file_bool,
