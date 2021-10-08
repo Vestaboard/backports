@@ -3,18 +3,6 @@
 #include_next <linux/leds.h>
 #include <linux/version.h>
 
-#if LINUX_VERSION_IS_LESS(4,2,0)
-/*
- * There is no LINUX_BACKPORT() guard here because we want it to point to
- * the original function which is exported normally.
- */
-#ifdef CONFIG_LEDS_TRIGGERS
-extern void led_trigger_remove(struct led_classdev *led_cdev);
-#else
-static inline void led_trigger_remove(struct led_classdev *led_cdev) {}
-#endif
-#endif
-
 #if LINUX_VERSION_IS_LESS(4,5,0)
 #define led_set_brightness_sync LINUX_BACKPORT(led_set_brightness_sync)
 /**

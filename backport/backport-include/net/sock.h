@@ -4,10 +4,6 @@
 #include <linux/version.h>
 
 
-#if LINUX_VERSION_IS_LESS(4,2,0)
-#define sk_alloc(net, family, priority, prot, kern) sk_alloc(net, family, priority, prot)
-#endif
-
 #if LINUX_VERSION_IS_LESS(4,5,0)
 #define sk_set_bit LINUX_BACKPORT(sk_set_bit)
 static inline void sk_set_bit(int nr, struct sock *sk)

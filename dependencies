@@ -3,11 +3,6 @@
 
 WL1251_SDIO kconfig: CONFIG_WILINK_PLATFORM_DATA
 
-# This needs linux/pm_wakeirq.h
-WLCORE 4.2
-WL12XX 4.2
-WL18XX 4.2
-
 # hostapd uses proc_create_single_data()
 HOSTAP 4.18
 ATMEL 4.18
@@ -28,19 +23,6 @@ USB_NET_RNDIS_WLAN 4.6
 
 # For Coexsitence the BT driver has to export rsi_bt_ops
 RSI_COEX 4.17
-
-# depends on devm_led_classdev_register() and struct page_frag_cache
-# (can't use MT76_CORE for this as it's selected)
-MT76x0U 4.2
-MT76x0E 4.2
-MT76x2E 4.2
-MT76x2U 4.2
-MT7603E 4.2
-MT7615E 4.2
-MT7663U 4.2
-MT7663S 4.2
-MT7915E 4.2
-MT7622_WMAC 4.2
 
 # depends on crypto_sync_skcipher()
 AIRO 4.20

@@ -5,16 +5,6 @@
 #include <backport/magic.h>
 
 
-#if LINUX_VERSION_IS_LESS(4,2,0)
-#undef u64_stats_init
-static inline void u64_stats_init(struct u64_stats_sync *syncp)
-{
-#if BITS_PER_LONG == 32 && defined(CONFIG_SMP)
-	seqcount_init(&syncp->seq);
-#endif
-}
-#endif /* LINUX_VERSION_IS_LESS(4,2,0) */
-
 #if LINUX_VERSION_IS_LESS(4,10,0)
 static inline bool backport_napi_complete_done(struct napi_struct *n, int work_done)
 {

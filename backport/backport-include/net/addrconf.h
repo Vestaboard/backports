@@ -5,14 +5,7 @@
 
 #include <linux/version.h>
 
-#if LINUX_VERSION_IS_LESS(4,2,0)
-static inline int ipv6_mc_check_mld(struct sk_buff *skb)
-{
-	WARN_ON(1);
-
-	return -1;
-}
-#elif LINUX_VERSION_IS_LESS(5,1,0)
+#if LINUX_VERSION_IS_LESS(5,1,0)
 static inline int backport_ipv6_mc_check_mld(struct sk_buff *skb)
 {
 	return ipv6_mc_check_mld(skb, NULL);
