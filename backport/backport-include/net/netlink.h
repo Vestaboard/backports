@@ -435,36 +435,6 @@ static inline int _nla_parse_nested4(struct nlattr *tb[], int maxtype,
 	macro_dispatcher(_nla_parse_nested, __VA_ARGS__)(__VA_ARGS__)
 #endif /* LINUX_VERSION_IS_LESS(4,12,0) */
 
-
-#if LINUX_VERSION_IS_LESS(4,1,0)
-#define nla_put_in_addr LINUX_BACKPORT(nla_put_in_addr)
-static inline int nla_put_in_addr(struct sk_buff *skb, int attrtype,
-				  __be32 addr)
-{
-	return nla_put_be32(skb, attrtype, addr);
-}
-
-#define nla_put_in6_addr LINUX_BACKPORT(nla_put_in6_addr)
-static inline int nla_put_in6_addr(struct sk_buff *skb, int attrtype,
-				   const struct in6_addr *addr)
-{
-	return nla_put(skb, attrtype, sizeof(*addr), addr);
-}
-
-static inline __be32 nla_get_in_addr(const struct nlattr *nla)
-{
-	return *(__be32 *) nla_data(nla);
-}
-
-static inline struct in6_addr nla_get_in6_addr(const struct nlattr *nla)
-{
-	struct in6_addr tmp;
-
-	nla_memcpy(&tmp, nla, sizeof(tmp));
-	return tmp;
-}
-#endif /* < 4.1 */
-
 #if LINUX_VERSION_IS_LESS(4,4,0)
 /**
  * nla_get_le32 - return payload of __le32 attribute

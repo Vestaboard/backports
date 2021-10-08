@@ -5,12 +5,6 @@
 #include <backport/magic.h>
 
 
-#if LINUX_VERSION_IS_LESS(4,1,0)
-netdev_features_t passthru_features_check(struct sk_buff *skb,
-					  struct net_device *dev,
-					  netdev_features_t features);
-#endif /* LINUX_VERSION_IS_LESS(4,1,0) */
-
 #if LINUX_VERSION_IS_LESS(4,2,0)
 #undef u64_stats_init
 static inline void u64_stats_init(struct u64_stats_sync *syncp)
@@ -20,22 +14,6 @@ static inline void u64_stats_init(struct u64_stats_sync *syncp)
 #endif
 }
 #endif /* LINUX_VERSION_IS_LESS(4,2,0) */
-
-#ifndef netdev_alloc_pcpu_stats
-#define netdev_alloc_pcpu_stats(type)				\
-({								\
-	typeof(type) __percpu *pcpu_stats = alloc_percpu(type); \
-	if (pcpu_stats)	{					\
-		int i;						\
-		for_each_possible_cpu(i) {			\
-			typeof(type) *stat;			\
-			stat = per_cpu_ptr(pcpu_stats, i);	\
-			u64_stats_init(&stat->syncp);		\
-		}						\
-	}							\
-	pcpu_stats;						\
-})
-#endif /* netdev_alloc_pcpu_stats */
 
 #if LINUX_VERSION_IS_LESS(4,10,0)
 static inline bool backport_napi_complete_done(struct napi_struct *n, int work_done)
