@@ -50,4 +50,27 @@ tasklet_setup(struct tasklet_struct *t,
 
 #endif
 
+#if LINUX_VERSION_IS_LESS(5,13,0)
+
+#define tasklet_unlock_spin_wait LINUX_BACKPORT(tasklet_unlock_spin_wait)
+#if defined(CONFIG_SMP) || defined(CONFIG_PREEMPT_RT)
+void tasklet_unlock_spin_wait(struct tasklet_struct *t);
+
+#else
+static inline void tasklet_unlock_spin_wait(struct tasklet_struct *t) { }
+#endif
+
+/*
+ * Do not use in new code. Disabling tasklets from atomic contexts is
+ * error prone and should be avoided.
+ */
+#define tasklet_disable_in_atomic LINUX_BACKPORT(tasklet_disable_in_atomic)
+static inline void tasklet_disable_in_atomic(struct tasklet_struct *t)
+{
+	tasklet_disable_nosync(t);
+	tasklet_unlock_spin_wait(t);
+	smp_mb();
+}
+#endif
+
 #endif /* _BP_LINUX_INTERRUPT_H */
