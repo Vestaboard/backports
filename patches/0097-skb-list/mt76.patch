@@ -1,6 +1,6 @@
 --- a/drivers/net/wireless/mediatek/mt76/mac80211.c
 +++ b/drivers/net/wireless/mediatek/mt76/mac80211.c
-@@ -922,7 +922,13 @@ void mt76_rx_complete(struct mt76_dev *d
+@@ -998,7 +998,13 @@ void mt76_rx_complete(struct mt76_dev *d
  	struct ieee80211_sta *sta;
  	struct ieee80211_hw *hw;
  	struct sk_buff *skb, *tmp;
@@ -14,7 +14,7 @@
  
  	spin_lock(&dev->rx_lock);
  	while ((skb = __skb_dequeue(frames)) != NULL) {
-@@ -941,8 +947,13 @@ void mt76_rx_complete(struct mt76_dev *d
+@@ -1030,8 +1036,13 @@ void mt76_rx_complete(struct mt76_dev *d
  		return;
  	}
  
@@ -30,7 +30,7 @@
  }
 --- a/drivers/net/wireless/mediatek/mt76/mt7915/mac.c
 +++ b/drivers/net/wireless/mediatek/mt76/mt7915/mac.c
-@@ -1053,7 +1053,11 @@ mt7915_tx_check_aggr(struct ieee80211_st
+@@ -1086,7 +1086,11 @@ mt7915_tx_check_aggr(struct ieee80211_st
  static void
  mt7915_tx_complete_status(struct mt76_dev *mdev, struct sk_buff *skb,
  			  struct ieee80211_sta *sta, u8 stat,
@@ -42,7 +42,7 @@
  {
  	struct ieee80211_tx_info *info = IEEE80211_SKB_CB(skb);
  	struct ieee80211_tx_status status = {
-@@ -1116,10 +1120,16 @@ void mt7915_mac_tx_free(struct mt7915_de
+@@ -1149,10 +1153,16 @@ void mt7915_mac_tx_free(struct mt7915_de
  	struct mt76_phy *mphy_ext = mdev->phy2;
  	struct mt76_txwi_cache *txwi;
  	struct ieee80211_sta *sta = NULL;
@@ -60,7 +60,7 @@
  
  	/* clean DMA queues and unmap buffers first */
  	mt76_queue_tx_cleanup(dev, dev->mphy.q_tx[MT_TXQ_PSD], false);
-@@ -1218,8 +1228,13 @@ void mt7915_mac_tx_free(struct mt7915_de
+@@ -1240,8 +1250,13 @@ void mt7915_mac_tx_free(struct mt7915_de
  
  	napi_consume_skb(skb, 1);
  
@@ -76,7 +76,7 @@
  }
 --- a/drivers/net/wireless/mediatek/mt76/mt7921/mac.c
 +++ b/drivers/net/wireless/mediatek/mt76/mt7921/mac.c
-@@ -866,7 +866,11 @@ mt7921_tx_check_aggr(struct ieee80211_st
+@@ -870,7 +870,11 @@ mt7921_tx_check_aggr(struct ieee80211_st
  static void
  mt7921_tx_complete_status(struct mt76_dev *mdev, struct sk_buff *skb,
  			  struct ieee80211_sta *sta, u8 stat,
@@ -88,7 +88,7 @@
  {
  	struct ieee80211_tx_info *info = IEEE80211_SKB_CB(skb);
  	struct ieee80211_tx_status status = {
-@@ -936,10 +940,16 @@ void mt7921_mac_tx_free(struct mt7921_de
+@@ -940,10 +944,16 @@ void mt7921_mac_tx_free(struct mt7921_de
  	struct mt76_dev *mdev = &dev->mt76;
  	struct mt76_txwi_cache *txwi;
  	struct ieee80211_sta *sta = NULL;
@@ -106,7 +106,7 @@
  
  	/* clean DMA queues and unmap buffers first */
  	mt76_queue_tx_cleanup(dev, dev->mphy.q_tx[MT_TXQ_PSD], false);
-@@ -1028,8 +1038,13 @@ void mt7921_mac_tx_free(struct mt7921_de
+@@ -1021,8 +1031,13 @@ void mt7921_mac_tx_free(struct mt7921_de
  
  	napi_consume_skb(skb, 1);
  

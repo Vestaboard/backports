@@ -1,6 +1,6 @@
 --- a/include/net/cfg80211.h
 +++ b/include/net/cfg80211.h
-@@ -4947,6 +4947,9 @@ struct wiphy {
+@@ -4951,6 +4951,9 @@ struct wiphy {
  
  	/* assign these fields before you register the wiphy */
  

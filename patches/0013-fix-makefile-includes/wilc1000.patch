@@ -24,10 +24,10 @@ linux/module.h include needed for kernel 3.18
  #include "cfg80211.h"
 --- a/drivers/net/wireless/microchip/wilc1000/spi.c
 +++ b/drivers/net/wireless/microchip/wilc1000/spi.c
-@@ -7,6 +7,7 @@
- #include <linux/clk.h>
+@@ -8,6 +8,7 @@
  #include <linux/spi/spi.h>
  #include <linux/crc7.h>
+ #include <linux/crc-itu-t.h>
 +#include <linux/module.h>
  
  #include "netdev.h"
