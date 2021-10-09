@@ -6,7 +6,19 @@ the type is renamed.
 
 --- a/include/net/cfg80211.h
 +++ b/include/net/cfg80211.h
-@@ -22,6 +22,7 @@
+@@ -11,7 +11,11 @@
+  */
+ 
+ #include <linux/ethtool.h>
++#if LINUX_VERSION_IS_LESS(5,11,0)
++#include <linux/rfkill.h>
++#else
+ #include <uapi/linux/rfkill.h>
++#endif
+ #include <linux/netdevice.h>
+ #include <linux/debugfs.h>
+ #include <linux/list.h>
+@@ -23,6 +27,7 @@
  #include <linux/ieee80211.h>
  #include <linux/net.h>
  #include <net/regulatory.h>
