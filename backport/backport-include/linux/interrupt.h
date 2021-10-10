@@ -16,6 +16,15 @@ backport_hrtimer_forward(struct hrtimer *timer, ktime_t now, s64 interval)
 }
 #define hrtimer_forward LINUX_BACKPORT(hrtimer_forward)
 
+static inline u64
+backport_hrtimer_forward_now(struct hrtimer *timer, s64 interval)
+{
+	ktime_t _interval = { .tv64 = interval };
+
+	return hrtimer_forward_now(timer, _interval);
+}
+#define hrtimer_forward_now LINUX_BACKPORT(hrtimer_forward_now)
+
 static inline s64 backport_ns_to_ktime(u64 ns)
 {
 	ktime_t _time = ns_to_ktime(ns);
