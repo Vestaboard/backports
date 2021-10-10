@@ -14,4 +14,12 @@ static inline int firmware_request_cache(struct device *device, const char *name
 }
 #endif
 
+#ifndef FW_ACTION_NOUEVENT
+#define FW_ACTION_NOUEVENT FW_ACTION_NOHOTPLUG
+#endif
+
+#ifndef FW_ACTION_UEVENT
+#define FW_ACTION_UEVENT FW_ACTION_HOTPLUG
+#endif
+
 #endif /* __BACKPORT_LINUX_FIRMWARE_H */
