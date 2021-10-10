@@ -2,7 +2,7 @@ linux/module.h include needed for kernel 3.18
 
 --- a/drivers/net/wireless/realtek/rtw88/main.c
 +++ b/drivers/net/wireless/realtek/rtw88/main.c
-@@ -15,6 +15,7 @@
+@@ -17,6 +17,7 @@
  #include "tx.h"
  #include "debug.h"
  #include "bf.h"

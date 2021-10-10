@@ -9,8 +9,8 @@
  obj-$(CONFIG_PRISM2_USB)	+= wlan-ng/
  obj-$(CONFIG_FB_OLPC_DCON)	+= olpc_dcon/
  obj-$(CONFIG_RTL8192U)		+= rtl8192u/
-@@ -42,4 +42,4 @@ obj-$(CONFIG_FIELDBUS_DEV)     += fieldb
- obj-$(CONFIG_KPC2000)		+= kpc2000/
+@@ -41,4 +41,4 @@ obj-$(CONFIG_XIL_AXIS_FIFO)	+= axis-fifo
+ obj-$(CONFIG_FIELDBUS_DEV)     += fieldbus/
  obj-$(CONFIG_QLGE)		+= qlge/
  obj-$(CONFIG_WFX)		+= wfx/
 -obj-y				+= hikey9xx/
