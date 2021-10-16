@@ -21,7 +21,7 @@ kernel versions.
  /**
 --- a/net/mac80211/status.c
 +++ b/net/mac80211/status.c
-@@ -1047,7 +1047,11 @@ static void __ieee80211_tx_status(struct
+@@ -1060,7 +1060,11 @@ static void __ieee80211_tx_status(struct
  	 */
  	if (!local->monitors && (!send_to_cooked || !local->cooked_mntrs)) {
  		if (status->free_list)
@@ -33,7 +33,7 @@ kernel versions.
  		else
  			dev_kfree_skb(skb);
  		return;
-@@ -1197,7 +1201,11 @@ free:
+@@ -1210,7 +1214,11 @@ free:
  
  	ieee80211_report_used_skb(local, skb, false);
  	if (status->free_list)

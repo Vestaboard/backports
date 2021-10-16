@@ -1,6 +1,6 @@
 --- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
 +++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -363,8 +363,18 @@ static unsigned int rtw_classify8021d(st
+@@ -341,8 +341,18 @@ static unsigned int rtw_classify8021d(st
  }
  
  
