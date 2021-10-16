@@ -96,7 +96,6 @@ drivers/ssb/
 include/linux/ssb/
 drivers/bcma/
 include/linux/bcma/
-drivers/net/wireless/cisco/
 drivers/net/wireless/atmel/
 drivers/net/wireless/broadcom/
 drivers/net/wireless/st/
