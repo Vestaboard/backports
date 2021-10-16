@@ -1012,6 +1012,8 @@ def process(kerneldir, copy_list_file, git_revision=None,
                     line_ok = True
                     break
             if not line_ok:
+                if args.verbose:
+                    logwrite('can not find "%s" from "%s"\n' % (line.strip(), dfsrc))
                 copy_defconfig = False
                 break
         if copy_defconfig:
