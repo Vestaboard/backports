@@ -151,4 +151,20 @@ struct rtnl_link_stats64 *
 bp_dev_get_tstats64(struct net_device *dev, struct rtnl_link_stats64 *s);
 #endif /* < 4.11 */
 
+#if LINUX_VERSION_IS_LESS(5,15,0)
+static inline void backport_dev_put(struct net_device *dev)
+{
+	if (dev)
+		dev_put(dev);
+}
+#define dev_put LINUX_BACKPORT(dev_put)
+
+static inline void backport_dev_hold(struct net_device *dev)
+{
+	if (dev)
+		dev_hold(dev);
+}
+#define dev_hold LINUX_BACKPORT(dev_hold)
+#endif /* < 5.15 */
+
 #endif /* __BACKPORT_NETDEVICE_H */
