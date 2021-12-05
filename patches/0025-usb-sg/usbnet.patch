@@ -61,7 +61,7 @@
  			fallthrough;
  		case rx_cleanup:
  			usb_free_urb (entry->urb);
-@@ -1878,7 +1896,9 @@ int usbnet_resume (struct usb_interface
+@@ -1883,7 +1901,9 @@ int usbnet_resume (struct usb_interface
  			retval = usb_submit_urb(res, GFP_ATOMIC);
  			if (retval < 0) {
  				dev_kfree_skb_any(skb);
